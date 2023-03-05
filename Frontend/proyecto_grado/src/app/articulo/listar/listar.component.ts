@@ -3,7 +3,6 @@ import { Route, Router } from '@angular/router';
 import { ServiceService } from 'src/app/Service/service.service';
 import { OnInit } from '@angular/core';
 import { Articulo } from 'src/app/model/Articulo';
-
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
@@ -11,15 +10,14 @@ import { Articulo } from 'src/app/model/Articulo';
 })
 export class ListarComponent implements OnInit{
 
-  articulos: Articulo[] = [];
+  articulos: Articulo[] = []
 
   constructor(private service: ServiceService, private router: Router) { }
 
   ngOnInit(){
     this.service.getArticulos()
-      .subscribe(data => {
-      this.articulos = data
+      .subscribe((data:any) => {
+        this.articulos = data        
     })
   }
-  
 }

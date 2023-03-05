@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,8 +31,9 @@ public class Articulo implements Serializable {
     private String nombre_articulo;
     @Column(name = "descripcion")
     private String descripcion;
+    @Lob
     @Column(name = "imagen_articulo")
-    private String imagen_articulo;
+    private byte[] imagen_articulo;
     @ManyToOne
     @JoinColumn(name = "documento_usuario")
     private Usuario documento_usuario;
@@ -74,11 +76,11 @@ public class Articulo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getImagen_articulo() {
+    public byte[] getImagen_articulo() {
         return imagen_articulo;
     }
 
-    public void setImagen_articulo(String imagen_articulo) {
+    public void setImagen_articulo(byte[] imagen_articulo) {
         this.imagen_articulo = imagen_articulo;
     }
 
