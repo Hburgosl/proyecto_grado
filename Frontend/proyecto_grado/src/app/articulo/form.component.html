@@ -1,0 +1,55 @@
+<div class="card" style="margin: 20px">
+  <div class="card-body">
+    <h5 class="card-title">Articulo Form</h5>
+    <form (ngSubmit)="crearArticulo()">
+      <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nameInput"
+          placeholder="Enter your name"
+          name="nombre_articulos"
+          [(ngModel)]="articulo.nombre_articulo"
+        />
+      </div>
+      <div class="form-group">
+        <label for="descriptionInput">Description</label>
+        <textarea
+          class="form-control"
+          id="descriptionInput"
+          rows="3"
+          placeholder="Enter a description"
+          name="descripcion"
+          [(ngModel)]="articulo.descripcion"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="selectInput">Select an Category</label>
+        <select
+          class="form-control"
+          id="selectInput"
+          name="categoria"
+          [(ngModel)]="articulo.categoria"
+        >
+          <option value="Herramienta">Herramientas</option>
+          <option value="Articulos para el hogar">Articulos del hogar</option>
+          <option value="Articulos para vehiculos">
+            Articulos para vehiculos
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imageInput">Seleccione imagen</label>
+        <input
+          type="file"
+          class="form-control"
+          id="imageInput"
+          name="imagen"
+          [(ngModel)]="articulo.imagen_articulo"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

@@ -1,29 +1,41 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ListarComponent } from './articulo/listar/listar.component';
-import { AgregarComponent } from './articulo/agregar/agregar.component';
-import { ModificarComponent } from './articulo/modificar/modificar.component';
 import { FormsModule } from '@angular/forms'
-import { ServiceService } from './Service/service.service';
 import { HttpClientModule } from '@angular/common/http'
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { DirectivaComponent } from './directiva/directiva.component';
+import { ArticuloComponent } from './articulo/articulo.component';
+import { ArticuloService } from './articulo/articulo.service';
+import { RouterModule, Routes } from '@angular/router';
+import { FormComponent } from './articulo/form.component';
+
+const routes: Routes = [
+  {path: '', redirectTo: '/articulo', pathMatch: 'full'},
+  {path: 'directivas', component: DirectivaComponent},
+  {path: 'articulo', component: ArticuloComponent},
+  {path: 'articulo/form', component: FormComponent}
+]
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListarComponent,
-    AgregarComponent,
-    ModificarComponent
+    HeaderComponent,
+    FooterComponent,
+    DirectivaComponent,
+    ArticuloComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [ServiceService],
+  providers: [ArticuloService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

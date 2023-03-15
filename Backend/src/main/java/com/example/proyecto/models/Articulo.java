@@ -5,6 +5,7 @@
 package com.example.proyecto.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -50,7 +53,12 @@ public class Articulo implements Serializable {
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
     @Column(name = "ultima_modificacion")
-    private String ultima_modificacion;
+    @Temporal(TemporalType.DATE)
+    private Date ultima_modificacion;
+    
+    public void prePersist(){
+        ultima_modificacion = new Date();
+    }
 
     public int getId_articulo() {
         return id_articulo;
@@ -124,11 +132,11 @@ public class Articulo implements Serializable {
         this.id_existe = id_existe;
     }
 
-    public String getUltima_modificacion() {
+    public Date getUltima_modificacion() {
         return ultima_modificacion;
     }
 
-    public void setUltima_modificacion(String ultima_modificacion) {
+    public void setUltima_modificacion(Date ultima_modificacion) {
         this.ultima_modificacion = ultima_modificacion;
     }
 
