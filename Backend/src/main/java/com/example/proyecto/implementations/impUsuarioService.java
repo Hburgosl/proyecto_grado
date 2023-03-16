@@ -33,7 +33,7 @@ public class impUsuarioService implements UserDetailsService{
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
-        Usuario usu = daoUser.encontrarPorEmail(email);
+        Usuario usu = daoUser.findByEmail(email);
         
         if(usu == null){
             logger.error("No existe el usuario en el sistema");
