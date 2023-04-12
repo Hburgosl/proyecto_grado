@@ -29,7 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
     public static BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
+    
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

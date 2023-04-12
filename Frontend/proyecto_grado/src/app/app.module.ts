@@ -11,12 +11,14 @@ import { ArticuloComponent } from './articulo/articulo.component';
 import { ArticuloService } from './articulo/articulo.service';
 import { RouterModule, Routes } from '@angular/router';
 import { FormComponent } from './articulo/form.component';
+import { LoginComponent } from './usuarios/login.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/articulo', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
   {path: 'articulo', component: ArticuloComponent},
-  {path: 'articulo/form', component: FormComponent}
+  { path: 'articulo/form', component: FormComponent },
+  {path: 'login', component: LoginComponent}
 ]
 
 @NgModule({
@@ -26,7 +28,8 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     ArticuloComponent,
-    FormComponent
+    FormComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

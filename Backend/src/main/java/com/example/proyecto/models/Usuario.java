@@ -5,10 +5,12 @@
 package com.example.proyecto.models;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,32 +25,56 @@ public class Usuario implements Serializable{
     @Id
     @Column(name = "documento_usuario")
     private int documento_usuario;
+    
     @Column(name = "nombre_completo")
     private String nombre_completo;
+    
     @Column(name = "fecha_nacimiento")
     private String fecha_nacimiento;
+    
     @Column(name = "edad")
     private int edad;
+    
     @Column(name = "pais")
     private String pais;
+    
     @Column(name = "ciudad")
     private String ciudad;
+    
     @Column(name = "direccion")
     private String direccion;
+    
     @Column(name = "email")
     private String email;
+    
     @Column(name = "contrasenha")
     private String password;
+    
     @Column(name = "fecha_creacion")
     private String fecha_creacion;
+    
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado id_estado;
+    
     @ManyToOne
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
+    
     @Column(name = "ubicacion")
     private String ubicacion;
+    
+    @ManyToMany
+    @JoinColumn(name = "id_rol")
+    private List<Roles> roles;
+
+    public List<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
+    }
 
     public int getDocumento_usuario() {
         return documento_usuario;

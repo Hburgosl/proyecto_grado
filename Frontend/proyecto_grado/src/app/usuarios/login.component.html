@@ -1,0 +1,36 @@
+<div class="card border-primary">
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <form method="post">
+      <div class="form-group mt-3">
+        <label for="inputEmail">Email address</label>
+        <input
+          [(ngModel)]="usuario.email"
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+          required
+          autofocus
+        />
+      </div>
+      <div class="form-group mt-3">
+        <label for="inputPassword">Password</label>
+        <input
+          [(ngModel)]="usuario.contrasenha"
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary mt-3" (click)="login()">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

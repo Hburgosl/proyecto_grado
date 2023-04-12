@@ -5,20 +5,12 @@
 package com.example.proyecto.services;
 
 import com.example.proyecto.models.Usuario;
-import java.util.List;
 
 /**
  *
  * @author owen1
  */
-public interface serviceUsuario {
+public interface IserviceUsuario {
     
-    public Usuario save(Usuario usu);
-
-    public void delete(int id);
-
-    public Usuario findById(int id);
-
-    public List<Usuario> findAll();
-    
+    public Usuario findByEmail(String email);
 }

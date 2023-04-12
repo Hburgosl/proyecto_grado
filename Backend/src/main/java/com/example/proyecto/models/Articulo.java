@@ -30,31 +30,52 @@ public class Articulo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_articulo")
     private int id_articulo;
+    
     @Column(name = "nombre_articulo")
     private String nombre_articulo;
+    
     @Column(name = "descripcion")
     private String descripcion;
+    
     @Lob
     @Column(name = "imagen_articulo")
     private byte[] imagen_articulo;
+    
     @ManyToOne
     @JoinColumn(name = "documento_usuario")
     private Usuario documento_usuario;
+    
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado id_estado;
+    
     @ManyToOne
     @JoinColumn(name = "id_entrega")
     private Entrega id_entrega;
+    
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria id_categoria;
+    
     @ManyToOne
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
+    
     @Column(name = "ultima_modificacion")
     @Temporal(TemporalType.DATE)
     private Date ultima_modificacion;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_estado_articulo")
+    private EstadoArticulo id_estado_articulo;
+
+    public EstadoArticulo getId_estado_articulo() {
+        return id_estado_articulo;
+    }
+
+    public void setId_estado_articulo(EstadoArticulo id_estado_articulo) {
+        this.id_estado_articulo = id_estado_articulo;
+    }
     
     public void prePersist(){
         ultima_modificacion = new Date();
