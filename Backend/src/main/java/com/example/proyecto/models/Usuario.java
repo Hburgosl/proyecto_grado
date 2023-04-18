@@ -36,9 +36,6 @@ public class Usuario implements Serializable{
     @Column(name = "fecha_nacimiento")
     private String fecha_nacimiento;
     
-    @Column(name = "edad")
-    private int edad;
-    
     @Column(name = "pais")
     private String pais;
     
@@ -65,8 +62,8 @@ public class Usuario implements Serializable{
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
     
-    @Column(name = "ubicacion")
-    private String ubicacion;
+    @Column(name = "ultima_modificacion")
+    private String ultima_modificacion;
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "documento_usuario"),
@@ -104,14 +101,6 @@ public class Usuario implements Serializable{
 
     public void setFecha_nacimiento(String fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
     }
 
     public String getPais() {
@@ -178,12 +167,12 @@ public class Usuario implements Serializable{
         this.id_existe = id_existe;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
+    public String getUltima_modificacion() {
+        return ultima_modificacion;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setUltima_modificacion(String ultima_modificacion) {
+        this.ultima_modificacion = ultima_modificacion;
     }
     
 }

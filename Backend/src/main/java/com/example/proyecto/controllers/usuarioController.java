@@ -57,7 +57,6 @@ public class usuarioController {
             obj.setDocumento_usuario(usu.getDocumento_usuario());
             obj.setNombre_completo(usu.getNombre_completo());
             obj.setFecha_nacimiento(usu.getFecha_nacimiento());
-            obj.setEdad(usu.getEdad());
             obj.setPais(usu.getPais());
             obj.setCiudad(usu.getCiudad());
             obj.setDireccion(usu.getDireccion());
@@ -66,7 +65,7 @@ public class usuarioController {
             obj.setFecha_creacion(usu.getFecha_creacion());
             obj.setId_estado(usu.getId_estado());
             obj.setId_existe(usu.getId_existe());
-            obj.setUbicacion(usu.getUbicacion());
+            obj.setUltima_modificacion(usu.getUltima_modificacion());
             serviceUsu.save(obj);
         } else {
             return new ResponseEntity<>(obj, HttpStatus.INTERNAL_SERVER_ERROR);
