@@ -6,13 +6,17 @@ package com.example.proyecto.models;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -64,8 +68,10 @@ public class Usuario implements Serializable{
     @Column(name = "ubicacion")
     private String ubicacion;
     
-    @ManyToMany
-    @JoinColumn(name = "id_rol")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "documento_usuario"),
+                inverseJoinColumns = @JoinColumn(name = "id_rol"),
+                uniqueConstraints = {@UniqueConstraint(columnNames = {"documento_usuario","id_rol"})})
     private List<Roles> roles;
 
     public List<Roles> getRoles() {

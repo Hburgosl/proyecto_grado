@@ -25,7 +25,7 @@ export class LoginComponent {
       return
     }
 
-    this.authService.login(this.usuario).subscribe(res => {
+      this.authService.login(this.usuario).subscribe(res => {
       console.log(res);
       let payLoad = JSON.parse(atob(res.access_token.split('.')[1]))
       console.log(payLoad);
@@ -35,6 +35,4 @@ export class LoginComponent {
       Swal.fire('Login', `Hola ${payLoad.username}, has iniciado sesión exitosamente.`, 'success')
   })
   }
-  
-  
 }
