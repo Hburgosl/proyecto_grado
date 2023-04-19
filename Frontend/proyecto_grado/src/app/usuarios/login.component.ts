@@ -17,6 +17,13 @@ export class LoginComponent {
   constructor(private authService: AouhtService, private route: Router) {
     this.usuario = new Usuario()
   }
+
+  ngOnInit(){
+    if (this.authService.isAuthenticated()) {
+      Swal.fire('login', `Hola ${this.authService.usuario.email} ya estas autenticado`, 'info')
+      this.route.navigate(['/articulo'])
+    }
+  }
   
   login(): void {
     console.log(this.usuario);
@@ -27,12 +34,16 @@ export class LoginComponent {
 
       this.authService.login(this.usuario).subscribe(res => {
       console.log(res);
-      let payLoad = JSON.parse(atob(res.access_token.split('.')[1]))
-      console.log(payLoad);
+      let usuario = this.authService.usuario
+      this.authService.guardarUsuario(res.access_token)
+      this.authService.guardarToken(res.access_token)
       
-
       this.route.navigate(['/articulo'])
-      Swal.fire('Login', `Hola ${payLoad.username}, has iniciado sesión exitosamente.`, 'success')
-  })
+      Swal.fire('Login', `Hola, has iniciado sesión exitosamente.`, 'success')
+      }, err => {
+          if (err.status == 400) {
+              Swal.fire('Error al iniciar sesión', 'Email o Contraseña incorretos', 'error')
+          }
+    })
   }
 }

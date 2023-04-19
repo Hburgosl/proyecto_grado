@@ -48,13 +48,39 @@
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <input
+        <!-- <input
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        /> -->
+        <button
+          *ngIf="!authService.isAuthenticated()"
+          class="btn btn-outline-success"
+          type="submit"
+          routerLink="/login"
+        >
+          Login
+        </button>
+
+        <li class="dropdown" *ngIf="authService.isAuthenticated()">
+          <a
+            class="btn btn-outline-primary dropdown-toggle"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ authService.usuario.email }}
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <button (click)="logout()" class="dropdown-item" type="submit">
+              Sing out
+            </button>
+          </ul>
+        </li>
       </form>
     </div>
   </div>
