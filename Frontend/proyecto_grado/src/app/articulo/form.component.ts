@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Articulo } from './articulo';
 import swal from 'sweetalert2';
+import { ArticuloService } from './articulo.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -12,12 +14,21 @@ export class FormComponent {
   public articulo: Articulo = new Articulo()
   public titulo: string = 'Crear nuevo articulo'
 
-  constructor() { }
-  
-  public crearArticulo(): void {
-    console.log('Click');
-    console.log(this.articulo);
-    swal.fire('Nuevo articulo', `Articulo ${this.articulo.nombre_articulo} creado con exito`, 'success')
-  }
+  constructor(private articuloService: ArticuloService, private router: Router,
+              private activatedRoute: ActivatedRoute) { }
 
+  cargarArticulo(): void{
+    this.activatedRoute.params.subscribe(params => {
+      let id_articulo = params['id_articulo']
+      if (id_articulo) {
+        this.articuloService.getArticulo(id_articulo).subscribe((articulo) => this.articulo = articulo)
+      }
+    })
+  }
+  
+  public crearArticulos(): void {
+    this.articuloService.crearArticulo(this.articulo).subscribe(
+      res => this.router.navigate(['/articulo'])
+    )
+  }
 }

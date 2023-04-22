@@ -1,7 +1,7 @@
 <div class="card" style="margin: 20px">
   <div class="card-body">
     <h5 class="card-title">Articulo Form</h5>
-    <form (ngSubmit)="crearArticulo()">
+    <form (ngSubmit)="crearArticulos()">
       <div class="form-group">
         <label for="nameInput">Name</label>
         <input
@@ -10,7 +10,6 @@
           id="nameInput"
           placeholder="Enter your name"
           name="nombre_articulos"
-          [(ngModel)]="articulo.nombre_articulo"
         />
       </div>
       <div class="form-group">
@@ -21,17 +20,11 @@
           rows="3"
           placeholder="Enter a description"
           name="descripcion"
-          [(ngModel)]="articulo.descripcion"
         ></textarea>
       </div>
       <div class="form-group">
         <label for="selectInput">Select an Category</label>
-        <select
-          class="form-control"
-          id="selectInput"
-          name="categoria"
-          [(ngModel)]="articulo.categoria"
-        >
+        <select class="form-control" id="selectInput" name="categoria">
           <option value="Herramienta">Herramientas</option>
           <option value="Articulos para el hogar">Articulos del hogar</option>
           <option value="Articulos para vehiculos">
@@ -39,7 +32,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="imageInput">Seleccione imagen</label>
         <input
           type="file"
@@ -48,7 +41,7 @@
           name="imagen"
           [(ngModel)]="articulo.imagen_articulo"
         />
-      </div>
+      </div> -->
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
