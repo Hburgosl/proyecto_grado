@@ -15,9 +15,13 @@ export class FormComponent {
   public titulo: string = 'Crear nuevo articulo'
 
   constructor(private articuloService: ArticuloService, private router: Router,
-              private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute) { }
+  
+  ngOnInit(): void {
+    this.cargarArticulo()
+  }
 
-  cargarArticulo(): void{
+  public cargarArticulo(): void{
     this.activatedRoute.params.subscribe(params => {
       let id_articulo = params['id_articulo']
       if (id_articulo) {
@@ -30,5 +34,13 @@ export class FormComponent {
     this.articuloService.crearArticulo(this.articulo).subscribe(
       res => this.router.navigate(['/articulo'])
     )
+  }
+
+  public updateArticulo(): void{
+    this.articuloService.updateArticulo(this.articulo)
+      .subscribe(articulo => {
+        this.router.navigate(['/articulo'])
+        swal.fire('Articulo actualizado', `${articulo.nombre_articulo} actualizado con exito`, 'success')
+    })
   }
 }

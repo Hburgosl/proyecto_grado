@@ -11,4 +11,5 @@ export class Articulo
     id_categoria: number
     id_existe: number
     id_estado_articulo: number
+    imagen_articulo: string
 }

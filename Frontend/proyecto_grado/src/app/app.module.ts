@@ -17,7 +17,8 @@ const routes: Routes = [
   {path: '', redirectTo: '/articulo', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
   {path: 'articulo', component: ArticuloComponent},
-  {path: 'articulo/form', component: FormComponent},
+  { path: 'articulo/form', component: FormComponent },
+  {path: 'articulo/form/:id_articulo', component: FormComponent},
   {path: 'login', component: LoginComponent}
 ]
 

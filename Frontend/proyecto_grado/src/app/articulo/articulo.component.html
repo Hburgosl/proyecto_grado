@@ -18,6 +18,8 @@
           <th>nombre</th>
           <th>apellido</th>
           <th>createdAt</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +28,21 @@
           <td>{{ articulo.nombre_articulo }}</td>
           <td>{{ articulo.descripcion }}</td>
           <td>{{ articulo.ultima_modificacion }}</td>
+          <td>
+            <Button
+              [routerLink]="['/articulo/form', articulo.id_articulo]"
+              class="btn btn-warning btn-sm"
+              >Editar</Button
+            >
+          </td>
+          <td>
+            <button
+              (click)="deleteArticulo(articulo)"
+              class="btn btn-danger btn-sm"
+            >
+              Eliminar
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -46,6 +46,14 @@ export class ArticuloService {
   }
 
   getArticulo(id): Observable<Articulo>{
-    return this.http.get(`${this.urlEndpoint}/${id}`)
+    return this.http.get<Articulo>(`${this.urlEndpoint}/${id}`, {headers: this.agregarAuthorizationHeader()})
+  }
+
+  updateArticulo(articulo: Articulo): Observable<Articulo>{
+    return this.http.put<Articulo>(`${this.urlEndpoint}/${articulo.id_articulo}`, articulo, {headers: this.agregarAuthorizationHeader()})
+  }
+
+  deleteArticulo(id_articulo: number): Observable<Articulo>{
+    return this.http.delete<Articulo>(`${this.urlEndpoint}/${id_articulo}`, {headers: this.agregarAuthorizationHeader()})
   }
 }
