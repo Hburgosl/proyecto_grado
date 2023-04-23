@@ -65,6 +65,10 @@ public class Articulo implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date ultima_modificacion;
     
+    @Column(name = "fecha_publicacion")
+    @Temporal(TemporalType.DATE)
+    private Date fecha_publicacion;
+
     @ManyToOne
     @JoinColumn(name = "id_estado_articulo")
     private EstadoArticulo id_estado_articulo;
@@ -161,4 +165,11 @@ public class Articulo implements Serializable {
         this.ultima_modificacion = ultima_modificacion;
     }
 
+    public Date getFecha_publicacion() {
+        return fecha_publicacion;
+    }
+
+    public void setFecha_publicacion(Date fecha_publicacion) {
+        this.fecha_publicacion = fecha_publicacion;
+    }
 }

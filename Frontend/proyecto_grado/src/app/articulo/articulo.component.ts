@@ -17,7 +17,6 @@ export class ArticuloComponent {
     this.articuloService
       .getArticulos()
       .subscribe((articulos) => (this.articulos = articulos));
-    console.log(this.articulos);
   }
 
   public deleteArticulo(articulo: Articulo): void {
