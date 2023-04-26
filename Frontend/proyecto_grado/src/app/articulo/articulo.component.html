@@ -11,7 +11,13 @@
         Nuevo articulo
       </button>
     </div>
-    <table class="table table-bordered table-striped">
+    <div *ngIf="articulos?.length == 0" class="alert alert-info">
+      No hay articulos en la base de datos
+    </div>
+    <table
+      class="table table-bordered table-striped"
+      *ngIf="articulos?.length > 0"
+    >
       <thead>
         <tr>
           <th>id</th>
