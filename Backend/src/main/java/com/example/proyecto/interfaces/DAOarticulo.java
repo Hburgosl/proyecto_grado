@@ -5,12 +5,12 @@
 package com.example.proyecto.interfaces;
 
 import com.example.proyecto.models.Articulo;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author owen1
  */
-public interface DAOarticulo extends CrudRepository<Articulo, Integer>{
+public interface DAOarticulo extends JpaRepository<Articulo, Integer>{
     
 }

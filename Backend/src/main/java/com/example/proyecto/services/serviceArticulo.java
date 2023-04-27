@@ -6,6 +6,8 @@ package com.example.proyecto.services;
 
 import com.example.proyecto.models.Articulo;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -20,4 +22,6 @@ public interface serviceArticulo {
     public Articulo findById(int id);
 
     public List<Articulo> findAll();
+    
+    public Page<Articulo> findAll(Pageable pageable);
 }

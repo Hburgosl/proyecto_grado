@@ -9,6 +9,8 @@ import com.example.proyecto.models.Articulo;
 import com.example.proyecto.services.serviceArticulo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,12 @@ public class impArticulo implements serviceArticulo {
     @Transactional(readOnly = true)
     public List<Articulo> findAll() {
         return (List<Articulo>) daoarticulo.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Articulo> findAll(Pageable pageable) {
+        return daoarticulo.findAll(pageable);
     }
 
 }

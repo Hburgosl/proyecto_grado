@@ -45,9 +45,9 @@ export class ArticuloService {
     );
   }
 
-  crearArticulo(articulo: Articulo): Observable<Articulo> {
+  crearArticulo(articulo: Articulo): Observable<any> {
     return this.http
-      .post<Articulo>('http://localhost:8080/articulo/', articulo, {
+      .post<any>('http://localhost:8080/articulo/', articulo, {
         headers: this.agregarAuthorizationHeader(),
       })
       .pipe(
@@ -74,9 +74,9 @@ export class ArticuloService {
       );
   }
 
-  updateArticulo(articulo: Articulo): Observable<Articulo> {
+  updateArticulo(articulo: Articulo): Observable<any> {
     return this.http
-      .put<Articulo>(`${this.urlEndpoint}/${articulo.id_articulo}`, articulo, {
+      .put<any>(`${this.urlEndpoint}/${articulo.id_articulo}`, articulo, {
         headers: this.agregarAuthorizationHeader(),
       })
       .pipe(
