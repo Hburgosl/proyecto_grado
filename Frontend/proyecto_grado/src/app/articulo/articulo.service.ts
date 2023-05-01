@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Articulo } from './articulo';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
@@ -36,8 +36,30 @@ export class ArticuloService {
     return false;
   }
 
-  getArticulos(): Observable<Articulo[]> {
-    return this.http.get<Articulo[]>(this.urlEndpoint).pipe(
+  getArticulos(page: number): Observable<any[]> {
+    return this.http.get(this.urlEndpoint + '/page/' + page).pipe(
+      tap((response: any) => {
+        console.log('Articulo service tap 1');
+        (response.content as Articulo[]).forEach((articulo) => {
+          console.log(articulo.nombre_articulo);
+        });
+      }),
+
+      map((response: any) => {
+        (response.content as Articulo[]).map((art) => {
+          art.nombre_articulo = art.nombre_articulo.toLocaleUpperCase();
+          return art;
+        });
+        return response;
+      }),
+
+      tap((response) => {
+        console.log('Articulo service tap 2');
+        (response.content as Articulo[]).forEach((articulo) => {
+          console.log(articulo.nombre_articulo);
+        });
+      }),
+
       catchError((e) => {
         this.isNoAuthorized(e);
         return throwError(e);

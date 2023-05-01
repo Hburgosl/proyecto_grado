@@ -33,7 +33,9 @@
           <td>{{ articulo.id_articulo }}</td>
           <td>{{ articulo.nombre_articulo }}</td>
           <td>{{ articulo.descripcion }}</td>
-          <td>{{ articulo.fecha_publicacion }}</td>
+          <td>
+            {{ articulo.fecha_publicacion | date : "EEEE dd, MMMM yyyy" }}
+          </td>
           <td>
             <Button
               [routerLink]="['/articulo/form', articulo.id_articulo]"

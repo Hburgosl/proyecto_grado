@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Articulo } from './articulo';
 import { ArticuloService } from './articulo.service';
 import Swal from 'sweetalert2';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-articulo',
@@ -15,8 +16,18 @@ export class ArticuloComponent {
 
   ngOnInit() {
     this.articuloService
-      .getArticulos()
-      .subscribe((articulos) => (this.articulos = articulos));
+      .getArticulos(0)
+      .pipe(
+        tap((response: any) => {
+          console.log('Articulo tap 3');
+          (response.content as Articulo[]).forEach((articulo) => {
+            console.log(articulo.nombre_articulo);
+          });
+        })
+      )
+      .subscribe(
+        (response) => (this.articulos = response.content as Articulo[])
+      );
   }
 
   public deleteArticulo(articulo: Articulo): void {
