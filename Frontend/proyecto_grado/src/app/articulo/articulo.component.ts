@@ -3,6 +3,7 @@ import { Articulo } from './articulo';
 import { ArticuloService } from './articulo.service';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-articulo',
@@ -10,24 +11,37 @@ import { tap } from 'rxjs';
   styleUrls: ['./articulo.component.css'],
 })
 export class ArticuloComponent {
+  paginator: any;
   articulos: Articulo[];
 
-  constructor(private articuloService: ArticuloService) {}
+  constructor(
+    private articuloService: ArticuloService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.articuloService
-      .getArticulos(0)
-      .pipe(
-        tap((response: any) => {
-          console.log('Articulo tap 3');
-          (response.content as Articulo[]).forEach((articulo) => {
-            console.log(articulo.nombre_articulo);
-          });
-        })
-      )
-      .subscribe(
-        (response) => (this.articulos = response.content as Articulo[])
-      );
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let page: number = +params.get('page');
+
+      if (!page) {
+        page = 0;
+      }
+
+      this.articuloService
+        .getArticulos(page)
+        .pipe(
+          tap((response: any) => {
+            console.log('Articulo tap 3');
+            (response.content as Articulo[]).forEach((articulo) => {
+              console.log(articulo.nombre_articulo);
+            });
+          })
+        )
+        .subscribe((response) => {
+          this.articulos = response.content as Articulo[];
+          this.paginator = response;
+        });
+    });
   }
 
   public deleteArticulo(articulo: Articulo): void {
