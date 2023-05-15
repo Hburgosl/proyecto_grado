@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'paginator-nav',
@@ -8,11 +8,41 @@ import { Component, Input } from '@angular/core';
 export class PaginatorComponent {
   @Input() paginator: any;
   paginas: number[];
+  desde: number;
+  hasta: number;
   constructor() {}
 
   ngOnInit() {
-    this.paginas = new Array(this.paginator.totalPages)
-      .fill(0)
-      .map((valor, indice) => indice + 1);
+    this.initPaginador();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let pagActual = changes['paginator'];
+
+    if (pagActual.previousValue) {
+      this.initPaginador();
+    }
+  }
+
+  private initPaginador(): void {
+    this.desde = Math.min(
+      Math.max(1, this.paginator.number - 4),
+      this.paginator.totalPages - 5
+    );
+
+    this.hasta = Math.max(
+      Math.min(this.paginator.totalPages, this.paginator.number + 4),
+      6
+    );
+
+    if (this.paginator.totalPages > 2) {
+      this.paginas = new Array(this.hasta - this.desde + 1)
+        .fill(0)
+        .map((valor, indice) => indice + this.desde);
+    } else {
+      this.paginas = new Array(this.paginator.totalPages)
+        .fill(0)
+        .map((valor, indice) => indice + 1);
+    }
   }
 }

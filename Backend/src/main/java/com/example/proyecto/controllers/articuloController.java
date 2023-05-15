@@ -6,9 +6,17 @@ package com.example.proyecto.controllers;
 
 import com.example.proyecto.models.Articulo;
 import com.example.proyecto.services.serviceArticulo;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -24,7 +32,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -64,6 +74,18 @@ public class articuloController {
 
         if (obj != null) {
             try {
+
+                String nombreFotoAnterior = obj.getImagen_articulo();
+
+                if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
+                    Path rutaFotoAnterior = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFotoAnterior).toAbsolutePath();
+                    File archivoFotoAnterior = rutaFotoAnterior.toFile();
+
+                    if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+                        archivoFotoAnterior.delete();
+                    }
+                }
+
                 response.put("Mensaje", "El articulo ha sido eliminado con exito");
                 serviceArticulo.delete(id);
             } catch (DataAccessException e) {
@@ -117,7 +139,7 @@ public class articuloController {
     public List<Articulo> findAll() {
         return serviceArticulo.findAll();
     }
-    
+
     @GetMapping("/list/page/{page}")
     public Page<Articulo> findAll(@PathVariable Integer page) {
         Pageable pageable = PageRequest.of(page, 3);
@@ -144,5 +166,43 @@ public class articuloController {
         }
 
         return new ResponseEntity<>(articulo, HttpStatus.OK);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+
+        Articulo articulo = serviceArticulo.findById(id);
+
+        if (!archivo.isEmpty()) {
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
+            Path rutaArchivo = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreArchivo).toAbsolutePath();
+            try {
+                Files.copy(archivo.getInputStream(), rutaArchivo);
+            } catch (IOException e) {
+                e.printStackTrace();
+                response.put("Mensaje", "Error al subir la imagen en la base de datos");
+                response.put("Error", e.getMessage());
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            String nombreFotoAnterior = articulo.getImagen_articulo();
+
+            if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
+                Path rutaFotoAnterior = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFotoAnterior).toAbsolutePath();
+                File archivoFotoAnterior = rutaFotoAnterior.toFile();
+
+                if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+                    archivoFotoAnterior.delete();
+                }
+            }
+
+            articulo.setImagen_articulo(nombreArchivo);
+            serviceArticulo.save(articulo);
+            response.put("Articulo", articulo);
+            response.put("Mensaje", "Has subido la imagen correctamente " + nombreArchivo);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
