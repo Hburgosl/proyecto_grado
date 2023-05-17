@@ -123,4 +123,21 @@ export class ArticuloService {
         })
       );
   }
+
+  subirFoto(archivo: File, id_articulo): Observable<Articulo> {
+    let formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('id', id_articulo);
+
+    return this.http
+      .post('http://localhost:8080/articulo/upload', formData)
+      .pipe(
+        map((response: any) => response.Articulo as Articulo),
+        catchError((e) => {
+          console.error(e.error.Mesaje);
+          Swal.fire(e.error.Mensaje, e.error.Error, 'error');
+          return throwError(e);
+        })
+      );
+  }
 }

@@ -13,6 +13,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormComponent } from './articulo/form.component';
 import { LoginComponent } from './usuarios/login.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { DetalleComponent } from './articulo/detalle/detalle.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'articulo/page/:page', component: ArticuloComponent },
   { path: 'articulo/form', component: FormComponent },
   { path: 'articulo/form/:id_articulo', component: FormComponent },
+  { path: 'articulo/detalle/:id_articulo', component: DetalleComponent },
   { path: 'login', component: LoginComponent },
 ];
 
@@ -34,6 +36,7 @@ const routes: Routes = [
     FormComponent,
     LoginComponent,
     PaginatorComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,

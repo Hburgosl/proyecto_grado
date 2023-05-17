@@ -8,6 +8,7 @@ import com.example.proyecto.models.Articulo;
 import com.example.proyecto.services.serviceArticulo;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,13 +16,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,6 +51,8 @@ public class articuloController {
 
     @Autowired
     private serviceArticulo serviceArticulo;
+    
+    private final Logger log = LoggerFactory.getLogger(articuloController.class);
 
     @PostMapping(value = "/")
     public ResponseEntity<?> add(@RequestBody Articulo art) {
@@ -177,6 +183,8 @@ public class articuloController {
         if (!archivo.isEmpty()) {
             String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
             Path rutaArchivo = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreArchivo).toAbsolutePath();
+            log.info(rutaArchivo.toString());
+            
             try {
                 Files.copy(archivo.getInputStream(), rutaArchivo);
             } catch (IOException e) {
@@ -204,5 +212,28 @@ public class articuloController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    
+    @GetMapping("uploads/img/{nombreFoto:.+}")
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+        
+        Path rutaArchivo = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFoto).toAbsolutePath();
+        log.info(rutaArchivo.toString());
+        Resource recurso = null;
+        
+        try {
+            recurso = new UrlResource(rutaArchivo.toUri());
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+        
+        if(!recurso.exists() && !recurso.isReadable()){
+            throw new RuntimeException("Error no se pudo cargar la imagen "+nombreFoto);
+        }
+        
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+recurso.getFilename()+"\"");
+        
+        return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
     }
 }

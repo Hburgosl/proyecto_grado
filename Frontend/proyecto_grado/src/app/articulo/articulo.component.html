@@ -30,7 +30,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let articulo of articulos">
-          <td>{{ articulo.id_articulo }}</td>
+          <td>
+            <button
+              type="button"
+              [routerLink]="['/articulo/detalle', articulo.id_articulo]"
+              class="btn btn-success btn-sm"
+            >
+              {{ articulo.id_articulo }}
+            </button>
+          </td>
           <td>{{ articulo.nombre_articulo }}</td>
           <td>{{ articulo.descripcion }}</td>
           <td>
