@@ -1,3 +1,8 @@
+<detalle-articulo
+  *ngIf="articuloSeleccionado"
+  [articulo]="articuloSeleccionado"
+></detalle-articulo>
+
 <div class="card border-primary mb-3">
   <div class="card-header">Header</div>
   <div class="card-body text-primary">
@@ -33,7 +38,7 @@
           <td>
             <button
               type="button"
-              [routerLink]="['/articulo/detalle', articulo.id_articulo]"
+              (click)="abrirModal(articulo)"
               class="btn btn-success btn-sm"
             >
               {{ articulo.id_articulo }}

@@ -22,7 +22,6 @@ const routes: Routes = [
   { path: 'articulo/page/:page', component: ArticuloComponent },
   { path: 'articulo/form', component: FormComponent },
   { path: 'articulo/form/:id_articulo', component: FormComponent },
-  { path: 'articulo/detalle/:id_articulo', component: DetalleComponent },
   { path: 'login', component: LoginComponent },
 ];
 

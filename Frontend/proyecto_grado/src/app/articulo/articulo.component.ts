@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Articulo } from './articulo';
 import { ArticuloService } from './articulo.service';
+import { ModalService } from './detalle/modal.service';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -13,8 +14,10 @@ import { ActivatedRoute } from '@angular/router';
 export class ArticuloComponent {
   paginator: any;
   articulos: Articulo[];
+  articuloSeleccionado: Articulo;
 
   constructor(
+    private modalService: ModalService,
     private articuloService: ArticuloService,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -77,5 +80,10 @@ export class ArticuloComponent {
             });
         }
       });
+  }
+
+  abrirModal(articulo: Articulo) {
+    this.articuloSeleccionado = articulo;
+    this.modalService.abrirModal();
   }
 }
