@@ -6,6 +6,7 @@ package com.example.proyecto.services;
 
 import com.example.proyecto.models.Categoria;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -19,5 +20,6 @@ public interface serviceCategoria {
 
     public Categoria findById(int id);
 
+    @Query("from Categoria")
     public List<Categoria> findAll();
 }

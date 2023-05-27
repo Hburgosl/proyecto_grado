@@ -36,13 +36,25 @@
       <tbody>
         <tr *ngFor="let articulo of articulos">
           <td>
-            <button
-              type="button"
+            <img
               (click)="abrirModal(articulo)"
-              class="btn btn-success btn-sm"
-            >
-              {{ articulo.id_articulo }}
-            </button>
+              *ngIf="articulo?.imagen_articulo"
+              src="http://localhost:8080/articulo/uploads/img/{{
+                articulo.imagen_articulo
+              }}"
+              alt="{{ articulo.imagen_articulo }}"
+              class="img-fixed-size"
+              style="width: 64px; cursor: pointer"
+            />
+
+            <img
+              (click)="abrirModal(articulo)"
+              *ngIf="!articulo?.imagen_articulo"
+              src="http://localhost:8080/nouser.png"
+              alt="Sin foto"
+              class="img-fixed-size"
+              style="width: 64px; cursor: pointer"
+            />
           </td>
           <td>{{ articulo.nombre_articulo }}</td>
           <td>{{ articulo.descripcion }}</td>

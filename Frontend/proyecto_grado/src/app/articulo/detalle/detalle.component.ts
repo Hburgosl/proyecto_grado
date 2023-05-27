@@ -50,6 +50,7 @@ export class DetalleComponent {
           } else if (event.type === HttpEventType.Response) {
             let response: any = event.body;
             this.articulo = response.Articulo as Articulo;
+            this.modalService.notificarUpload.emit(this.articulo);
             Swal.fire(
               'Foto subida!',
               `La foto se ha subido con exito! ${this.articulo.imagen_articulo}`,

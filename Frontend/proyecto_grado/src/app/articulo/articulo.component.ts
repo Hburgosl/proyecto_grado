@@ -45,6 +45,15 @@ export class ArticuloComponent {
           this.paginator = response;
         });
     });
+
+    this.modalService.notificarUpload.subscribe((articulo) => {
+      this.articulos = this.articulos.map((articuloOriginal) => {
+        if (articulo.id_articulo == articuloOriginal.id_articulo) {
+          articuloOriginal.imagen_articulo = articulo.imagen_articulo;
+        }
+        return articuloOriginal;
+      });
+    });
   }
 
   public deleteArticulo(articulo: Articulo): void {

@@ -5,22 +5,18 @@
 package com.example.proyecto.controllers;
 
 import com.example.proyecto.models.Articulo;
+import com.example.proyecto.services.IUploadArticuloFileSercive;
 import com.example.proyecto.services.serviceArticulo;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,6 +47,9 @@ public class articuloController {
 
     @Autowired
     private serviceArticulo serviceArticulo;
+    
+    @Autowired
+    private IUploadArticuloFileSercive uploadService;
     
     private final Logger log = LoggerFactory.getLogger(articuloController.class);
 
@@ -83,14 +82,7 @@ public class articuloController {
 
                 String nombreFotoAnterior = obj.getImagen_articulo();
 
-                if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-                    Path rutaFotoAnterior = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFotoAnterior).toAbsolutePath();
-                    File archivoFotoAnterior = rutaFotoAnterior.toFile();
-
-                    if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-                        archivoFotoAnterior.delete();
-                    }
-                }
+                uploadService.eliminar(nombreFotoAnterior);
 
                 response.put("Mensaje", "El articulo ha sido eliminado con exito");
                 serviceArticulo.delete(id);
@@ -181,12 +173,11 @@ public class articuloController {
         Articulo articulo = serviceArticulo.findById(id);
 
         if (!archivo.isEmpty()) {
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
-            Path rutaArchivo = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreArchivo).toAbsolutePath();
-            log.info(rutaArchivo.toString());
+            
+            String nombreArchivo = null;
             
             try {
-                Files.copy(archivo.getInputStream(), rutaArchivo);
+                nombreArchivo = uploadService.copiar(archivo);
             } catch (IOException e) {
                 e.printStackTrace();
                 response.put("Mensaje", "Error al subir la imagen en la base de datos");
@@ -196,14 +187,7 @@ public class articuloController {
 
             String nombreFotoAnterior = articulo.getImagen_articulo();
 
-            if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-                Path rutaFotoAnterior = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFotoAnterior).toAbsolutePath();
-                File archivoFotoAnterior = rutaFotoAnterior.toFile();
-
-                if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-                    archivoFotoAnterior.delete();
-                }
-            }
+            uploadService.eliminar(nombreFotoAnterior);
 
             articulo.setImagen_articulo(nombreArchivo);
             serviceArticulo.save(articulo);
@@ -217,20 +201,14 @@ public class articuloController {
     @GetMapping("uploads/img/{nombreFoto:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
         
-        Path rutaArchivo = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFoto).toAbsolutePath();
-        log.info(rutaArchivo.toString());
         Resource recurso = null;
         
         try {
-            recurso = new UrlResource(rutaArchivo.toUri());
+            recurso = uploadService.cargar(nombreFoto);
         } catch (MalformedURLException ex) {
-            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(articuloController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(!recurso.exists() && !recurso.isReadable()){
-            throw new RuntimeException("Error no se pudo cargar la imagen "+nombreFoto);
-        }
-        
+     
         HttpHeaders cabecera = new HttpHeaders();
         cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+recurso.getFilename()+"\"");
         

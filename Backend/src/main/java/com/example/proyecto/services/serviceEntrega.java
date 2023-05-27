@@ -6,6 +6,7 @@ package com.example.proyecto.services;
 
 import com.example.proyecto.models.Entrega;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -18,6 +19,7 @@ public interface serviceEntrega {
     public void delete(int id);
 
     public Entrega findById(int id);
-
+    
+    @Query("from Entrega")
     public List<Entrega> findAll();
 }
