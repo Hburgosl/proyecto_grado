@@ -11,6 +11,11 @@ import { map } from 'rxjs';
 import { Router } from '@angular/router';
 import { AouhtService } from '../usuarios/aouht.service';
 import Swal from 'sweetalert2';
+import { Categoria } from './categoria';
+import { Entrega } from './entrega';
+import { Estado_articulo } from './estado_articulo';
+import { Estado } from './estado';
+import { Existe } from './existe';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +29,28 @@ export class ArticuloService {
     private router: Router,
     private authService: AouhtService
   ) {}
+
+  getCategoria(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>('http://localhost:8080/categoria');
+  }
+
+  getEntrega(): Observable<Entrega[]> {
+    return this.http.get<Entrega[]>('http://localhost:8080/entrega');
+  }
+
+  getEstadoArticulo(): Observable<Estado_articulo[]> {
+    return this.http.get<Estado_articulo[]>(
+      'http://localhost:8080/estado_articulo'
+    );
+  }
+
+  getEstado(): Observable<Estado[]> {
+    return this.http.get<Estado[]>('http://localhost:8080/estado');
+  }
+
+  getExiste(): Observable<Existe[]> {
+    return this.http.get<Existe[]>('http://localhost:8080/existe');
+  }
 
   private agregarAuthorizationHeader() {
     let token = this.authService.token;

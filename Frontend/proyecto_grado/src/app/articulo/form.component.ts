@@ -3,6 +3,11 @@ import { Articulo } from './articulo';
 import swal from 'sweetalert2';
 import { ArticuloService } from './articulo.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Categoria } from './categoria';
+import { Entrega } from './entrega';
+import { Estado_articulo } from './estado_articulo';
+import { Estado } from './estado';
+import { Existe } from './existe';
 
 @Component({
   selector: 'app-form',
@@ -11,6 +16,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class FormComponent {
   public articulo: Articulo = new Articulo();
+  public categoria: Categoria[];
+  public entrega: Entrega[];
+  public estado_articulo: Estado_articulo[];
+  public estado: Estado[];
+  public existe: Existe[];
   public titulo: string = 'Crear nuevo articulo';
 
   constructor(
@@ -32,6 +42,28 @@ export class FormComponent {
           .subscribe((articulo) => (this.articulo = articulo));
       }
     });
+
+    this.articuloService
+      .getCategoria()
+      .subscribe((categorias) => (this.categoria = categorias));
+
+    this.articuloService
+      .getEntrega()
+      .subscribe((entregas) => (this.entrega = entregas));
+
+    this.articuloService
+      .getEstadoArticulo()
+      .subscribe(
+        (estado_articulos) => (this.estado_articulo = estado_articulos)
+      );
+
+    this.articuloService
+      .getEstado()
+      .subscribe((estados) => (this.estado = estados));
+
+    this.articuloService
+      .getExiste()
+      .subscribe((existe) => (this.existe = existe));
   }
 
   public crearArticulos(): void {
