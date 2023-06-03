@@ -31,25 +31,25 @@ export class ArticuloService {
   ) {}
 
   getCategoria(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>('http://localhost:8080/categoria');
+    return this.http.get<Categoria[]>('http://localhost:8080/categoria/list');
   }
 
   getEntrega(): Observable<Entrega[]> {
-    return this.http.get<Entrega[]>('http://localhost:8080/entrega');
+    return this.http.get<Entrega[]>('http://localhost:8080/entrega/list');
   }
 
   getEstadoArticulo(): Observable<Estado_articulo[]> {
     return this.http.get<Estado_articulo[]>(
-      'http://localhost:8080/estado_articulo'
+      'http://localhost:8080/estado_articulo/list'
     );
   }
 
   getEstado(): Observable<Estado[]> {
-    return this.http.get<Estado[]>('http://localhost:8080/estado');
+    return this.http.get<Estado[]>('http://localhost:8080/estado/list');
   }
 
   getExiste(): Observable<Existe[]> {
-    return this.http.get<Existe[]>('http://localhost:8080/existe');
+    return this.http.get<Existe[]>('http://localhost:8080/existe/list');
   }
 
   private agregarAuthorizationHeader() {

@@ -25,16 +25,90 @@
         ></textarea>
       </div>
       <div class="form-group">
-        <label for="selectInput">Select an Category</label>
-        <select class="form-control" id="selectInput" name="categoria">
-          <option value="Herramienta">Herramientas</option>
-          <option value="Articulos para el hogar">Articulos del hogar</option>
-          <option value="Articulos para vehiculos">
-            Articulos para vehiculos
+        <label for="id_categoria">Seleccione una categoria:</label>
+        <select
+          [compareWith]="compararCategoria"
+          class="form-control"
+          id="selectInput"
+          name="id_categoria"
+          [(ngModel)]="articulo.id_categoria"
+        >
+          <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+          <option *ngFor="let categorias of categoria" [ngValue]="categorias">
+            {{ categorias.nombre_cat }}
           </option>
         </select>
       </div>
       <div class="form-group">
+        <label for="id_entrega">Seleccione un estado de entrega:</label>
+        <select
+          [compareWith]="compararEntrega"
+          class="form-control"
+          id="selectInput"
+          name="id_entrega"
+          [(ngModel)]="articulo.id_entrega"
+        >
+          <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+          <option *ngFor="let entregas of entrega" [ngValue]="entregas">
+            {{ entregas.estado }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_estado_articulo"
+          >Seleccione en que estado se encuentra el articulo:</label
+        >
+        <select
+          [compareWith]="compararEstadoArticulo"
+          class="form-control"
+          id="selectInput"
+          name="id_estado_articulo"
+          [(ngModel)]="articulo.id_estado_articulo"
+        >
+          <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+          <option
+            *ngFor="let estado_articulos of estado_articulo"
+            [ngValue]="estado_articulos"
+          >
+            {{ estado_articulos.estado_articulo }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_estado"
+          >Seleccione en que estado se encuentra el articulo:</label
+        >
+        <select
+          [compareWith]="compararEstado"
+          class="form-control"
+          id="selectInput"
+          name="id_estado"
+          [(ngModel)]="articulo.id_estado"
+        >
+          <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+          <option *ngFor="let estados of estado" [ngValue]="estados">
+            {{ estados.estado }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_existe"
+          >Seleccione en que estado se encuentra el articulo:</label
+        >
+        <select
+          [compareWith]="compararExiste"
+          class="form-control"
+          id="selectInput"
+          name="id_existe"
+          [(ngModel)]="articulo.id_existe"
+        >
+          <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+          <option *ngFor="let existe of existe" [ngValue]="existe">
+            {{ existe.existe }}
+          </option>
+        </select>
+      </div>
+      <!-- <div class="form-group">
         <label for="imageInput">Seleccione imagen</label>
         <input
           type="file"
@@ -43,7 +117,7 @@
           name="imagen"
           [(ngModel)]="articulo.imagen_articulo"
         />
-      </div>
+      </div> -->
       <button
         type="submit"
         class="btn btn-primary"

@@ -34,15 +34,6 @@ export class FormComponent {
   }
 
   public cargarArticulo(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      let id_articulo = params['id_articulo'];
-      if (id_articulo) {
-        this.articuloService
-          .getArticulo(id_articulo)
-          .subscribe((articulo) => (this.articulo = articulo));
-      }
-    });
-
     this.articuloService
       .getCategoria()
       .subscribe((categorias) => (this.categoria = categorias));
@@ -64,6 +55,15 @@ export class FormComponent {
     this.articuloService
       .getExiste()
       .subscribe((existe) => (this.existe = existe));
+
+    this.activatedRoute.params.subscribe((params) => {
+      let id_articulo = params['id_articulo'];
+      if (id_articulo) {
+        this.articuloService
+          .getArticulo(id_articulo)
+          .subscribe((articulo) => (this.articulo = articulo));
+      }
+    });
   }
 
   public crearArticulos(): void {
@@ -86,5 +86,48 @@ export class FormComponent {
         'success'
       );
     });
+  }
+
+  public compararCategoria(o1: Categoria, o2: Categoria): boolean {
+    if (o1 == undefined && o2 == undefined) {
+      return true;
+    }
+
+    return o1 == null || o2 == null
+      ? false
+      : o1.id_categoria === o2.id_categoria;
+  }
+
+  public compararEntrega(o1: Entrega, o2: Entrega): boolean {
+    if (o1 == undefined && o2 == undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null ? false : o1.id_entrega === o2.id_entrega;
+  }
+
+  public compararEstadoArticulo(
+    o1: Estado_articulo,
+    o2: Estado_articulo
+  ): boolean {
+    if (o1 == undefined && o2 == undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null
+      ? false
+      : o1.id_estado_articulo === o2.id_estado_articulo;
+  }
+
+  public compararEstado(o1: Estado, o2: Estado): boolean {
+    if (o1 == undefined && o2 == undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null ? false : o1.id_estado === o2.id_estado;
+  }
+
+  public compararExiste(o1: Existe, o2: Existe): boolean {
+    if (o1 == undefined && o2 == undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null ? false : o1.id_existe === o2.id_existe;
   }
 }
