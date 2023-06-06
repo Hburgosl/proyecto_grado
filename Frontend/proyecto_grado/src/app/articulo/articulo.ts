@@ -1,8 +1,8 @@
-import { Categoria } from './categoria';
-import { Entrega } from './entrega';
-import { Estado } from './estado';
-import { Estado_articulo } from './estado_articulo';
-import { Existe } from './existe';
+import { Categoria } from '../categoria/categoria';
+import { Entrega } from '../entrega/entrega';
+import { Estado } from '../estado/estado';
+import { Estado_articulo } from '../estado-articulo/estado_articulo';
+import { Existe } from '../existe/existe';
 
 export class Articulo {
   id_articulo: number;

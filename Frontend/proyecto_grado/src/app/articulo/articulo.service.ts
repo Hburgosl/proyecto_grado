@@ -11,11 +11,11 @@ import { map } from 'rxjs';
 import { Router } from '@angular/router';
 import { AouhtService } from '../usuarios/aouht.service';
 import Swal from 'sweetalert2';
-import { Categoria } from './categoria';
-import { Entrega } from './entrega';
-import { Estado_articulo } from './estado_articulo';
-import { Estado } from './estado';
-import { Existe } from './existe';
+import { Categoria } from '../categoria/categoria';
+import { Entrega } from '../entrega/entrega';
+import { Estado_articulo } from '../estado-articulo/estado_articulo';
+import { Estado } from '../estado/estado';
+import { Existe } from '../existe/existe';
 
 @Injectable({
   providedIn: 'root',

@@ -3,11 +3,11 @@ import { Articulo } from './articulo';
 import swal from 'sweetalert2';
 import { ArticuloService } from './articulo.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Categoria } from './categoria';
-import { Entrega } from './entrega';
-import { Estado_articulo } from './estado_articulo';
-import { Estado } from './estado';
-import { Existe } from './existe';
+import { Categoria } from '../categoria/categoria';
+import { Entrega } from '../entrega/entrega';
+import { Estado_articulo } from '../estado-articulo/estado_articulo';
+import { Estado } from '../estado/estado';
+import { Existe } from '../existe/existe';
 
 @Component({
   selector: 'app-form',

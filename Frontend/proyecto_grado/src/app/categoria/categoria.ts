@@ -1,4 +1,4 @@
-import { Existe } from './existe';
+import { Existe } from '../existe/existe';
 
 export class Categoria {
   id_categoria: number;
