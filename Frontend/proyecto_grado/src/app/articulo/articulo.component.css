@@ -1,3 +1,40 @@
-.card{
-    margin-top: 50px;
+.card {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  box-shadow: 0px 10px 15px #ccc;
+}
+
+.containerArticles {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.cuerpoFijo {
+  border-top: 1px solid #ccc;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.bi-pencil-square,
+.bi-eye-fill {
+  color: #fff;
+}
+
+.img-fixed-size {
+  position: relative !important;
+  width: 287px !important;
+  height: 300px !important;
+}
+
+.botones {
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+  padding: 10px;
 }
