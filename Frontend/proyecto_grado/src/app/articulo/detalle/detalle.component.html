@@ -18,29 +18,37 @@
               <div class="col-sm">
                 <ul *ngIf="articulo" class="list-group text-dark mb-3">
                   <li class="list-group-item active">
-                    {{ articulo.id_articulo }}
-                  </li>
-                  <li class="list-group-item">
                     {{ articulo.nombre_articulo }}
                   </li>
-                  <li class="list-group-item">{{ articulo.descripcion }}</li>
                   <li class="list-group-item">
-                    {{ articulo.fecha_publicacion | date : "fullDate" }}
+                    <p>Descripcion: {{ articulo.descripcion }}</p>
                   </li>
                   <li class="list-group-item">
-                    {{ articulo.ultima_modificacion }}
+                    <p>
+                      Fecha de publicacion:
+                      {{ articulo.fecha_publicacion | date : "fullDate" }}
+                    </p>
                   </li>
                   <li class="list-group-item">
-                    {{ articulo.id_categoria.nombre_cat }}
+                    <p>
+                      Fecha de modificacion:
+                      {{ articulo.ultima_modificacion | date : "fullDate" }}
+                    </p>
                   </li>
                   <li class="list-group-item">
-                    {{ articulo.id_estado.estado }}
+                    <p>Categoria: {{ articulo.id_categoria.nombre_cat }}</p>
                   </li>
                   <li class="list-group-item">
-                    {{ articulo.id_entrega.estado }}
+                    <p>Disponibilidad: {{ articulo.id_estado.estado }}</p>
                   </li>
                   <li class="list-group-item">
-                    {{ articulo.id_estado_articulo.estado_articulo }}
+                    <p>Estado De Entrega: {{ articulo.id_entrega.estado }}</p>
+                  </li>
+                  <li class="list-group-item">
+                    <p>
+                      Calidad del Articulo:
+                      {{ articulo.id_estado_articulo.estado_articulo }}
+                    </p>
                   </li>
                 </ul>
 

@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class impUploadArticuloFileService implements IUploadArticuloFileSercive {
 
-    private final static String DIRECTORIO_UPLOAD = "C:\\Users\\owen1\\Desktop\\img";
+    private final static String DIRECTORIO_UPLOAD = "C:\\Users\\andre\\OneDrive\\Escritorio\\img";
     private final Logger log = LoggerFactory.getLogger(impUploadArticuloFileService.class);
 
     @Override
