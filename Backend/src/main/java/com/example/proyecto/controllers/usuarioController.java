@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,15 @@ public class usuarioController {
     @Autowired
     private serviceUsuario serviceUsu;
     
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    
     @PostMapping(value = "/")
     public ResponseEntity<Usuario> add(@RequestBody Usuario usu) {
+        String psw = usu.getPassword();
+        String hashedPsw = passwordEncoder.encode(psw);
+        usu.setPassword(hashedPsw);
+        
         Usuario obj = serviceUsu.save(usu);
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }

@@ -26,6 +26,7 @@ import { EstadoService } from './estado/estado.service';
 import { EstadoArticuloService } from './estado-articulo/estado-articulo.service';
 import { ExisteService } from './existe/existe.service';
 import { UsuarioService } from './usuario/usuario.service';
+import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'articulo/form', component: FormComponent },
   { path: 'articulo/form/:id_articulo', component: FormComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'usuario', component: UsuarioComponent },
 ];
 
 @NgModule({
@@ -59,6 +61,7 @@ const routes: Routes = [
     EstadoArticuloComponent,
     EstadoComponent,
     ExisteComponent,
+    RolesComponent,
   ],
   imports: [
     BrowserModule,

@@ -31,7 +31,7 @@ export class LoginComponent {
 
   login(): void {
     console.log(this.usuario);
-    if (this.usuario.email == null || this.usuario.contrasenha == null) {
+    if (this.usuario.email == null || this.usuario.password == null) {
       Swal.fire(
         'Error al iniciar sesión',
         'Email o Contraseña vacios',

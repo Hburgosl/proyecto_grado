@@ -16,12 +16,13 @@ import org.springframework.data.domain.Pageable;
 public interface serviceArticulo {
 
     public Articulo save(Articulo art);
-
-    public void delete(int id);
+    //public void delete(int id);
+    
+    public void eliminarArticulo(int id);
 
     public Articulo findById(int id);
-
+    
     public List<Articulo> findAll();
     
-    public Page<Articulo> findAll(Pageable pageable);
+    public Page<Articulo> traerTodosConPaginacion(Pageable pageable);
 }

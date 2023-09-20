@@ -19,7 +19,7 @@
       <div class="form-group mt-3">
         <label for="inputPassword">Password</label>
         <input
-          [(ngModel)]="usuario.contrasenha"
+          [(ngModel)]="usuario.password"
           type="password"
           class="form-control"
           id="password"
@@ -30,6 +30,9 @@
       </div>
       <button type="submit" class="btn btn-primary mt-3" (click)="login()">
         Submit
+      </button>
+      <button type="button" class="btn btn-primary mt-3" routerLink="/usuario">
+        Registrarse
       </button>
     </form>
   </div>

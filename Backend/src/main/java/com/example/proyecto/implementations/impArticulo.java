@@ -32,8 +32,8 @@ public class impArticulo implements serviceArticulo {
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(int id) {
-        daoarticulo.deleteById(id);
+    public void eliminarArticulo(int id) {
+        daoarticulo.eliminarArticulo(id);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class impArticulo implements serviceArticulo {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Articulo> findAll(Pageable pageable) {
-        return daoarticulo.findAll(pageable);
+    public Page<Articulo> traerTodosConPaginacion(Pageable pageable) {
+        return daoarticulo.traerTodosConPaginacion(pageable);
     }
 
 }

@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class impUploadArticuloFileService implements IUploadArticuloFileSercive {
 
-    private final static String DIRECTORIO_UPLOAD = "C:\\Users\\andre\\OneDrive\\Escritorio\\img";
+    private final static String DIRECTORIO_UPLOAD = "C:\\Users\\owen1\\OneDrive\\Desktop\\imgServer";
     private final Logger log = LoggerFactory.getLogger(impUploadArticuloFileService.class);
 
     @Override
@@ -57,7 +57,7 @@ public class impUploadArticuloFileService implements IUploadArticuloFileSercive 
     @Override
     public boolean eliminar(String nombreFoto) {
         if (nombreFoto != null && nombreFoto.length() > 0) {
-            Path rutaFotoAnterior = Paths.get("C:\\Users\\owen1\\Desktop\\img").resolve(nombreFoto).toAbsolutePath();
+            Path rutaFotoAnterior = Paths.get(DIRECTORIO_UPLOAD).resolve(nombreFoto).toAbsolutePath();
             File archivoFotoAnterior = rutaFotoAnterior.toFile();
 
             if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {

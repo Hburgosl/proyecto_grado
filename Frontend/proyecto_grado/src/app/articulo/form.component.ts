@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Articulo } from './articulo';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { ArticuloService } from './articulo.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Categoria } from '../categoria/categoria';
@@ -8,6 +8,8 @@ import { Entrega } from '../entrega/entrega';
 import { Estado_articulo } from '../estado-articulo/estado_articulo';
 import { Estado } from '../estado/estado';
 import { Existe } from '../existe/existe';
+import { HttpEventType } from '@angular/common/http';
+import { ModalService } from './detalle/modal.service';
 
 @Component({
   selector: 'app-form',
@@ -15,19 +17,37 @@ import { Existe } from '../existe/existe';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent {
-  public articulo: Articulo = new Articulo();
+  @Input() public articulo: Articulo = new Articulo();
   public categoria: Categoria[];
   public entrega: Entrega[];
   public estado_articulo: Estado_articulo[];
   public estado: Estado[];
   public existe: Existe[];
   public titulo: string = 'Crear nuevo articulo';
+  private fotoSeleccionada: File;
+  progreso: number = 0;
 
   constructor(
-    private articuloService: ArticuloService,
+    public articuloService: ArticuloService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    public modalService: ModalService
+  ) {
+    this.articulo = {
+      id_estado: {
+        id_estado: 5,
+        estado: 'Disponible',
+      },
+      id_entrega: {
+        id_entrega: 5,
+        estado: 'No entregado',
+      },
+      id_existe: {
+        id_existe: 4,
+        valor: 'Existe',
+      },
+    } as any;
+  }
 
   ngOnInit(): void {
     this.cargarArticulo();
@@ -66,13 +86,51 @@ export class FormComponent {
     });
   }
 
+  // public crearArticulos(): void {
+  //   this.articuloService.crearArticulo(this.articulo).subscribe((res) => {
+  //     Swal.fire(
+  //       'Articulo creado',
+  //       `${res.Articulo.nombre_articulo} creado con exito`,
+  //       'success'
+  //     );
+  //     this.router.navigate(['/articulo']);
+  //   });
+  // }
+
   public crearArticulos(): void {
+    // Primero, crea el artículo
     this.articuloService.crearArticulo(this.articulo).subscribe((res) => {
-      swal.fire(
+      Swal.fire(
         'Articulo creado',
-        `${res.Articulo.nombre_articulo} creado con exito`,
+        `${res.Articulo.nombre_articulo} creado con éxito`,
         'success'
       );
+
+      // Después de crear el artículo, verifica si hay una foto seleccionada
+      if (this.fotoSeleccionada) {
+        // Actualiza el ID del artículo actual con el nuevo ID asignado después de la creación
+        this.articulo.id_articulo = res.Articulo.id_articulo;
+
+        // Llama al método subirFoto() para cargar la foto
+        this.articuloService
+          .subirFoto(this.fotoSeleccionada, this.articulo.id_articulo)
+          .subscribe(
+            (event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                // Actualiza el progreso si es necesario
+                this.progreso = Math.round((event.loaded / event.total) * 100);
+              } else if (event.type === HttpEventType.Response) {
+                // Subida exitosa
+                console.log('Foto subida con éxito', event);
+              }
+            },
+            (error) => {
+              // Manejo de errores
+              console.error('Error al subir la foto:', error);
+            }
+          );
+      }
+
       this.router.navigate(['/articulo']);
     });
   }
@@ -80,7 +138,7 @@ export class FormComponent {
   public updateArticulo(): void {
     this.articuloService.updateArticulo(this.articulo).subscribe((res) => {
       this.router.navigate(['/articulo']);
-      swal.fire(
+      Swal.fire(
         'Articulo actualizado',
         `${res.Articulo.nombre_articulo} actualizado con exito`,
         'success'
@@ -129,5 +187,44 @@ export class FormComponent {
       return true;
     }
     return o1 == null || o2 == null ? false : o1.id_existe === o2.id_existe;
+  }
+
+  seleccionarFoto(event) {
+    this.fotoSeleccionada = event.target.files[0];
+    this.progreso = 0;
+    console.log(this.fotoSeleccionada);
+    if (this.fotoSeleccionada.type.indexOf('image') < 0) {
+      Swal.fire(
+        'Error, seleccionar imagen',
+        'Se debe seleccionar un archivo del tipo imagen',
+        'error'
+      );
+
+      this.fotoSeleccionada = null;
+    }
+  }
+
+  subirFoto() {
+    if (!this.fotoSeleccionada) {
+      Swal.fire('Error foto', 'Debe seleccionar una foto', 'error');
+    } else {
+      this.articuloService
+        .subirFoto(this.fotoSeleccionada, this.articulo.id_articulo)
+        .subscribe((event) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total) * 100);
+          } else if (event.type === HttpEventType.Response) {
+            let response: any = event.body;
+            this.articulo = response.Articulo as Articulo;
+            this.modalService.notificarUpload.emit(this.articulo);
+            Swal.fire(
+              'Foto subida!',
+              `La foto se ha subido con exito! ${this.articulo.imagen_articulo}`,
+              'success'
+            );
+            console.log(response);
+          }
+        });
+    }
   }
 }

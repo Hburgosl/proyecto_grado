@@ -5,10 +5,12 @@
 package com.example.proyecto.controllers;
 
 import com.example.proyecto.models.Articulo;
+import com.example.proyecto.models.Estado;
 import com.example.proyecto.services.IUploadArticuloFileSercive;
 import com.example.proyecto.services.serviceArticulo;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,8 @@ public class articuloController {
         Map<String, Object> response = new HashMap<>();
 
         try {
+            art.setFecha_publicacion(new Date());
+            art.setUltima_modificacion(new Date());
             obj = serviceArticulo.save(art);
         } catch (DataAccessException e) {
             response.put("Mensaje", "Error al insertar en la base de datos");
@@ -85,7 +89,7 @@ public class articuloController {
                 uploadService.eliminar(nombreFotoAnterior);
 
                 response.put("Mensaje", "El articulo ha sido eliminado con exito");
-                serviceArticulo.delete(id);
+                serviceArticulo.eliminarArticulo(id);
             } catch (DataAccessException e) {
                 response.put("Mensaje", "Error al insertar en la base de datos");
                 response.put("Error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
@@ -115,7 +119,7 @@ public class articuloController {
                 obj.setId_entrega(art.getId_entrega());
                 obj.setId_categoria(art.getId_categoria());
                 obj.setId_existe(art.getId_existe());
-                obj.setUltima_modificacion(art.getUltima_modificacion());
+                obj.setUltima_modificacion(new Date());
                 obj.setFecha_publicacion(art.getFecha_publicacion());
                 obj.setId_estado_articulo(art.getId_estado_articulo());
                 serviceArticulo.save(obj);
@@ -141,7 +145,7 @@ public class articuloController {
     @GetMapping("/list/page/{page}")
     public Page<Articulo> findAll(@PathVariable Integer page) {
         Pageable pageable = PageRequest.of(page, 3);
-        return serviceArticulo.findAll(pageable);
+        return serviceArticulo.traerTodosConPaginacion(pageable);
     }
 
     @GetMapping("/list/{id}")

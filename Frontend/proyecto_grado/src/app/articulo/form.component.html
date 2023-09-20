@@ -39,7 +39,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="articuloService.modoEdicion">
         <label for="id_entrega">Seleccione un estado de entrega:</label>
         <select
           [compareWith]="compararEntrega"
@@ -74,7 +74,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="articuloService.modoEdicion">
         <label for="id_estado"
           >Seleccione en que estado se encuentra el articulo:</label
         >
@@ -91,7 +91,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="articuloService.modoEdicion">
         <label for="id_existe"
           >Seleccione en que estado se encuentra el articulo:</label
         >
@@ -108,16 +108,38 @@
           </option>
         </select>
       </div>
-      <!-- <div class="form-group">
-        <label for="imageInput">Seleccione imagen</label>
+      <div class="input-group mb-3">
         <input
+          (change)="seleccionarFoto($event)"
           type="file"
           class="form-control"
-          id="imageInput"
-          name="imagen"
-          [(ngModel)]="articulo.imagen_articulo"
+          id="inputGroupFile04"
+          aria-describedby="inputGroupFileAddon04"
+          aria-label="Upload"
         />
-      </div> -->
+        <button
+          *ngIf="articuloService.modoEdicion"
+          (click)="subirFoto()"
+          class="btn btn-outline-secondary"
+          type="button"
+          id="inputGroupFileAddon04"
+        >
+          Upload
+        </button>
+      </div>
+
+      <div class="progress" *ngIf="progreso > 0">
+        <div
+          class="progress-bar progress-bar-striped"
+          role="progressbar"
+          [ngStyle]="{ width: progreso + '%' }"
+          [attr.aria-valuenow]="progreso"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          {{ progreso }}%
+        </div>
+      </div>
       <button
         type="submit"
         class="btn btn-primary"

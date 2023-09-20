@@ -55,6 +55,7 @@
           </p>
           <div class="botones">
             <Button
+              (click)="activarEdicion()"
               [routerLink]="['/articulo/form', articulo.id_articulo]"
               class="btn btn-warning btn-sm"
               style="

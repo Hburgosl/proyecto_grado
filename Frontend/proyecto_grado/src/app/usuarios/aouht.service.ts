@@ -47,7 +47,7 @@ export class AouhtService {
     let params = new URLSearchParams();
     params.set('grant_type', 'password');
     params.set('username', usuario.email);
-    params.set('password', usuario.contrasenha);
+    params.set('password', usuario.password);
     console.log(params.toString());
 
     return this.httpClient.post<any>(urlEnpoint, params.toString(), {

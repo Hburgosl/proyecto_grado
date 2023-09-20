@@ -23,12 +23,21 @@ import { Existe } from '../existe/existe';
 export class ArticuloService {
   private urlEndpoint: string = 'http://localhost:8080/articulo/list';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  modoEdicion: boolean = false;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AouhtService
   ) {}
+
+  activarModoEdicion() {
+    this.modoEdicion = true;
+  }
+
+  desactivarModoEdicion() {
+    this.modoEdicion = false;
+  }
 
   getCategoria(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>('http://localhost:8080/categoria/list');

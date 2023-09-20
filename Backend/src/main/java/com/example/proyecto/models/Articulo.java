@@ -5,6 +5,8 @@
 package com.example.proyecto.models;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -60,11 +63,13 @@ public class Articulo implements Serializable {
     private Existe id_existe;
     
     @Column(name = "ultima_modificacion")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ultima_modificacion;
     
     @Column(name = "fecha_publicacion")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date fecha_publicacion;
 
     @ManyToOne
@@ -170,4 +175,9 @@ public class Articulo implements Serializable {
     public void setFecha_publicacion(Date fecha_publicacion) {
         this.fecha_publicacion = fecha_publicacion;
     }
+    
+//    public String getFormattedFechaCreacion() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        return sdf.format(fecha_publicacion);
+//    }
 }

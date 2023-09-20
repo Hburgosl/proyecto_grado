@@ -27,12 +27,12 @@ export class PaginatorComponent {
   private initPaginador(): void {
     this.desde = Math.min(
       Math.max(1, this.paginator.number - 4),
-      this.paginator.totalPages - 5
+      Math.max(1, this.paginator.totalPages - 5)
     );
 
-    this.hasta = Math.max(
-      Math.min(this.paginator.totalPages, this.paginator.number + 4),
-      6
+    this.hasta = Math.min(
+      Math.max(6, this.paginator.number + 4),
+      this.paginator.totalPages
     );
 
     if (this.paginator.totalPages > 2) {
