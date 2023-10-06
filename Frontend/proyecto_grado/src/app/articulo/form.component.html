@@ -108,7 +108,8 @@
           </option>
         </select>
       </div>
-      <div class="input-group mb-3">
+      <div class="form-group" *ngIf="articuloService.activarInput">
+        <label for="imagen_articulo">Seleccione la imagen del articulo:</label>
         <input
           (change)="seleccionarFoto($event)"
           type="file"
@@ -116,10 +117,11 @@
           id="inputGroupFile04"
           aria-describedby="inputGroupFileAddon04"
           aria-label="Upload"
+          name="imagen_articulo"
         />
         <button
-          *ngIf="articuloService.modoEdicion"
           (click)="subirFoto()"
+          *ngIf="articuloService.modoEdicion"
           class="btn btn-outline-secondary"
           type="button"
           id="inputGroupFileAddon04"

@@ -60,6 +60,10 @@ export class ArticuloComponent {
     this.articuloService.activarModoEdicion();
   }
 
+  desactivarEdicion() {
+    this.articuloService.desactivarModoEdicion();
+  }
+
   public deleteArticulo(articulo: Articulo): void {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {

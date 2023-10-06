@@ -38,6 +38,7 @@ public class InfoAdicionalToken implements TokenEnhancer{
         info.put("fecha_nacimiento", usu.getFecha_nacimiento());
         info.put("fecha_creacion", usu.getFecha_creacion());
         info.put("ultima_modificacion", usu.getUltima_modificacion());
+        info.put("imagen_usuario", usu.getImagen_usuario());
         ((DefaultOAuth2AccessToken) oaat).setAdditionalInformation(info);
         return oaat;
     }

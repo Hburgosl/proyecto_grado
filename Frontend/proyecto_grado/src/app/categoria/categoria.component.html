@@ -1,1 +1,34 @@
-<p>categoria works!</p>
+<div class="card mt-3">
+  <div class="card-header">
+    <h5 class="card-title">Categorías</h5>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="selectCategoria">Selecciona una categoría:</label>
+      <select
+        class="form-control"
+        id="selectCategoria"
+        [(ngModel)]="selectedCategoryId"
+      >
+        <option [ngValue]="undefined">--- Seleccione una opcion ---</option>
+        <option
+          *ngFor="let categoria of categorias"
+          [value]="categoria.id_categoria"
+        >
+          {{ categoria.nombre_cat }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button
+      class="btn btn-primary"
+      [routerLink]="['/categoria/form', selectedCategoryId]"
+    >
+      Editar
+    </button>
+    <button class="btn btn-success" [routerLink]="['/categoria/form']">
+      Nuevo
+    </button>
+  </div>
+</div>

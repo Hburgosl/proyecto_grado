@@ -24,6 +24,7 @@ export class ArticuloService {
   private urlEndpoint: string = 'http://localhost:8080/articulo/list';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   modoEdicion: boolean = false;
+  activarInput: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -32,10 +33,12 @@ export class ArticuloService {
   ) {}
 
   activarModoEdicion() {
+    this.activarInput = false;
     this.modoEdicion = true;
   }
 
   desactivarModoEdicion() {
+    this.activarInput = true;
     this.modoEdicion = false;
   }
 

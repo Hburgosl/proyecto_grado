@@ -10,6 +10,7 @@ export class Usuario {
   ciudad: string;
   direccion: string;
   email: string;
+  imagen_usuario: String;
   fecha_creacion: Date;
   ultima_modificacion: Date;
   password: string;

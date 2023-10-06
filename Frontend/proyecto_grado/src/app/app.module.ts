@@ -27,21 +27,25 @@ import { EstadoArticuloService } from './estado-articulo/estado-articulo.service
 import { ExisteService } from './existe/existe.service';
 import { UsuarioService } from './usuario/usuario.service';
 import { RolesComponent } from './roles/roles.component';
+import { FormCatComponent } from './categoria/form-cat.component';
+import { UsuarioDetailsComponent } from './usuario/usuario-details.component';
+import { ActualizarFotoComponent } from './usuario/actualizar-foto/actualizar-foto.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
   { path: 'directivas', component: DirectivaComponent },
   { path: 'articulo', component: ArticuloComponent },
   { path: 'categoria', component: CategoriaComponent },
-  { path: 'entrega', component: EntregaComponent },
-  { path: 'estado', component: EstadoComponent },
-  { path: 'estado_articulo', component: EstadoArticuloComponent },
-  { path: 'existe', component: ExisteComponent },
   { path: 'articulo/page/:page', component: ArticuloComponent },
   { path: 'articulo/form', component: FormComponent },
   { path: 'articulo/form/:id_articulo', component: FormComponent },
   { path: 'login', component: LoginComponent },
   { path: 'usuario', component: UsuarioComponent },
+  { path: 'usuario/form', component: UsuarioComponent },
+  { path: 'usuario/form/:documento_usuario', component: UsuarioComponent },
+  { path: 'categoria/form', component: FormCatComponent },
+  { path: 'categoria/form/:id_categoria', component: FormCatComponent },
+  { path: 'usuario/detail', component: UsuarioDetailsComponent },
 ];
 
 @NgModule({
@@ -62,6 +66,9 @@ const routes: Routes = [
     EstadoComponent,
     ExisteComponent,
     RolesComponent,
+    FormCatComponent,
+    UsuarioDetailsComponent,
+    ActualizarFotoComponent,
   ],
   imports: [
     BrowserModule,

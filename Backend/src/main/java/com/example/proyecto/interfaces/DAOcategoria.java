@@ -5,12 +5,18 @@
 package com.example.proyecto.interfaces;
 
 import com.example.proyecto.models.Categoria;
-import org.springframework.data.repository.CrudRepository;
-
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 /**
  *
  * @author owen1
  */
-public interface DAOcategoria extends CrudRepository<Categoria, Integer>{
+public interface DAOcategoria extends JpaRepository<Categoria, Integer>{
     
+    @Query(
+            value="SELECT * FROM categoria WHERE id_existe = 4",
+            nativeQuery = true
+    )
+    List<Categoria> traerTodos();
 }

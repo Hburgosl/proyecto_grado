@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { AouhtService } from './aouht.service';
 import { Router } from '@angular/router';
 import { Usuario } from '../usuario/usuario';
+import { UsuarioService } from '../usuario/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,11 @@ export class LoginComponent {
   titulo: string = 'Por favor inicie sesión';
   usuario: Usuario;
 
-  constructor(private authService: AouhtService, private route: Router) {
+  constructor(
+    private authService: AouhtService,
+    private route: Router,
+    public usuarioService: UsuarioService
+  ) {
     this.usuario = new Usuario();
   }
 

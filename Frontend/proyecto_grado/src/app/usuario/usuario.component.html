@@ -78,7 +78,7 @@
       />
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="usuarioService.modoEdicion">
       <label for="password">Password:</label>
       <input
         type="password"
@@ -86,6 +86,18 @@
         id="password"
         name="password"
         [(ngModel)]="usuario.password"
+      />
+    </div>
+
+    <div class="form-group" *ngIf="usuarioService.modoEdicion">
+      <label for="password">Imagen:</label>
+      <input
+        (change)="seleccionarFoto($event)"
+        type="file"
+        class="form-control"
+        id="inputGroupFile04"
+        aria-describedby="inputGroupFileAddon04"
+        aria-label="Upload"
       />
     </div>
 

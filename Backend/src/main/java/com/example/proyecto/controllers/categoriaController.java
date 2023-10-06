@@ -68,7 +68,7 @@ public class categoriaController {
     
     @GetMapping("/list")
     public List<Categoria> findAll() {
-        return serviceCat.findAll();
+        return serviceCat.traerTodos();
     }
 
     @GetMapping("/list/{id}")

@@ -5,6 +5,7 @@
 package com.example.proyecto.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +17,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -48,6 +52,9 @@ public class Usuario implements Serializable{
     @Column(name = "email")
     private String email;
     
+    @Column(name = "imagen_usuario")
+    private String imagen_usuario;
+    
     @Column(name = "contrasenha")
     private String password;
     
@@ -62,8 +69,10 @@ public class Usuario implements Serializable{
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "ultima_modificacion")
-    private String ultima_modificacion;
+    private Date ultima_modificacion;
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "documento_usuario"),
@@ -167,12 +176,20 @@ public class Usuario implements Serializable{
         this.id_existe = id_existe;
     }
 
-    public String getUltima_modificacion() {
+    public Date getUltima_modificacion() {
         return ultima_modificacion;
     }
 
-    public void setUltima_modificacion(String ultima_modificacion) {
+    public void setUltima_modificacion(Date ultima_modificacion) {
         this.ultima_modificacion = ultima_modificacion;
+    }
+
+    public String getImagen_usuario() {
+        return imagen_usuario;
+    }
+
+    public void setImagen_usuario(String imagen_usuario) {
+        this.imagen_usuario = imagen_usuario;
     }
     
 }

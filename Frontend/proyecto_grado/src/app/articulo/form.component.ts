@@ -86,17 +86,6 @@ export class FormComponent {
     });
   }
 
-  // public crearArticulos(): void {
-  //   this.articuloService.crearArticulo(this.articulo).subscribe((res) => {
-  //     Swal.fire(
-  //       'Articulo creado',
-  //       `${res.Articulo.nombre_articulo} creado con exito`,
-  //       'success'
-  //     );
-  //     this.router.navigate(['/articulo']);
-  //   });
-  // }
-
   public crearArticulos(): void {
     // Primero, crea el artículo
     this.articuloService.crearArticulo(this.articulo).subscribe((res) => {

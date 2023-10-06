@@ -1,28 +1,29 @@
 import { Component, Input } from '@angular/core';
-import { Articulo } from '../articulo';
-import { ArticuloService } from '../articulo.service';
-import { ModalService } from './modal.service';
+import { ModalService } from 'src/app/articulo/detalle/modal.service';
 import Swal from 'sweetalert2';
+import { Usuario } from '../usuario';
+import { UsuarioService } from '../usuario.service';
 import { HttpEventType } from '@angular/common/http';
+import { AouhtService } from 'src/app/usuarios/aouht.service';
 
 @Component({
-  selector: 'detalle-articulo',
-  templateUrl: './detalle.component.html',
-  styleUrls: ['./detalle.component.css'],
+  selector: 'actualizar-foto',
+  templateUrl: './actualizar-foto.component.html',
+  styleUrls: ['./actualizar-foto.component.css'],
 })
-export class DetalleComponent {
-  @Input() articulo: Articulo;
-  titulo: String = 'Detalle articulo';
-  private fotoSeleccionada: File;
+export class ActualizarFotoComponent {
+  @Input() usuario: Usuario;
+  titulo: String = 'Foto de perfil';
+  fotoSeleccionada: File;
   progreso: number = 0;
-
   constructor(
     public modalService: ModalService,
-    private articuloService: ArticuloService
+    private usuarioService: UsuarioService,
+    private authService: AouhtService
   ) {}
 
-  ngOnInit() {
-    console.log(this.articulo);
+  ngOnInit(): void {
+    this.usuario = this.authService.usuario;
   }
 
   seleccionarFoto(event) {
@@ -44,18 +45,18 @@ export class DetalleComponent {
     if (!this.fotoSeleccionada) {
       Swal.fire('Error foto', 'Debe seleccionar una foto', 'error');
     } else {
-      this.articuloService
-        .subirFoto(this.fotoSeleccionada, this.articulo.id_articulo)
+      this.usuarioService
+        .subirFoto(this.fotoSeleccionada, this.usuario.documento_usuario)
         .subscribe((event) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progreso = Math.round((event.loaded / event.total) * 100);
           } else if (event.type === HttpEventType.Response) {
             let response: any = event.body;
-            this.articulo = response.Articulo as Articulo;
-            this.modalService.notificarUpload.emit(this.articulo);
+            this.usuario = response.Usuario as Usuario;
+            this.modalService.notificarUpload.emit(this.usuario);
             Swal.fire(
               'Foto subida!',
-              `La foto se ha subido con exito! ${this.articulo.imagen_articulo}`,
+              `La foto se ha subido con exito! ${this.usuario.imagen_usuario}`,
               'success'
             );
             console.log(response);

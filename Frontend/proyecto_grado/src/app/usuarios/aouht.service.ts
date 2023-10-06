@@ -59,7 +59,7 @@ export class AouhtService {
     let payload = this.obtenerDatosToken(access_token);
     this._usuario = new Usuario();
     this._usuario.documento_usuario = payload.documento_usuario;
-    this._usuario.nombre_completo = payload.nombre_completo;
+    this._usuario.nombre_completo = payload.nombre_usuario;
     this._usuario.fecha_nacimiento = payload.fecha_nacimiento;
     this._usuario.pais = payload.pais;
     this._usuario.ciudad = payload.ciudad;
@@ -67,6 +67,7 @@ export class AouhtService {
     this._usuario.email = payload.email;
     this._usuario.fecha_creacion = payload.fecha_creacion;
     this._usuario.ultima_modificacion = payload.ultima_modificacion;
+    this._usuario.imagen_usuario = payload.imagen_usuario;
     this._usuario.roles = payload.authorities;
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }

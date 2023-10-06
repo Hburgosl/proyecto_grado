@@ -1,0 +1,78 @@
+<div *ngIf="modalService.modal" class="abrir-modal animacion fadeIn">
+  <div class="modal" tabindex="-1" style="display: block">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ titulo }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="cerrarModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <div class="input-group mb-3">
+                  <input
+                    (change)="seleccionarFoto($event)"
+                    type="file"
+                    class="form-control"
+                    id="inputGroupFile04"
+                    aria-describedby="inputGroupFileAddon04"
+                    aria-label="Upload"
+                  />
+                  <button
+                    (click)="subirFoto()"
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="inputGroupFileAddon04"
+                  >
+                    Upload
+                  </button>
+                </div>
+
+                <div class="progress" *ngIf="progreso > 0">
+                  <div
+                    class="progress-bar progress-bar-striped"
+                    role="progressbar"
+                    [ngStyle]="{ width: progreso + '%' }"
+                    [attr.aria-valuenow]="progreso"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    {{ progreso }}%
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <img
+                  *ngIf="usuario?.imagen_usuario"
+                  src="http://localhost:8080/usuario/uploads/img/{{
+                    usuario.imagen_usuario
+                  }}"
+                  alt="{{ usuario.imagen_usuario }}"
+                  class="img-fixed-size"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="cerrarModal()"
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

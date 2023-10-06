@@ -1,0 +1,72 @@
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 400px;
+    /* Cambiando el ancho a 600px */
+    margin: 20px auto 0;
+    /* Añadiendo margen superior de 20px */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.profile-details {
+    padding: 20px;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.profile-info {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-info li {
+    margin-bottom: 10px;
+}
+
+.profile-info strong {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        max-width: 100%;
+    }
+}
+
+/* ... Estilos para la tarjeta, imagen, nombre y detalles siguen igual */
+
+.profile-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+}
+
+.edit-button,
+.info-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button:hover,
+.info-button:hover {
+    background-color: #0056b3;
+}

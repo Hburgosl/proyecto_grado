@@ -42,8 +42,8 @@ public class impCategoria implements serviceCategoria {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Categoria> findAll() {
-        return (List<Categoria>) daocat.findAll();
+    public List<Categoria> traerTodos() {
+        return (List<Categoria>) daocat.traerTodos();
     }
 
 }

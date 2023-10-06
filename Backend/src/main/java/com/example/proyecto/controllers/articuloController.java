@@ -5,7 +5,6 @@
 package com.example.proyecto.controllers;
 
 import com.example.proyecto.models.Articulo;
-import com.example.proyecto.models.Estado;
 import com.example.proyecto.services.IUploadArticuloFileSercive;
 import com.example.proyecto.services.serviceArticulo;
 import java.io.IOException;
