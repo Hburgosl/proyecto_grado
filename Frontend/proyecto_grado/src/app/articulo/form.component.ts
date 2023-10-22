@@ -10,6 +10,8 @@ import { Estado } from '../estado/estado';
 import { Existe } from '../existe/existe';
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './detalle/modal.service';
+import { AouhtService } from '../usuarios/aouht.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -26,12 +28,16 @@ export class FormComponent {
   public titulo: string = 'Crear nuevo articulo';
   private fotoSeleccionada: File;
   progreso: number = 0;
+  articuloForm: FormGroup;
+  formEnviado = false;
 
   constructor(
     public articuloService: ArticuloService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public modalService: ModalService
+    public modalService: ModalService,
+    private oauthService: AouhtService,
+    private fb: FormBuilder
   ) {
     this.articulo = {
       id_estado: {
@@ -46,7 +52,20 @@ export class FormComponent {
         id_existe: 4,
         valor: 'Existe',
       },
+      documento_usuario: {
+        documento_usuario: this.oauthService.usuario.documento_usuario,
+      },
     } as any;
+
+    this.articuloForm = fb.group({
+      nombre_articulo: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      id_categoria: ['', Validators.required], // Campo 'categoria' con validación de requerido
+      id_entrega: ['', Validators.required], // Campo 'entrega' con validación de requerido
+      id_estado_articulo: ['', Validators.required], // Campo 'estado_articulo' con validación de requerido
+      id_estado: ['', Validators.required], // Campo 'estado' con validación de requerido
+      id_existe: ['', Validators.required], // Campo 'existe' con validación de requerido
+    });
   }
 
   ngOnInit(): void {
@@ -79,52 +98,93 @@ export class FormComponent {
     this.activatedRoute.params.subscribe((params) => {
       let id_articulo = params['id_articulo'];
       if (id_articulo) {
-        this.articuloService
-          .getArticulo(id_articulo)
-          .subscribe((articulo) => (this.articulo = articulo));
+        this.articuloService.getArticulo(id_articulo).subscribe((articulo) => {
+          this.articulo = articulo;
+          this.articuloForm.patchValue({
+            nombre_articulo: this.articulo.nombre_articulo,
+            descripcion: this.articulo.descripcion,
+            id_categoria: this.articulo.id_categoria,
+            id_entrega: this.articulo.id_entrega,
+            id_estado_articulo: this.articulo.id_estado_articulo,
+            id_estado: this.articulo.id_estado,
+            id_existe: this.articulo.id_existe,
+          });
+        });
       }
     });
   }
 
   public crearArticulos(): void {
-    // Primero, crea el artículo
-    this.articuloService.crearArticulo(this.articulo).subscribe((res) => {
-      Swal.fire(
-        'Articulo creado',
-        `${res.Articulo.nombre_articulo} creado con éxito`,
-        'success'
-      );
-
-      // Después de crear el artículo, verifica si hay una foto seleccionada
-      if (this.fotoSeleccionada) {
-        // Actualiza el ID del artículo actual con el nuevo ID asignado después de la creación
-        this.articulo.id_articulo = res.Articulo.id_articulo;
-
-        // Llama al método subirFoto() para cargar la foto
-        this.articuloService
-          .subirFoto(this.fotoSeleccionada, this.articulo.id_articulo)
-          .subscribe(
-            (event) => {
-              if (event.type === HttpEventType.UploadProgress) {
-                // Actualiza el progreso si es necesario
-                this.progreso = Math.round((event.loaded / event.total) * 100);
-              } else if (event.type === HttpEventType.Response) {
-                // Subida exitosa
-                console.log('Foto subida con éxito', event);
-              }
-            },
-            (error) => {
-              // Manejo de errores
-              console.error('Error al subir la foto:', error);
+    this.formEnviado = true;
+    if (this.articuloForm.valid) {
+      this.articulo.nombre_articulo = this.articuloForm.value.nombre_articulo;
+      this.articulo.descripcion = this.articuloForm.value.descripcion;
+      this.articulo.id_categoria = this.articuloForm.value.id_categoria;
+      this.articulo.id_estado_articulo =
+        this.articuloForm.value.id_estado_articulo;
+      // Primero, crea el artículo
+      this.articuloService.crearArticulo(this.articulo).subscribe(
+        (res) => {
+          Swal.fire({
+            title: 'Articulo creado',
+            text: `${res.Articulo.nombre_articulo} creado con éxito`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirige al usuario a la ruta '/articulo'
+              this.router.navigate(['/articulo']);
             }
-          );
-      }
+          });
 
-      this.router.navigate(['/articulo']);
-    });
+          // Después de crear el artículo, verifica si hay una foto seleccionada
+          if (this.fotoSeleccionada) {
+            // Actualiza el ID del artículo actual con el nuevo ID asignado después de la creación
+            this.articulo.id_articulo = res.Articulo.id_articulo;
+
+            // Llama al método subirFoto() para cargar la foto
+            this.articuloService
+              .subirFoto(this.fotoSeleccionada, this.articulo.id_articulo)
+              .subscribe((event) => {
+                if (event.type === HttpEventType.UploadProgress) {
+                  // Actualiza el progreso si es necesario
+                  this.progreso = Math.round(
+                    (event.loaded / event.total) * 100
+                  );
+                } else if (event.type === HttpEventType.Response) {
+                  // Subida exitosa
+                  console.log('Foto subida con éxito', event);
+                }
+              });
+          }
+        },
+        (error) => {
+          if (error.status === 500) {
+            // Manejo de errores HTTP 500 (Internal Server Error) al crear el artículo
+            console.log('Error interno del servidor al crear el artículo');
+            // Puedes mostrar un mensaje de error al usuario aquí si lo deseas.
+          } else {
+            // Otro manejo de errores
+            console.log('Error al crear el artículo');
+            // Puedes mostrar un mensaje de error al usuario aquí si lo deseas.
+          }
+        }
+      );
+    } else {
+      console.log('form invalid');
+    }
   }
 
   public updateArticulo(): void {
+    this.articulo.nombre_articulo = this.articuloForm.value.nombre_articulo;
+    this.articulo.descripcion = this.articuloForm.value.descripcion;
+    this.articulo.id_categoria = this.articuloForm.value.id_categoria;
+    this.articulo.id_estado_articulo =
+      this.articuloForm.value.id_estado_articulo;
+    this.articulo.id_entrega = this.articuloForm.value.id_entrega;
+    this.articulo.id_estado = this.articuloForm.value.id_estado;
+    this.articulo.id_existe = this.articuloForm.value.id_existe;
+
     this.articuloService.updateArticulo(this.articulo).subscribe((res) => {
       this.router.navigate(['/articulo']);
       Swal.fire(

@@ -6,6 +6,7 @@ import { HttpEventType } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { ModalService } from '../articulo/detalle/modal.service';
 import { AouhtService } from '../usuarios/aouht.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-usuario',
@@ -16,13 +17,17 @@ export class UsuarioComponent {
   @Input() public usuario: Usuario = new Usuario();
   fotoSeleccionada: File;
   progreso: number = 0;
+  usuarioForm: FormGroup;
+  formEnviado = false;
+  usuarioCreado: boolean = false;
 
   constructor(
     private router: Router,
     public usuarioService: UsuarioService,
     private modalService: ModalService,
     private route: ActivatedRoute,
-    private authService: AouhtService
+    private authService: AouhtService,
+    private fb: FormBuilder
   ) {
     this.usuario = {
       id_estado: {
@@ -40,9 +45,35 @@ export class UsuarioComponent {
         },
       ],
     } as any;
+
+    this.usuarioForm = this.fb.group({
+      documento_usuario: ['', Validators.required],
+      nombre_completo: ['', Validators.required],
+      fecha_nacimiento: ['', Validators.required],
+      pais: ['', Validators.required],
+      ciudad: ['', Validators.required],
+      direccion: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+          ),
+        ],
+      ],
+      imagen: [''],
+    });
   }
 
   ngOnInit(): void {
+    if (this.authService.usuario.documento_usuario) {
+      this.usuarioCreado = true;
+    } else {
+      this.usuarioCreado = false;
+    }
+
     if (this.authService.isAuthenticated()) {
       this.cargarUsuario();
     }
@@ -53,48 +84,64 @@ export class UsuarioComponent {
       const id = +params['documento_usuario'];
       this.usuarioService.getUsuario(id).subscribe((res) => {
         this.usuario = res;
+        this.usuarioForm.patchValue(this.usuario); // Llena el formulario con la información del usuario
       });
     });
   }
 
   public crearUsuarios(): void {
-    // Primero, crea el artículo
-    this.usuarioService.crearUsuario(this.usuario).subscribe((res) => {
-      Swal.fire(
-        'Usuario creado',
-        `${res.Usuario.documento_usuario} creado con éxito`,
-        'success'
+    this.formEnviado = true;
+    if (this.usuarioForm.valid) {
+      this.asignarValoresAUsuario();
+      this.usuarioService.crearUsuario(this.usuario).subscribe(
+        (res) => {
+          Swal.fire({
+            title: 'Usuario creado',
+            text: `${res.Usuario.documento_usuario} creado con éxito`,
+            icon: 'success',
+          });
+
+          this.usuarioCreado = true;
+
+          if (this.fotoSeleccionada) {
+            this.usuario.documento_usuario = res.Usuario.documento_usuario;
+            this.usuarioService
+              .subirFoto(this.fotoSeleccionada, this.usuario.documento_usuario)
+              .subscribe(
+                (event) => {
+                  if (event.type === HttpEventType.UploadProgress) {
+                    this.progreso = Math.round(
+                      (event.loaded / event.total) * 100
+                    );
+                  } else if (event.type === HttpEventType.Response) {
+                    console.log('Foto subida con éxito', event);
+                  }
+                },
+                (error) => {
+                  console.error('Error al subir la foto:', error);
+                }
+              );
+          }
+
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          // Manejo de errores
+          if (error.status == 400) {
+            console.log(error);
+            Swal.fire({
+              title: 'Error',
+              text: `${error.error.Mensaje}`,
+              icon: 'error',
+            });
+          }
+        }
       );
-
-      if (this.fotoSeleccionada) {
-        // Actualiza el ID del artículo actual con el nuevo ID asignado después de la creación
-        this.usuario.documento_usuario = res.Usuario.documento_usuario;
-
-        // Llama al método subirFoto() para cargar la foto
-        this.usuarioService
-          .subirFoto(this.fotoSeleccionada, this.usuario.documento_usuario)
-          .subscribe(
-            (event) => {
-              if (event.type === HttpEventType.UploadProgress) {
-                // Actualiza el progreso si es necesario
-                this.progreso = Math.round((event.loaded / event.total) * 100);
-              } else if (event.type === HttpEventType.Response) {
-                // Subida exitosa
-                console.log('Foto subida con éxito', event);
-              }
-            },
-            (error) => {
-              // Manejo de errores
-              console.error('Error al subir la foto:', error);
-            }
-          );
-      }
-
-      this.router.navigate(['/login']);
-    });
+    }
   }
 
   public updateUsuario(): void {
+    this.asignarValoresAUsuario();
     this.usuarioService.updateUsuario(this.usuario).subscribe((res) => {
       this.router.navigate(['/usuario/detail']);
       Swal.fire(
@@ -120,27 +167,28 @@ export class UsuarioComponent {
     }
   }
 
-  // subirFoto() {
-  //   if (!this.fotoSeleccionada) {
-  //     Swal.fire('Error foto', 'Debe seleccionar una foto', 'error');
-  //   } else {
-  //     this.usuarioService
-  //       .subirFoto(this.fotoSeleccionada, this.usuario.documento_usuario)
-  //       .subscribe((event) => {
-  //         if (event.type === HttpEventType.UploadProgress) {
-  //           this.progreso = Math.round((event.loaded / event.total) * 100);
-  //         } else if (event.type === HttpEventType.Response) {
-  //           let response: any = event.body;
-  //           this.usuario = response.Usuario as Usuario;
-  //           this.modalService.notificarUpload.emit(this.usuario);
-  //           Swal.fire(
-  //             'Foto subida!',
-  //             `La foto se ha subido con exito! ${this.usuario.imagen_usuario}`,
-  //             'success'
-  //           );
-  //           console.log(response);
-  //         }
-  //       });
-  //   }
-  // }
+  get password() {
+    return this.usuarioForm.get('password');
+  }
+
+  get passwordErrorMessage() {
+    if (this.password.hasError('required')) {
+      return 'Password es obligatorio';
+    }
+    if (this.password.hasError('pattern')) {
+      return 'La contraseña debe tener (Una mayuscula, un numero, un caracter especial y 8 caracteres de longitud.)';
+    }
+    return '';
+  }
+
+  public asignarValoresAUsuario(): void {
+    this.usuario.documento_usuario = this.usuarioForm.value.documento_usuario;
+    this.usuario.nombre_completo = this.usuarioForm.value.nombre_completo;
+    this.usuario.fecha_nacimiento = this.usuarioForm.value.fecha_nacimiento;
+    this.usuario.pais = this.usuarioForm.value.pais;
+    this.usuario.ciudad = this.usuarioForm.value.ciudad;
+    this.usuario.direccion = this.usuarioForm.value.direccion;
+    this.usuario.email = this.usuarioForm.value.email;
+    this.usuario.password = this.usuarioForm.value.password;
+  }
 }

@@ -30,6 +30,9 @@ import { RolesComponent } from './roles/roles.component';
 import { FormCatComponent } from './categoria/form-cat.component';
 import { UsuarioDetailsComponent } from './usuario/usuario-details.component';
 import { ActualizarFotoComponent } from './usuario/actualizar-foto/actualizar-foto.component';
+import { UsuarioArticuloComponent } from './usuario-articulo/usuario-articulo.component';
+import { PaginatorArtUserComponent } from './paginator-art-user/paginator-art-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -46,6 +49,11 @@ const routes: Routes = [
   { path: 'categoria/form', component: FormCatComponent },
   { path: 'categoria/form/:id_categoria', component: FormCatComponent },
   { path: 'usuario/detail', component: UsuarioDetailsComponent },
+  { path: 'usuario/articulos', component: UsuarioArticuloComponent },
+  {
+    path: 'usuario/articulos/page/:page',
+    component: UsuarioArticuloComponent,
+  },
 ];
 
 @NgModule({
@@ -69,12 +77,15 @@ const routes: Routes = [
     FormCatComponent,
     UsuarioDetailsComponent,
     ActualizarFotoComponent,
+    UsuarioArticuloComponent,
+    PaginatorArtUserComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

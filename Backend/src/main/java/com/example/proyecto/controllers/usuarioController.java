@@ -41,37 +41,47 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin("*")
 @RequestMapping(value = "/usuario")
 public class usuarioController {
-    
+
     @Autowired
     private serviceUsuario serviceUsu;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private IUploadArticuloFileSercive uploadService;
-    
+
     @PostMapping(value = "/")
     public ResponseEntity<?> add(@RequestBody Usuario usu) {
-        
-        Usuario obj = null;
+        Usuario existingUser = serviceUsu.findById(usu.getDocumento_usuario());
+        Usuario existingUserByEmail = serviceUsu.findByEmail(usu.getEmail());
         Map<String, Object> response = new HashMap<>();
-        
-        try{
+
+        if (existingUser != null) {
+            response.put("Mensaje", "Ya existe un usuario con el mismo número de documento.");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        if (existingUserByEmail != null) {
+            response.put("Mensaje", "Ya existe un usuario con el mismo email.");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
             String psw = usu.getPassword();
             String hashedPsw = passwordEncoder.encode(psw);
             usu.setPassword(hashedPsw);
-            obj = serviceUsu.save(usu);
-        }catch(DataAccessException e){
-            response.put("Mensaje", "Error al insertar en la base de datos");
+            Usuario newUser = serviceUsu.save(usu);
+            response.put("Mensaje", "El usuario ha sido creado con éxito.");
+            response.put("Usuario", newUser);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("Mensaje", "Error al insertar en la base de datos.");
             response.put("Error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("Mensaje", "El articulo ha sido creado con exito");
-        response.put("Usuario", obj);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
+
     @DeleteMapping(value = "/list/{id}")
     public ResponseEntity<Usuario> delete(@PathVariable int id) {
         Usuario obj = serviceUsu.findById(id);
@@ -83,7 +93,7 @@ public class usuarioController {
 
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
-    
+
     @PutMapping(value = "/list/{id}")
     public ResponseEntity<Usuario> update(@RequestBody Usuario usu) {
         Usuario obj = serviceUsu.findById(usu.getDocumento_usuario());
@@ -107,7 +117,7 @@ public class usuarioController {
 
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
-    
+
     @GetMapping("/list")
     public List<Usuario> findAll() {
         return serviceUsu.findAll();
@@ -117,7 +127,7 @@ public class usuarioController {
     public Usuario findById(@PathVariable int id) {
         return serviceUsu.findById(id);
     }
-    
+
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("documento_usuario") int documento_usuario) {
         Map<String, Object> response = new HashMap<>();
@@ -125,9 +135,9 @@ public class usuarioController {
         Usuario usu = serviceUsu.findById(documento_usuario);
 
         if (!archivo.isEmpty()) {
-            
+
             String nombreArchivo = null;
-            
+
             try {
                 nombreArchivo = uploadService.copiar(archivo);
             } catch (IOException e) {
@@ -149,21 +159,21 @@ public class usuarioController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    
+
     @GetMapping("uploads/img/{nombreFoto:.+}")
-    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
-        
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
+
         Resource recurso = null;
-        
+
         try {
             recurso = uploadService.cargar(nombreFoto);
         } catch (MalformedURLException ex) {
             java.util.logging.Logger.getLogger(usuarioController.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
+
         HttpHeaders cabecera = new HttpHeaders();
-        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+recurso.getFilename()+"\"");
-        
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+
         return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
     }
 }

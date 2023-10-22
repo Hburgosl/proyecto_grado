@@ -146,6 +146,12 @@ public class articuloController {
         Pageable pageable = PageRequest.of(page, 3);
         return serviceArticulo.traerTodosConPaginacion(pageable);
     }
+    
+    @GetMapping("/list/articulos/{doc}/page/{page}")
+    public Page<Articulo> traerArticulosUsuario(@PathVariable int doc,@PathVariable Integer page){
+        Pageable pageable = PageRequest.of(page, 3);
+        return serviceArticulo.traerArticulosUsuario(doc,pageable);
+    }
 
     @GetMapping("/list/{id}")
     public ResponseEntity<?> findById(@PathVariable int id) {

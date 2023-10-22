@@ -19,8 +19,8 @@ import org.springframework.data.repository.query.Param;
 public interface DAOarticulo extends JpaRepository<Articulo, Integer>{
     
     @Query(
-            value = "SELECT * FROM articulo WHERE id_existe = 4", 
-            countQuery = "SELECT count(*) FROM articulo WHERE id_existe = 4", 
+            value = "SELECT * FROM articulo WHERE id_existe = 4 and id_estado = 5", 
+            countQuery = "SELECT count(*) FROM articulo WHERE id_existe = 4 and id_estado = 5", 
             nativeQuery = true
     )
     Page<Articulo> traerTodosConPaginacion(Pageable pageable);
@@ -31,5 +31,11 @@ public interface DAOarticulo extends JpaRepository<Articulo, Integer>{
             nativeQuery = true
     )
     public void eliminarArticulo(@Param("id") int id);
+    
+    @Query(
+            value = "SELECT * FROM articulo WHERE articulo.documento_usuario = :doc AND id_existe = 4",
+            nativeQuery = true
+    )
+    Page<Articulo> traerArticulosUsuario(@Param("doc") int doc, Pageable pageable);
     
 }

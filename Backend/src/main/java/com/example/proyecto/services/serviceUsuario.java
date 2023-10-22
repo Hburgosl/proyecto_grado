@@ -21,4 +21,6 @@ public interface serviceUsuario {
 
     public List<Usuario> findAll();
     
+    Usuario findByEmail(String email);
+    
 }

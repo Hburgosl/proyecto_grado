@@ -25,4 +25,6 @@ public interface serviceArticulo {
     public List<Articulo> findAll();
     
     public Page<Articulo> traerTodosConPaginacion(Pageable pageable);
+    
+    public Page<Articulo> traerArticulosUsuario(int doc, Pageable pageable);
 }

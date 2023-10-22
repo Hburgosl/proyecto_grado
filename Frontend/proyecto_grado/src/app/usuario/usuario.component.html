@@ -1,91 +1,153 @@
 <div class="container">
   <h2>Formulario</h2>
-  <form>
+  <form [formGroup]="usuarioForm">
     <div class="form-group">
       <label for="documento">Documento:</label>
+      <div
+        *ngIf="
+          formEnviado &&
+          usuarioForm.get('documento_usuario').hasError('required')
+        "
+        class="text-danger small"
+      >
+        Documento es obligatorio
+      </div>
       <input
         type="text"
         class="form-control"
         id="documento"
         name="documento"
-        [(ngModel)]="usuario.documento_usuario"
+        formControlName="documento_usuario"
       />
     </div>
 
     <div class="form-group">
       <label for="nombre">Nombre Completo:</label>
+      <div
+        *ngIf="
+          formEnviado && usuarioForm.get('nombre_completo').hasError('required')
+        "
+        class="text-danger small"
+      >
+        Nombre Completo es obligatorio
+      </div>
       <input
         type="text"
         class="form-control"
         id="nombre"
         name="nombre"
-        [(ngModel)]="usuario.nombre_completo"
+        formControlName="nombre_completo"
       />
     </div>
 
     <div class="form-group">
       <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+      <div
+        *ngIf="
+          formEnviado &&
+          usuarioForm.get('fecha_nacimiento').hasError('required')
+        "
+        class="text-danger small"
+      >
+        Fecha nacimiento es obligatoria
+      </div>
       <input
         type="date"
         class="form-control"
         id="fechaNacimiento"
         name="fechaNacimiento"
-        [(ngModel)]="usuario.fecha_nacimiento"
+        formControlName="fecha_nacimiento"
       />
     </div>
 
     <div class="form-group">
       <label for="pais">País:</label>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('pais').hasError('required')"
+        class="text-danger small"
+      >
+        Pais es obligatorio
+      </div>
       <input
         type="text"
         class="form-control"
         id="pais"
         name="pais"
-        [(ngModel)]="usuario.pais"
+        formControlName="pais"
       />
     </div>
 
     <div class="form-group">
       <label for="ciudad">Ciudad:</label>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('ciudad').hasError('required')"
+        class="text-danger small"
+      >
+        Ciudad es obligatoria
+      </div>
       <input
         type="text"
         class="form-control"
         id="ciudad"
         name="ciudad"
-        [(ngModel)]="usuario.ciudad"
+        formControlName="ciudad"
       />
     </div>
 
     <div class="form-group">
       <label for="direccion">Dirección:</label>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('direccion').hasError('required')"
+        class="text-danger small"
+      >
+        Direccion es obligatoria
+      </div>
       <input
         type="text"
         class="form-control"
         id="direccion"
         name="direccion"
-        [(ngModel)]="usuario.direccion"
+        formControlName="direccion"
       />
     </div>
 
     <div class="form-group">
       <label for="email">Email:</label>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('email').hasError('required')"
+        class="text-danger small"
+      >
+        Email es obligatorio
+      </div>
       <input
         type="email"
         class="form-control"
         id="email"
         name="email"
-        [(ngModel)]="usuario.email"
+        formControlName="email"
       />
     </div>
 
     <div class="form-group" *ngIf="usuarioService.modoEdicion">
       <label for="password">Password:</label>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('password').hasError('required')"
+        class="text-danger small"
+      >
+        Password es obligatorio
+      </div>
+      <div
+        *ngIf="formEnviado && usuarioForm.get('password').hasError('pattern')"
+        class="text-danger small"
+      >
+        {{ passwordErrorMessage }}
+      </div>
       <input
         type="password"
         class="form-control"
         id="password"
         name="password"
-        [(ngModel)]="usuario.password"
+        formControlName="password"
       />
     </div>
 
@@ -101,8 +163,18 @@
       />
     </div>
 
-    <button type="submit" class="btn btn-primary" (click)="crearUsuarios()">
-      Enviar
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="crearUsuarios()"
+      *ngIf="!usuarioCreado; else elseBlock"
+    >
+      Crear
     </button>
+    <ng-template #elseBlock>
+      <button type="submit" class="btn btn-primary" (click)="updateUsuario()">
+        Actualizar
+      </button>
+    </ng-template>
   </form>
 </div>

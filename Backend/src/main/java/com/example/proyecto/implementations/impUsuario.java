@@ -45,5 +45,11 @@ public class impUsuario implements serviceUsuario{
     public List<Usuario> findAll() {
         return (List<Usuario>) daouser.findAll();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario findByEmail(String email) {
+        return daouser.findByEmail(email);
+    }
     
 }

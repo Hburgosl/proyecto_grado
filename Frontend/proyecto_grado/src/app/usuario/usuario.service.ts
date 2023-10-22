@@ -40,7 +40,6 @@ export class UsuarioService {
       })
       .pipe(
         catchError((e) => {
-          console.error(e.error.Mesaje);
           Swal.fire(e.error.Mensaje, e.error.Error, 'error');
           return throwError(e);
         })

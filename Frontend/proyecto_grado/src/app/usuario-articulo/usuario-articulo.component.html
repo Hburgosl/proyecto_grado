@@ -1,0 +1,73 @@
+<detalle-articulo
+  *ngIf="articuloSeleccionado"
+  [articulo]="articuloSeleccionado"
+></detalle-articulo>
+
+<div class="card">
+  <div class="card-header bg-primary text-white">Lista De Articulos</div>
+  <div class="card-body">
+    <h5 class="card-title">Articulos</h5>
+    <div class="mb-3">
+      <button
+        (click)="desactivarEdicion()"
+        class="btn btn-primary"
+        type="button"
+        [routerLink]="['/articulo/form']"
+      >
+        Nuevo articulo
+      </button>
+    </div>
+    <div class="containerArticles">
+      <div *ngIf="articulos?.length === 0" class="alert alert-info">
+        No hay articulos en la base de datos
+      </div>
+
+      <div class="article-card" *ngFor="let articulo of articulos">
+        <div class="article-image">
+          <img
+            *ngIf="articulo?.imagen_articulo"
+            src="http://localhost:8080/articulo/uploads/img/{{
+              articulo.imagen_articulo
+            }}"
+            alt="{{ articulo.imagen_articulo }}"
+          />
+
+          <img
+            *ngIf="!articulo?.imagen_articulo"
+            src="http://localhost:8080/nouser.png"
+            alt="Sin foto"
+          />
+        </div>
+        <div class="article-details">
+          <h5 class="card-title">{{ articulo.nombre_articulo }}</h5>
+          <p class="card-text">
+            {{ articulo.descripcion }},
+            {{ articulo.fecha_publicacion | date : "EEEE dd, MMMM yyyy" }}
+          </p>
+        </div>
+        <div class="article-actions">
+          <Button
+            (click)="activarEdicion()"
+            [routerLink]="['/articulo/form', articulo.id_articulo]"
+            class="btn btn-warning btn-sm"
+          >
+            Editar
+          </Button>
+          <button
+            (click)="deleteArticulo(articulo)"
+            class="btn btn-danger btn-sm"
+          >
+            Borrar
+          </button>
+          <button (click)="abrirModal(articulo)" class="btn btn-info btn-sm">
+            Ver
+          </button>
+        </div>
+      </div>
+    </div>
+    <app-paginator-art-user
+      *ngIf="paginador"
+      [paginator]="paginador"
+    ></app-paginator-art-user>
+  </div>
+</div>

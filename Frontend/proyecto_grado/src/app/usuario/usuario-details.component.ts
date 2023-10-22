@@ -20,12 +20,20 @@ export class UsuarioDetailsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.usuario = this.authService.usuario;
+    this.cargarUsuario();
     this.modalService.notificarUpload.subscribe((res) => {
       if (res.documento_usuario == this.usuario.documento_usuario) {
         this.usuario.imagen_usuario = res.imagen_usuario;
       }
     });
+  }
+
+  cargarUsuario(): void {
+    this.usuarioService
+      .getUsuario(this.authService.usuario.documento_usuario)
+      .subscribe((res) => {
+        this.usuario = res;
+      });
   }
 
   abrirModal(usuario: Usuario) {

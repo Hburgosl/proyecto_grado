@@ -1,51 +1,45 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { Articulo } from './articulo';
-import { ArticuloService } from './articulo.service';
-import { ModalService } from './detalle/modal.service';
-import Swal from 'sweetalert2';
-import { tap } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { UsuarioArticuloService } from './usuario-articulo.service';
+import { Articulo } from '../articulo/articulo';
+import { ArticuloService } from '../articulo/articulo.service';
 import { ActivatedRoute } from '@angular/router';
+import { AouhtService } from '../usuarios/aouht.service';
+import Swal from 'sweetalert2';
+import { ModalService } from '../articulo/detalle/modal.service';
 
 @Component({
-  selector: 'app-articulo',
-  templateUrl: './articulo.component.html',
-  styleUrls: ['./articulo.component.css'],
+  selector: 'app-usuario-articulo',
+  templateUrl: './usuario-articulo.component.html',
+  styleUrls: ['./usuario-articulo.component.css'],
 })
-export class ArticuloComponent {
-  @Input() paginator: any;
-  articulos: Articulo[];
+export class UsuarioArticuloComponent {
+  @Input() paginador: any;
+  articulos: Articulo[] = null;
+  documento_usuario: number = null;
   articuloSeleccionado: Articulo;
 
   constructor(
-    private modalService: ModalService,
+    private usuarioArticuloService: UsuarioArticuloService,
     private articuloService: ArticuloService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private oauthService: AouhtService,
+    private modalService: ModalService
   ) {}
 
-  ngOnInit() {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      let page: number = +params.get('page');
+  ngOnInit(): void {
+    this.getArticulosUsuario();
+    this.cargarModal();
+  }
 
-      if (!page) {
-        page = 0;
-      }
+  activarEdicion() {
+    this.articuloService.activarModoEdicion();
+  }
 
-      this.articuloService
-        .getArticulos(page)
-        .pipe(
-          tap((response: any) => {
-            console.log('Articulo tap 3');
-            (response.content as Articulo[]).forEach((articulo) => {
-              console.log(articulo.nombre_articulo);
-            });
-          })
-        )
-        .subscribe((response) => {
-          this.articulos = response.content as Articulo[];
-          this.paginator = response;
-        });
-    });
+  desactivarEdicion() {
+    this.articuloService.desactivarModoEdicion();
+  }
 
+  cargarModal() {
     this.modalService.notificarUpload.subscribe((articulo) => {
       this.articulos = this.articulos.map((articuloOriginal) => {
         if (articulo.id_articulo == articuloOriginal.id_articulo) {
@@ -56,12 +50,22 @@ export class ArticuloComponent {
     });
   }
 
-  activarEdicion() {
-    this.articuloService.activarModoEdicion();
-  }
+  getArticulosUsuario() {
+    this.documento_usuario = this.oauthService.usuario.documento_usuario;
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let page = +params.get('page');
 
-  desactivarEdicion() {
-    this.articuloService.desactivarModoEdicion();
+      if (!page) {
+        page = 0;
+      }
+
+      this.usuarioArticuloService
+        .getArticulosUsuario(this.documento_usuario, page)
+        .subscribe((res: any) => {
+          this.articulos = res.content as Articulo[];
+          this.paginador = res;
+        });
+    });
   }
 
   public deleteArticulo(articulo: Articulo): void {

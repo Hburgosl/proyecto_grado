@@ -54,4 +54,10 @@ public class impArticulo implements serviceArticulo {
         return daoarticulo.traerTodosConPaginacion(pageable);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Articulo> traerArticulosUsuario(int doc, Pageable pageable) {
+        return daoarticulo.traerArticulosUsuario(doc, pageable);
+    }
+
 }
