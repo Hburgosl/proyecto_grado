@@ -5,6 +5,7 @@ import { ModalService } from './detalle/modal.service';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { AouhtService } from '../usuarios/aouht.service';
 
 @Component({
   selector: 'app-articulo',
@@ -19,7 +20,8 @@ export class ArticuloComponent {
   constructor(
     private modalService: ModalService,
     private articuloService: ArticuloService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AouhtService
   ) {}
 
   ngOnInit() {

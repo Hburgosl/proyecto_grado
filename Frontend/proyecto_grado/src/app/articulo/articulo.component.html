@@ -9,6 +9,7 @@
     <h5 class="card-title">Articulos</h5>
     <div class="mb-3">
       <button
+        *ngIf="authService.isAuthenticated()"
         (click)="desactivarEdicion()"
         class="btn btn-primary"
         type="button"
@@ -47,6 +48,7 @@
         </div>
         <div class="article-actions">
           <Button
+            *ngIf="authService.usuario.roles == ['ROLE_ADMIN'][0]"
             (click)="activarEdicion()"
             [routerLink]="['/articulo/form', articulo.id_articulo]"
             class="btn btn-warning btn-sm"
@@ -54,6 +56,7 @@
             Editar
           </Button>
           <button
+            *ngIf="authService.usuario.roles == ['ROLE_ADMIN'][0]"
             (click)="deleteArticulo(articulo)"
             class="btn btn-danger btn-sm"
           >

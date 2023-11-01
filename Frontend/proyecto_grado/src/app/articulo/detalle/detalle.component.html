@@ -52,7 +52,10 @@
                   </li>
                 </ul>
 
-                <div class="input-group mb-3">
+                <div
+                  class="input-group mb-3"
+                  *ngIf="authService.usuario.roles == ['ROLE_ADMIN'][0]"
+                >
                   <input
                     (change)="seleccionarFoto($event)"
                     type="file"

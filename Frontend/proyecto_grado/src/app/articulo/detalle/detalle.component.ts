@@ -4,6 +4,7 @@ import { ArticuloService } from '../articulo.service';
 import { ModalService } from './modal.service';
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { AouhtService } from 'src/app/usuarios/aouht.service';
 
 @Component({
   selector: 'detalle-articulo',
@@ -18,7 +19,8 @@ export class DetalleComponent {
 
   constructor(
     public modalService: ModalService,
-    private articuloService: ArticuloService
+    private articuloService: ArticuloService,
+    public authService: AouhtService
   ) {}
 
   ngOnInit() {

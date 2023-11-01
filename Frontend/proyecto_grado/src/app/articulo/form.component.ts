@@ -61,10 +61,10 @@ export class FormComponent {
       nombre_articulo: ['', Validators.required],
       descripcion: ['', Validators.required],
       id_categoria: ['', Validators.required], // Campo 'categoria' con validación de requerido
-      id_entrega: ['', Validators.required], // Campo 'entrega' con validación de requerido
+      id_entrega: [''], // Campo 'entrega' con validación de requerido
       id_estado_articulo: ['', Validators.required], // Campo 'estado_articulo' con validación de requerido
-      id_estado: ['', Validators.required], // Campo 'estado' con validación de requerido
-      id_existe: ['', Validators.required], // Campo 'existe' con validación de requerido
+      id_estado: [''], // Campo 'estado' con validación de requerido
+      id_existe: [''], // Campo 'existe' con validación de requerido
     });
   }
 
@@ -73,6 +73,12 @@ export class FormComponent {
   }
 
   public cargarArticulo(): void {
+    if (this.articuloService.modoEdicion) {
+      this.articuloForm.get('id_estado').setValidators([Validators.required]);
+      this.articuloForm.get('id_entrega').setValidators([Validators.required]);
+      this.articuloForm.updateValueAndValidity();
+    }
+
     this.articuloService
       .getCategoria()
       .subscribe((categorias) => (this.categoria = categorias));
@@ -176,23 +182,27 @@ export class FormComponent {
   }
 
   public updateArticulo(): void {
-    this.articulo.nombre_articulo = this.articuloForm.value.nombre_articulo;
-    this.articulo.descripcion = this.articuloForm.value.descripcion;
-    this.articulo.id_categoria = this.articuloForm.value.id_categoria;
-    this.articulo.id_estado_articulo =
-      this.articuloForm.value.id_estado_articulo;
-    this.articulo.id_entrega = this.articuloForm.value.id_entrega;
-    this.articulo.id_estado = this.articuloForm.value.id_estado;
-    this.articulo.id_existe = this.articuloForm.value.id_existe;
+    this.formEnviado = true;
 
-    this.articuloService.updateArticulo(this.articulo).subscribe((res) => {
-      this.router.navigate(['/articulo']);
-      Swal.fire(
-        'Articulo actualizado',
-        `${res.Articulo.nombre_articulo} actualizado con exito`,
-        'success'
-      );
-    });
+    if (this.articuloForm.valid) {
+      this.articulo.nombre_articulo = this.articuloForm.value.nombre_articulo;
+      this.articulo.descripcion = this.articuloForm.value.descripcion;
+      this.articulo.id_categoria = this.articuloForm.value.id_categoria;
+      this.articulo.id_estado_articulo =
+        this.articuloForm.value.id_estado_articulo;
+      this.articulo.id_entrega = this.articuloForm.value.id_entrega;
+      this.articulo.id_estado = this.articuloForm.value.id_estado;
+      this.articulo.id_existe = this.articuloForm.value.id_existe;
+
+      this.articuloService.updateArticulo(this.articulo).subscribe((res) => {
+        this.router.navigate(['/articulo']);
+        Swal.fire(
+          'Articulo actualizado',
+          `${res.Articulo.nombre_articulo} actualizado con exito`,
+          'success'
+        );
+      });
+    }
   }
 
   public compararCategoria(o1: Categoria, o2: Categoria): boolean {

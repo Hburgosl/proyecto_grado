@@ -66,6 +66,14 @@
       </div>
       <div class="form-group" *ngIf="articuloService.modoEdicion">
         <label for="id_entrega">Seleccione un estado de entrega:</label>
+        <div
+          *ngIf="
+            formEnviado && articuloForm.get('id_entrega').hasError('required')
+          "
+          class="text-danger small"
+        >
+          entrega es obligatoria
+        </div>
         <select
           [compareWith]="compararEntrega"
           class="form-control"
@@ -112,6 +120,14 @@
         <label for="id_estado"
           >Seleccione en qué estado se encuentra el articulo:</label
         >
+        <div
+          *ngIf="
+            formEnviado && articuloForm.get('id_estado').hasError('required')
+          "
+          class="text-danger small"
+        >
+          Categoria es obligatoria
+        </div>
         <select
           [compareWith]="compararEstado"
           class="form-control"
@@ -125,7 +141,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group" *ngIf="articuloService.modoEdicion">
+      <!-- <div class="form-group" *ngIf="articuloService.modoEdicion">
         <label for="id_existe"
           >Seleccione en qué estado se encuentra el articulo:</label
         >
@@ -141,7 +157,7 @@
             {{ existe.existe }}
           </option>
         </select>
-      </div>
+      </div> -->
       <div class="form-group" *ngIf="articuloService.activarInput">
         <label for="imagen_articulo">Seleccione la imagen del articulo:</label>
         <input
