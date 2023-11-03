@@ -23,7 +23,7 @@ public class realTimeChatController {
     private serviceMensaje servicemensaje;
     
     @MessageMapping("/chat")
-    @SendTo("/topic/messages")
+    @SendTo("/chat/mensaje")
     public Mensaje sendMessage(Mensaje mensaje){
         
         mensaje.setFecha_envio(new Date());

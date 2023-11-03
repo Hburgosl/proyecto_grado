@@ -33,6 +33,7 @@ import { ActualizarFotoComponent } from './usuario/actualizar-foto/actualizar-fo
 import { UsuarioArticuloComponent } from './usuario-articulo/usuario-articulo.component';
 import { PaginatorArtUserComponent } from './paginator-art-user/paginator-art-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'categoria/form/:id_categoria', component: FormCatComponent },
   { path: 'usuario/detail', component: UsuarioDetailsComponent },
   { path: 'usuario/articulos', component: UsuarioArticuloComponent },
+  { path: 'chat', component: ChatComponent },
   {
     path: 'usuario/articulos/page/:page',
     component: UsuarioArticuloComponent,
@@ -79,6 +81,7 @@ const routes: Routes = [
     ActualizarFotoComponent,
     UsuarioArticuloComponent,
     PaginatorArtUserComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
