@@ -9,6 +9,7 @@ import * as SockJS from 'sockjs-client';
 })
 export class ChatComponent {
   private client: Client;
+  conectado: boolean = false;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -20,8 +21,20 @@ export class ChatComponent {
 
     this.client.onConnect = (frame) => {
       console.log('Conectado ' + this.client.connected + '+' + frame);
+      this.conectado = true;
     };
 
+    this.client.onDisconnect = (frame) => {
+      console.log('Desconectado ' + !this.client.connected + '+' + frame);
+      this.conectado = false;
+    };
+  }
+
+  conectar(): void {
     this.client.activate();
+  }
+
+  desconectar(): void {
+    this.client.deactivate();
   }
 }

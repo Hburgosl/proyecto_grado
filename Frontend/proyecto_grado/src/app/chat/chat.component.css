@@ -1,0 +1,67 @@
+/* Estilo para el contenedor del chat */
+.card {
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+/* Estilo para el encabezado del chat */
+.header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Estilo para los botones en el encabezado */
+.nav-pills .nav-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Estilo para el cuerpo del chat (con desplazamiento vertical) */
+.body {
+    padding: 10px;
+}
+
+/* Estilo para el pie del chat */
+.footer {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
+}
+
+/* Estilo para el formulario de entrada de texto y botón de envío */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-control {
+    flex: 1;
+}
+
+/* Estilo para el botón de envío */
+.btn-primary {
+    margin-left: 10px;
+}
+
+/* Estilo para los botones de conectar y cerrar chat */
+.btn-success,
+.btn-warning {
+    color: #fff;
+    border: none;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}

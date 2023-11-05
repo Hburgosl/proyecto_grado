@@ -34,6 +34,7 @@ import { UsuarioArticuloComponent } from './usuario-articulo/usuario-articulo.co
 import { PaginatorArtUserComponent } from './paginator-art-user/paginator-art-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
+import { MensajeComponent } from './mensaje/mensaje.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -82,6 +83,7 @@ const routes: Routes = [
     UsuarioArticuloComponent,
     PaginatorArtUserComponent,
     ChatComponent,
+    MensajeComponent,
   ],
   imports: [
     BrowserModule,
