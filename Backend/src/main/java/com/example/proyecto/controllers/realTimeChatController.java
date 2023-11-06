@@ -18,16 +18,23 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class realTimeChatController {
-    
+
     @Autowired
     private serviceMensaje servicemensaje;
-    
+
     @MessageMapping("/chat")
     @SendTo("/chat/mensaje")
-    public Mensaje sendMessage(Mensaje mensaje){
-        
-        mensaje.setFecha_envio(new Date());
-        servicemensaje.save(mensaje);
+    public Mensaje sendMessage(Mensaje mensaje) {
+
+        if (mensaje.getTipo().equals("NUEVO_USUARIO")) {
+            mensaje.setTexto("Nuevo usuario");
+            mensaje.setFecha_envio(new Date());
+            servicemensaje.save(mensaje);
+        } else {
+            mensaje.setFecha_envio(new Date());
+            servicemensaje.save(mensaje);
+        }
+
         return mensaje;
     }
 }

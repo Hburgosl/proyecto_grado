@@ -25,6 +25,7 @@ export class ChatComponent {
       id_existe: {
         id_existe: 4,
       },
+      tipo: 'Mensaje',
     } as any;
   }
 
@@ -45,6 +46,12 @@ export class ChatComponent {
         this.mensajes.push(mensaje);
         console.log(mensaje);
       });
+
+      this.mensaje.tipo = 'NUEVO_USUARIO';
+      this.client.publish({
+        destination: '/app/chat',
+        body: JSON.stringify(this.mensaje),
+      });
     };
 
     this.client.onDisconnect = (frame) => {
@@ -62,6 +69,7 @@ export class ChatComponent {
   }
 
   enviarMensaje(): void {
+    this.mensaje.tipo = 'MENSAJE';
     this.client.publish({
       destination: '/app/chat',
       body: JSON.stringify(this.mensaje),

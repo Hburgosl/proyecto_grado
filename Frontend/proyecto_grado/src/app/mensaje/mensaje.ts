@@ -6,6 +6,7 @@ export class Mensaje {
   id_mensaje: number;
   texto: String = '';
   fecha_envio: Date;
+  tipo: String;
   id_chat: Chat;
   documento_usuario: Usuario;
   id_existe: Existe;

@@ -60,6 +60,7 @@ public class mensajeController {
             obj.setId_chat(mensaje.getId_chat());
             obj.setTexto(mensaje.getTexto());
             obj.setFecha_envio(mensaje.getFecha_envio());
+            obj.setTipo(mensaje.getTipo());
             obj.setDocumento_usuario(mensaje.getDocumento_usuario());
             obj.setId_existe(mensaje.getId_existe());
             servicemensaje.save(obj);

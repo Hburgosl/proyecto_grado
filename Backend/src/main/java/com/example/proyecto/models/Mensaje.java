@@ -36,6 +36,8 @@ public class Mensaje implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date fecha_envio;
+    @Column(name = "tipo")
+    private String tipo;
     @ManyToOne
     @JoinColumn(name = "id_chat")
     private Chat id_chat;
@@ -92,6 +94,14 @@ public class Mensaje implements Serializable {
 
     public void setId_existe(Existe id_existe) {
         this.id_existe = id_existe;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
 }
