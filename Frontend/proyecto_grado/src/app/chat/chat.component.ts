@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { Mensaje } from '../mensaje/mensaje';
+import { AouhtService } from '../usuarios/aouht.service';
+import { Usuario } from '../usuario/usuario';
 
 @Component({
   selector: 'app-chat',
@@ -13,14 +15,16 @@ export class ChatComponent {
   conectado: boolean = false;
   mensaje: Mensaje = new Mensaje();
   mensajes: Mensaje[] = [];
+  usuario: Usuario = new Usuario();
 
-  constructor() {
+  constructor(private oauthService: AouhtService) {
     this.mensaje = {
       id_chat: {
         id_chat: 1,
       },
       documento_usuario: {
-        documento_usuario: 1234197828,
+        documento_usuario: this.oauthService.usuario.documento_usuario,
+        nombre_completo: this.oauthService.usuario.nombre_completo,
       },
       id_existe: {
         id_existe: 4,
@@ -32,6 +36,7 @@ export class ChatComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+
     this.client = new Client();
     this.client.webSocketFactory = () => {
       return new SockJS('http://localhost:8080/ws');

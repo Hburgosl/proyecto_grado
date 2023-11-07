@@ -14,7 +14,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item" routerLinkActive="active">
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="
+            authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+            authService.usuario.roles == ['ROLE_USER'][0]
+          "
+        >
           <a class="nav-link" routerLink="/chat">chat</a>
         </li>
         <li class="nav-item" routerLinkActive="active">

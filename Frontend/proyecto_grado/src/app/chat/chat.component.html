@@ -33,8 +33,15 @@
         class="list-group-item list-group-item-light"
         *ngFor="let mensaje of mensajes"
       >
-        {{ mensaje.fecha_envio | date : "shortTime" }} :
-        {{ mensaje.texto }}
+        <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'"
+          >{{ mensaje.fecha_envio | date : "shortTime" }} @ {{ mensaje.texto }}
+          {{ mensaje.documento_usuario.nombre_completo }}</span
+        >
+        <span *ngIf="mensaje.tipo == 'MENSAJE'"
+          >{{ mensaje.fecha_envio | date : "shortTime" }}
+          {{ mensaje.documento_usuario.nombre_completo }} dice:
+          {{ mensaje.texto }}</span
+        >
       </li>
     </ul>
   </div>
