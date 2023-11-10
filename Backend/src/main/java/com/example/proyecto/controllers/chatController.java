@@ -94,6 +94,23 @@ public class chatController {
         }
     }
 
+    // Endpoint para agregar dos usuarios a un chat
+    @PostMapping("/agregar-usuarios/{chatId}/{usuarioId1}/{usuarioId2}")
+    public ResponseEntity<Chat> agregarUsuariosAChat(@PathVariable int chatId, @PathVariable int usuarioId1, @PathVariable int usuarioId2) {
+        Chat chat = servicechat.findById(chatId);
+        Usuario usuario1 = usuarioService.findById(usuarioId1);
+        Usuario usuario2 = usuarioService.findById(usuarioId2);
+
+        if (chat != null && usuario1 != null && usuario2 != null) {
+            chat.getUsuarios().add(usuario1);
+            chat.getUsuarios().add(usuario2);
+            servicechat.save(chat);
+            return new ResponseEntity<>(chat, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(chat, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Endpoint para obtener la lista de usuarios en un chat
     @GetMapping("/usuarios-en-chat/{chatId}")
     public ResponseEntity<List<Usuario>> obtenerUsuariosEnChat(@PathVariable int chatId) {

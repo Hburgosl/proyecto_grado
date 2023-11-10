@@ -11,6 +11,7 @@ import { Chat } from '../chat/chat';
 export class ChatService {
   url: String = 'http://localhost:8080/';
   chat: Chat = new Chat();
+  doc = 1234567893;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -35,25 +36,29 @@ export class ChatService {
     }).then((result) => {
       // Verificar si se hizo clic en "Aceptar"
       if (result.isConfirmed) {
-        this.http.post(this.url + 'chat/', this.chat).subscribe((chat: any) => {
-          const id_chat = chat.id_chat;
-
-          this.http
-            .post(
-              `${this.url + 'chat/agregar-usuario/'}${id_chat}/${
-                this.oauthService.usuario.documento_usuario
-              }`,
-              {}
-            )
-            .subscribe((chatUsuario: any) => {
-              console.log(chatUsuario);
-              this.router.navigate(['/chats']);
-            });
-        });
+        this.crearChat();
       } else {
         // Se hizo clic en "Cancelar", puedes realizar alguna otra acción si lo deseas
         console.log('Creación de chat cancelada');
       }
+    });
+  }
+
+  crearChat(): void {
+    this.http.post(this.url + 'chat/', this.chat).subscribe((chat: any) => {
+      const id_chat = chat.id_chat;
+
+      this.http
+        .post(
+          `${this.url + 'chat/agregar-usuarios/'}${id_chat}/${
+            this.oauthService.usuario.documento_usuario
+          }/${this.doc}`,
+          {}
+        )
+        .subscribe((chatUsuario: any) => {
+          console.log(chatUsuario);
+          this.router.navigate(['/chats']);
+        });
     });
   }
 }
