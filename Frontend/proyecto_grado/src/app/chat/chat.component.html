@@ -34,7 +34,7 @@
         *ngFor="let mensaje of mensajes"
       >
         <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'"
-          >{{ mensaje.fecha_envio | date : "shortTime" }} @ {{ mensaje.texto }}
+          >{{ mensaje.fecha_envio | date : "shortTime" }} {{ mensaje.texto }}
           {{ mensaje.documento_usuario.nombre_completo }}</span
         >
         <span *ngIf="mensaje.tipo == 'MENSAJE'"

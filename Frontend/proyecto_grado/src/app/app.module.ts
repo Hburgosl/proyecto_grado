@@ -35,6 +35,7 @@ import { PaginatorArtUserComponent } from './paginator-art-user/paginator-art-us
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
 import { MensajeComponent } from './mensaje/mensaje.component';
+import { ChatsComponent } from './chats/chats.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'usuario/detail', component: UsuarioDetailsComponent },
   { path: 'usuario/articulos', component: UsuarioArticuloComponent },
   { path: 'chat', component: ChatComponent },
+  { path: 'chats', component: ChatsComponent },
   {
     path: 'usuario/articulos/page/:page',
     component: UsuarioArticuloComponent,
@@ -84,6 +86,7 @@ const routes: Routes = [
     PaginatorArtUserComponent,
     ChatComponent,
     MensajeComponent,
+    ChatsComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AouhtService } from '../usuarios/aouht.service';
+import { ChatService } from '../chats/chat.service';
 
 @Component({
   selector: 'app-articulo',
@@ -21,7 +22,8 @@ export class ArticuloComponent {
     private modalService: ModalService,
     private articuloService: ArticuloService,
     private activatedRoute: ActivatedRoute,
-    public authService: AouhtService
+    public authService: AouhtService,
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
@@ -104,5 +106,9 @@ export class ArticuloComponent {
   abrirModal(articulo: Articulo) {
     this.articuloSeleccionado = articulo;
     this.modalService.abrirModal();
+  }
+
+  crearChatEntreUsuarios(): void {
+    this.chatService.crearChatEntreUsuarios();
   }
 }

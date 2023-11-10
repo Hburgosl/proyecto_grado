@@ -56,6 +56,16 @@
             Editar
           </Button>
           <button
+            *ngIf="
+              authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+              authService.usuario.roles == ['ROLE_USER'][0]
+            "
+            (click)="crearChatEntreUsuarios()"
+            class="btn btn-primary btn-sm"
+          >
+            Mensaje
+          </button>
+          <button
             *ngIf="authService.usuario.roles == ['ROLE_ADMIN'][0]"
             (click)="deleteArticulo(articulo)"
             class="btn btn-danger btn-sm"

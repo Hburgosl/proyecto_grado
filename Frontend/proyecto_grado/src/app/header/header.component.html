@@ -24,6 +24,16 @@
         >
           <a class="nav-link" routerLink="/chat">chat</a>
         </li>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="
+            authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+            authService.usuario.roles == ['ROLE_USER'][0]
+          "
+        >
+          <a class="nav-link" routerLink="/chats">chats con usuarios</a>
+        </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/articulo">Articulos</a>
         </li>
