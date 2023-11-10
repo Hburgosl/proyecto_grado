@@ -17,8 +17,8 @@ export class ChatService {
     private oauthService: AouhtService
   ) {
     this.chat = {
+      nombre_chat: 'Chat_ejemplo',
       id_existe: {
-        nombre_chat: 'Chat_ejemplo',
         id_existe: 4,
       },
     } as any;
@@ -35,8 +35,21 @@ export class ChatService {
     }).then((result) => {
       // Verificar si se hizo clic en "Aceptar"
       if (result.isConfirmed) {
-        this.http.post(this.url + 'chat/', this.chat);
-        //this.router.navigate(['/chats']);
+        this.http.post(this.url + 'chat/', this.chat).subscribe((chat: any) => {
+          const id_chat = chat.id_chat;
+
+          this.http
+            .post(
+              `${this.url + 'chat/agregar-usuario/'}${id_chat}/${
+                this.oauthService.usuario.documento_usuario
+              }`,
+              {}
+            )
+            .subscribe((chatUsuario: any) => {
+              console.log(chatUsuario);
+              this.router.navigate(['/chats']);
+            });
+        });
       } else {
         // Se hizo clic en "Cancelar", puedes realizar alguna otra acción si lo deseas
         console.log('Creación de chat cancelada');
