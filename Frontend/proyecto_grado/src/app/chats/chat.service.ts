@@ -25,7 +25,7 @@ export class ChatService {
     } as any;
   }
 
-  crearChatEntreUsuarios(): void {
+  crearChatEntreUsuarios(usuarioArticulo: number): void {
     // Mostrar SweetAlert con botones de aceptar y cancelar
     Swal.fire({
       title: '¿Estás seguro de iniciar el chat?',
@@ -36,7 +36,7 @@ export class ChatService {
     }).then((result) => {
       // Verificar si se hizo clic en "Aceptar"
       if (result.isConfirmed) {
-        this.crearChat();
+        this.crearChat(usuarioArticulo);
       } else {
         // Se hizo clic en "Cancelar", puedes realizar alguna otra acción si lo deseas
         console.log('Creación de chat cancelada');
@@ -44,7 +44,7 @@ export class ChatService {
     });
   }
 
-  crearChat(): void {
+  crearChat(usuarioArticulo: number): void {
     this.http.post(this.url + 'chat/', this.chat).subscribe((chat: any) => {
       const id_chat = chat.id_chat;
 
@@ -52,7 +52,7 @@ export class ChatService {
         .post(
           `${this.url + 'chat/agregar-usuarios/'}${id_chat}/${
             this.oauthService.usuario.documento_usuario
-          }/${this.doc}`,
+          }/${usuarioArticulo}`,
           {}
         )
         .subscribe((chatUsuario: any) => {

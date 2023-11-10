@@ -108,7 +108,7 @@ export class ArticuloComponent {
     this.modalService.abrirModal();
   }
 
-  crearChatEntreUsuarios(): void {
-    this.chatService.crearChatEntreUsuarios();
+  crearChatEntreUsuarios(usuarioArticulo: number): void {
+    this.chatService.crearChatEntreUsuarios(usuarioArticulo);
   }
 }
