@@ -57,4 +57,21 @@ export class MensajeService {
       body: JSON.stringify(this.mensaje),
     });
   }
+
+  conectar(): void {
+    this.client.activate();
+  }
+
+  desconectar(): void {
+    this.client.deactivate();
+  }
+
+  enviarMensaje(): void {
+    this.mensaje.tipo = 'MENSAJE';
+    this.client.publish({
+      destination: '/app/chat',
+      body: JSON.stringify(this.mensaje),
+    });
+    this.mensaje.texto = '';
+  }
 }
