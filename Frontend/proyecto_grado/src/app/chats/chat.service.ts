@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AouhtService } from '../usuarios/aouht.service';
 import { Chat } from '../chat/chat';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,6 @@ import { Chat } from '../chat/chat';
 export class ChatService {
   url: String = 'http://localhost:8080/';
   chat: Chat = new Chat();
-  doc = 1234567893;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -23,6 +23,11 @@ export class ChatService {
         id_existe: 4,
       },
     } as any;
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
   }
 
   crearChatEntreUsuarios(usuarioArticulo: number): void {
@@ -60,5 +65,11 @@ export class ChatService {
           this.router.navigate(['/chats']);
         });
     });
+  }
+
+  getChatsUsuario(documento_usuario: number): Observable<Chat[]> {
+    return this.http.get<Chat[]>(
+      `${this.url + 'chat/chats-de-usuario/'}${documento_usuario}`
+    );
   }
 }

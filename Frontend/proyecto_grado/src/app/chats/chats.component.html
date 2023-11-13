@@ -1,1 +1,13 @@
-<p>chats works!</p>
+<div class="container">
+  <h2>Mis Chats</h2>
+  <ul class="custom-list">
+    <li
+      *ngFor="let chat of chats"
+      class="custom-item"
+      (click)="irADetalleChat()"
+    >
+      <h4>{{ chat.nombre_chat }}</h4>
+      <p>Mensaje</p>
+    </li>
+  </ul>
+</div>

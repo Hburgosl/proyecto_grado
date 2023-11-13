@@ -23,4 +23,6 @@ public interface serviceChat {
     public List<Chat> findAll();
     
     public List<Usuario> obtenerUsuariosEnChat(int chatId);
+    
+    public List<Chat> findChatUsuario(int doc);
 }

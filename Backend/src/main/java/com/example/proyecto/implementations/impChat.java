@@ -74,4 +74,10 @@ public class impChat implements serviceChat {
         }
         return null; // Manejo de errores, puedes lanzar una excepción en lugar de retornar null.
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Chat> findChatUsuario(int doc) {
+        return (List<Chat>) daochat.findChatUsuario(doc);
+    }
 }

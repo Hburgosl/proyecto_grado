@@ -121,4 +121,16 @@ public class chatController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    // Endpoint para obtener la lista de chats de un usuario
+    @GetMapping("/chats-de-usuario/{usuarioId}")
+    public ResponseEntity<List<Chat>> obtenerChatsDeUsuario(@PathVariable int usuarioId) {
+        List<Chat> chats = servicechat.findChatUsuario(usuarioId);
+        if (chats != null && !chats.isEmpty()) {
+            return new ResponseEntity<>(chats, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

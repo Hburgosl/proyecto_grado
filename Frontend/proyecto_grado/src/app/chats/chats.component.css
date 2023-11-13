@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    /* Cambiado de row a column */
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 90%;
+}
+
+.custom-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.custom-item:hover {
+    background-color: #f0f0f0;
+}
