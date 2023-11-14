@@ -34,31 +34,37 @@ export class ChatComponent {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    this.inicializarWebSocket();
+    this.onWebSocketConnect();
+    this.onWebSocketDisconnect();
+    this.conectar();
+  }
 
+  inicializarWebSocket(): void {
     this.client = new Client();
     this.client.webSocketFactory = () => {
       return new SockJS('http://localhost:8080/ws');
     };
+  }
 
+  onWebSocketConnect(): void {
     this.client.onConnect = (frame) => {
       console.log('Conectado ' + this.client.connected + '+' + frame);
       this.conectado = true;
-
       this.client.subscribe('/chat/mensaje', (e) => {
         let mensaje = JSON.parse(e.body);
         this.mensajes.push(mensaje);
         console.log(mensaje);
       });
-
       this.mensaje.tipo = 'NUEVO_USUARIO';
       this.client.publish({
         destination: '/app/chat',
         body: JSON.stringify(this.mensaje),
       });
     };
+  }
 
+  onWebSocketDisconnect(): void {
     this.client.onDisconnect = (frame) => {
       console.log('Desconectado ' + !this.client.connected + '+' + frame);
       this.conectado = false;

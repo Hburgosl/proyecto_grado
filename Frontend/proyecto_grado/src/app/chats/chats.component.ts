@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Chat } from '../chat/chat';
 import { Router } from '@angular/router';
+import { AouhtService } from '../usuarios/aouht.service';
 
 @Component({
   selector: 'app-chats',
@@ -10,7 +11,11 @@ import { Router } from '@angular/router';
 })
 export class ChatsComponent {
   chats: Chat[];
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(
+    private chatService: ChatService,
+    private router: Router,
+    private oauthService: AouhtService
+  ) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -19,15 +24,17 @@ export class ChatsComponent {
   }
 
   getChats() {
-    this.chatService.getChatsUsuario(1234197828).subscribe(
-      (data) => {
-        this.chats = data;
-        console.log(this.chats);
-      },
-      (error) => {
-        console.log('Error al obtener los chats', error);
-      }
-    );
+    this.chatService
+      .getChatsUsuario(this.oauthService.usuario.documento_usuario)
+      .subscribe(
+        (data) => {
+          this.chats = data;
+          console.log(this.chats);
+        },
+        (error) => {
+          console.log('Error al obtener los chats', error);
+        }
+      );
   }
 
   irADetalleChat() {
