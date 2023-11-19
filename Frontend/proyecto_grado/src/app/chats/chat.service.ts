@@ -16,14 +16,7 @@ export class ChatService {
     private router: Router,
     private http: HttpClient,
     private oauthService: AouhtService
-  ) {
-    this.chat = {
-      nombre_chat: 'Chat_ejemplo',
-      id_existe: {
-        id_existe: 4,
-      },
-    } as any;
-  }
+  ) {}
 
   ngOnInit(): void {}
 
@@ -47,21 +40,33 @@ export class ChatService {
   }
 
   crearChat(usuarioArticulo: number): void {
-    this.http.post(this.url + 'chat/', this.chat).subscribe((chat: any) => {
-      const id_chat = chat.id_chat;
-
-      this.http
-        .post(
-          `${this.url + 'chat/agregar-usuarios/'}${id_chat}/${
-            this.oauthService.usuario.documento_usuario
-          }/${usuarioArticulo}`,
-          {}
-        )
-        .subscribe((chatUsuario: any) => {
-          console.log(chatUsuario);
-          this.router.navigate(['/chats']);
-        });
-    });
+    this.http
+      .post(
+        `${
+          this.url +
+          'chat/agregar-usuarios/' +
+          this.oauthService.usuario.documento_usuario
+        }/${usuarioArticulo}`,
+        {}
+      )
+      .subscribe((response: any) => {
+        if (response.chatCreado) {
+          // Se creó un nuevo chat
+          Swal.fire(
+            '¡Nuevo Chat Creado!',
+            'Se ha creado un nuevo chat.',
+            'success'
+          );
+        } else {
+          // Se encontró un chat existente
+          Swal.fire(
+            '¡Chat Existente!',
+            'Ya existe un chat entre estos usuarios.',
+            'success'
+          );
+        }
+        this.router.navigate(['/chats']);
+      });
   }
 
   getChatsUsuario(documento_usuario: number): Observable<Chat[]> {

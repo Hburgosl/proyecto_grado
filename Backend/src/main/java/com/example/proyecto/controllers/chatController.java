@@ -5,10 +5,14 @@
 package com.example.proyecto.controllers;
 
 import com.example.proyecto.models.Chat;
+import com.example.proyecto.models.Existe;
 import com.example.proyecto.models.Usuario;
 import com.example.proyecto.services.serviceChat;
+import com.example.proyecto.services.serviceExiste;
 import com.example.proyecto.services.serviceUsuario;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +40,9 @@ public class chatController {
 
     @Autowired
     private serviceUsuario usuarioService;
+
+    @Autowired
+    private serviceExiste existeService;
 
     @PostMapping(value = "/")
     public ResponseEntity<Chat> add(@RequestBody Chat chat) {
@@ -94,21 +101,41 @@ public class chatController {
         }
     }
 
-    // Endpoint para agregar dos usuarios a un chat
-    @PostMapping("/agregar-usuarios/{chatId}/{usuarioId1}/{usuarioId2}")
-    public ResponseEntity<Chat> agregarUsuariosAChat(@PathVariable int chatId, @PathVariable int usuarioId1, @PathVariable int usuarioId2) {
-        Chat chat = servicechat.findById(chatId);
-        Usuario usuario1 = usuarioService.findById(usuarioId1);
-        Usuario usuario2 = usuarioService.findById(usuarioId2);
+    @PostMapping("/agregar-usuarios/{usuarioId1}/{usuarioId2}")
+    public ResponseEntity<Map<String, Object>> agregarUsuariosAChat(@PathVariable int usuarioId1, @PathVariable int usuarioId2) {
+        // Obtener la lista de chats del usuario 1
+        List<Chat> chatsUsuario1 = servicechat.findChatUsuario(usuarioId1);
 
-        if (chat != null && usuario1 != null && usuario2 != null) {
-            chat.getUsuarios().add(usuario1);
-            chat.getUsuarios().add(usuario2);
-            servicechat.save(chat);
-            return new ResponseEntity<>(chat, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(chat, HttpStatus.INTERNAL_SERVER_ERROR);
+        // Iterar sobre los chats del usuario 1 para encontrar uno que también incluya al usuario 2
+        for (Chat chat : chatsUsuario1) {
+            List<Usuario> usuariosEnChat = servicechat.obtenerUsuariosEnChat(chat.getId_chat());
+
+            // Verificar si el usuario 2 está en este chat
+            if (usuariosEnChat.contains(usuarioService.findById(usuarioId2))) {
+                // El chat ya existe, no es necesario crear uno nuevo
+                Map<String, Object> response = new HashMap<>();
+                response.put("chatCreado", false);
+                response.put("chat", chat);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
         }
+
+        // Si no se encuentra un chat existente, crear uno nuevo
+        Chat nuevoChat = new Chat();
+        Existe existe = existeService.findById(4);
+        Usuario usu1 = usuarioService.findById(usuarioId1);
+        Usuario usu2 = usuarioService.findById(usuarioId2);
+        String nombre_chat = usu1.getNombre_completo() + " & " + usu2.getNombre_completo();
+        nuevoChat.setId_existe(existe);
+        nuevoChat.setNombre_chat(nombre_chat);
+        nuevoChat.getUsuarios().add(usuarioService.findById(usuarioId1));
+        nuevoChat.getUsuarios().add(usuarioService.findById(usuarioId2));
+        servicechat.save(nuevoChat);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("chatCreado", true);
+        response.put("chat", nuevoChat);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Endpoint para obtener la lista de usuarios en un chat

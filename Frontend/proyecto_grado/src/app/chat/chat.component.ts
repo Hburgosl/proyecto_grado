@@ -4,6 +4,7 @@ import * as SockJS from 'sockjs-client';
 import { Mensaje } from '../mensaje/mensaje';
 import { AouhtService } from '../usuarios/aouht.service';
 import { Usuario } from '../usuario/usuario';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -17,10 +18,13 @@ export class ChatComponent {
   mensajes: Mensaje[] = [];
   usuario: Usuario = new Usuario();
 
-  constructor(private oauthService: AouhtService) {
+  constructor(
+    private oauthService: AouhtService,
+    private route: ActivatedRoute
+  ) {
     this.mensaje = {
       id_chat: {
-        id_chat: 1,
+        id_chat: this.route.snapshot.paramMap.get('id_chat'),
       },
       documento_usuario: {
         documento_usuario: this.oauthService.usuario.documento_usuario,

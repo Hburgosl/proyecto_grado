@@ -54,6 +54,7 @@ const routes: Routes = [
   { path: 'usuario/detail', component: UsuarioDetailsComponent },
   { path: 'usuario/articulos', component: UsuarioArticuloComponent },
   { path: 'chat', component: ChatComponent },
+  { path: 'chat/:id_chat', component: ChatComponent },
   { path: 'chats', component: ChatsComponent },
   {
     path: 'usuario/articulos/page/:page',
