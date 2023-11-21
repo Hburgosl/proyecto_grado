@@ -20,4 +20,8 @@ public interface serviceMensaje {
     public Mensaje findById(int id);
     
     public List<Mensaje> findAll();
+    
+    public List<Mensaje> findByChat(int chat);
+    
+    public boolean hasMessages(int chatId);
 }

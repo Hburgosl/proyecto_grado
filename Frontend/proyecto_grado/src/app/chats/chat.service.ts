@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AouhtService } from '../usuarios/aouht.service';
 import { Chat } from '../chat/chat';
 import { Observable } from 'rxjs';
+import { Mensaje } from '../mensaje/mensaje';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,12 @@ export class ChatService {
   getChatsUsuario(documento_usuario: number): Observable<Chat[]> {
     return this.http.get<Chat[]>(
       `${this.url + 'chat/chats-de-usuario/'}${documento_usuario}`
+    );
+  }
+
+  getMensajesChat(id_chat: number): Observable<Mensaje[]> {
+    return this.http.get<Mensaje[]>(
+      `${this.url + 'mensaje/list/chat/'}${id_chat}`
     );
   }
 }

@@ -27,7 +27,7 @@ public class realTimeChatController {
     public Mensaje sendMessage(Mensaje mensaje) {
 
         if (mensaje.getTipo().equals("NUEVO_USUARIO")) {
-            mensaje.setTexto("Nuevo usuario");
+            mensaje.setTexto("¡Hola, estoy interesad@ en uno de tus artículos!");
             mensaje.setFecha_envio(new Date());
             servicemensaje.save(mensaje);
         } else {

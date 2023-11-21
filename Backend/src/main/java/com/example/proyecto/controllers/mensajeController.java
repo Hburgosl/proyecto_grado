@@ -29,34 +29,34 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RequestMapping("/mensaje")
 public class mensajeController {
-    
+
     @Autowired
     private serviceMensaje servicemensaje;
-    
+
     @PostMapping(value = "/")
-    public ResponseEntity<Mensaje> add(@RequestBody Mensaje mensaje){
+    public ResponseEntity<Mensaje> add(@RequestBody Mensaje mensaje) {
         Mensaje obj = null;
         mensaje.setFecha_envio(new Date());
         servicemensaje.save(mensaje);
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
-    
+
     @DeleteMapping(value = "/list/{id}")
-    public ResponseEntity<Mensaje> delete(@PathVariable int id){
+    public ResponseEntity<Mensaje> delete(@PathVariable int id) {
         Mensaje obj = servicemensaje.findById(id);
-        if(obj != null){
+        if (obj != null) {
             servicemensaje.delete(id);
-        }else{
+        } else {
             return new ResponseEntity<>(obj, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
     @PutMapping(value = "/list/{id}")
-    public ResponseEntity<Mensaje> update(@RequestBody Mensaje mensaje){
+    public ResponseEntity<Mensaje> update(@RequestBody Mensaje mensaje) {
         Mensaje obj = servicemensaje.findById(mensaje.getId_mensaje());
-        if(obj != null){
+        if (obj != null) {
             obj.setId_chat(mensaje.getId_chat());
             obj.setTexto(mensaje.getTexto());
             obj.setFecha_envio(mensaje.getFecha_envio());
@@ -64,13 +64,13 @@ public class mensajeController {
             obj.setDocumento_usuario(mensaje.getDocumento_usuario());
             obj.setId_existe(mensaje.getId_existe());
             servicemensaje.save(obj);
-        }else{
+        } else {
             return new ResponseEntity<>(obj, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
-    
+
     @GetMapping("/list")
     public List<Mensaje> findAll() {
         return servicemensaje.findAll();
@@ -80,4 +80,27 @@ public class mensajeController {
     public Mensaje findById(@PathVariable int id) {
         return servicemensaje.findById(id);
     }
+
+    @GetMapping("/list/chat/{id}")
+    public ResponseEntity<List<Mensaje>> findByChat(@PathVariable int id) {
+        try {
+            List<Mensaje> mensajes = servicemensaje.findByChat(id);
+            return new ResponseEntity<>(mensajes, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace(); // O loguea la excepción
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/chat/hasMessages/{id}")
+    public ResponseEntity<Boolean> hasMessages(@PathVariable int id) {
+        try {
+            boolean hasMessages = servicemensaje.hasMessages(id);
+            return new ResponseEntity<>(hasMessages, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace(); // O loguea la excepción
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

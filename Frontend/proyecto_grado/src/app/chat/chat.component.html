@@ -1,25 +1,8 @@
 <div class="card my-4">
   <div class="card-header">
     <ul class="nav nav-pills">
-      <!-- <li class="nav-item mr-2">
-        <button
-          class="btn btn-success"
-          type="button"
-          (click)="conectar()"
-          *ngIf="!conectado"
-        >
-          Conectar
-        </button>
-      </li> -->
       <li class="nav-item">
-        <button
-          class="btn btn-warning"
-          type="button"
-          (click)="desconectar()"
-          *ngIf="conectado"
-        >
-          Cerrar chat
-        </button>
+        <p>Mensajes</p>
       </li>
     </ul>
   </div>
@@ -55,7 +38,12 @@
           name="texto"
           [(ngModel)]="mensaje.texto"
         />
-        <button class="btn btn-primary" type="submit" (click)="enviarMensaje()">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          (click)="enviarMensaje()"
+          [disabled]="!mensaje.texto || !mensaje.texto.trim()"
+        >
           Enviar
         </button>
       </div>

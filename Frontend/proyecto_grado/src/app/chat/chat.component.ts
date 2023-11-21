@@ -5,6 +5,8 @@ import { Mensaje } from '../mensaje/mensaje';
 import { AouhtService } from '../usuarios/aouht.service';
 import { Usuario } from '../usuario/usuario';
 import { ActivatedRoute } from '@angular/router';
+import { ChatService } from '../chats/chat.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chat',
@@ -17,14 +19,17 @@ export class ChatComponent {
   mensaje: Mensaje = new Mensaje();
   mensajes: Mensaje[] = [];
   usuario: Usuario = new Usuario();
+  id_chat = this.route.snapshot.paramMap.get('id_chat');
 
   constructor(
     private oauthService: AouhtService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private chatService: ChatService,
+    private http: HttpClient
   ) {
     this.mensaje = {
       id_chat: {
-        id_chat: this.route.snapshot.paramMap.get('id_chat'),
+        id_chat: this.id_chat,
       },
       documento_usuario: {
         documento_usuario: this.oauthService.usuario.documento_usuario,
@@ -42,6 +47,7 @@ export class ChatComponent {
     this.onWebSocketConnect();
     this.onWebSocketDisconnect();
     this.conectar();
+    this.getMensajesChat();
   }
 
   inicializarWebSocket(): void {
@@ -60,10 +66,15 @@ export class ChatComponent {
         this.mensajes.push(mensaje);
         console.log(mensaje);
       });
-      this.mensaje.tipo = 'NUEVO_USUARIO';
-      this.client.publish({
-        destination: '/app/chat',
-        body: JSON.stringify(this.mensaje),
+      this.checkIfChatHasMessages().then((hasMessages) => {
+        if (!hasMessages) {
+          // El chat no tiene mensajes, enviar el mensaje de nuevo usuario
+          this.mensaje.tipo = 'NUEVO_USUARIO';
+          this.client.publish({
+            destination: '/app/chat',
+            body: JSON.stringify(this.mensaje),
+          });
+        }
       });
     };
   }
@@ -90,5 +101,33 @@ export class ChatComponent {
       body: JSON.stringify(this.mensaje),
     });
     this.mensaje.texto = '';
+  }
+
+  getMensajesChat(): void {
+    let id: number = parseInt(this.id_chat);
+    this.chatService.getMensajesChat(id).subscribe((res) => {
+      console.log(res);
+      this.mensajes = res;
+    });
+  }
+
+  checkIfChatHasMessages(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      // Realizar la llamada al endpoint /chat/hasMessages/{id}
+      this.http
+        .get<boolean>(
+          `http://localhost:8080/mensaje/chat/hasMessages/${this.id_chat}`
+        )
+        .subscribe(
+          (hasMessages) => resolve(hasMessages),
+          (error) => {
+            console.error(
+              'Error al verificar si el chat tiene mensajes',
+              error
+            );
+            reject(error);
+          }
+        );
+    });
   }
 }

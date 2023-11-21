@@ -46,4 +46,16 @@ public class impMensaje implements serviceMensaje {
         return (List<Mensaje>) daomensaje.findAll();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Mensaje> findByChat(int chat) {
+        return (List<Mensaje>) daomensaje.findByChat(chat);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean hasMessages(int chatId) {
+        List<Mensaje> mensajes = daomensaje.findByChat(chatId);
+        return !mensajes.isEmpty();
+    }
 }
