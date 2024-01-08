@@ -54,7 +54,12 @@
 
                 <div
                   class="input-group mb-3"
-                  *ngIf="authService.usuario.roles == ['ROLE_ADMIN'][0]"
+                  *ngIf="
+                    authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+                    (authService.usuario.roles == ['ROLE_USER'][0] &&
+                      authService.usuario.documento_usuario ==
+                        articulo.documento_usuario.documento_usuario)
+                  "
                 >
                   <input
                     (change)="seleccionarFoto($event)"
