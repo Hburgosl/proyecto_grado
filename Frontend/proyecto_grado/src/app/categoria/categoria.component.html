@@ -24,10 +24,15 @@
     <button
       class="btn btn-primary"
       [routerLink]="['/categoria/form', selectedCategoryId]"
+      [disabled]="!selectedCategoryId"
     >
       Editar
     </button>
-    <button class="btn btn-success" [routerLink]="['/categoria/form']">
+    <button
+      class="btn btn-success"
+      [routerLink]="['/categoria/form']"
+      [disabled]="selectedCategoryId"
+    >
       Nuevo
     </button>
   </div>
