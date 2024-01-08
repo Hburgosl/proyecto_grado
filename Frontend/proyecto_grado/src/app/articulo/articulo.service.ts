@@ -43,7 +43,9 @@ export class ArticuloService {
   }
 
   getCategoria(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>('http://localhost:8080/categoria/list');
+    return this.http.get<Categoria[]>('http://localhost:8080/categoria/list', {
+      headers: this.agregarAuthorizationHeader(),
+    });
   }
 
   getEntrega(): Observable<Entrega[]> {
