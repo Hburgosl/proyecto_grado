@@ -3,6 +3,8 @@ import { Categoria } from './categoria';
 import { CategoriaService } from './categoria.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AouhtService } from '../usuarios/aouht.service';
+import { Roles } from '../roles/roles';
 
 @Component({
   selector: 'app-categoria',
@@ -15,11 +17,24 @@ export class CategoriaComponent {
 
   constructor(
     private categoriaService: CategoriaService,
-    private router: Router
+    private router: Router,
+    private authService: AouhtService
   ) {}
 
   ngOnInit(): void {
-    this.cargarCategoria();
+    console.log(this.authService.usuario.roles);
+    if (this.authService.usuario.documento_usuario == 1234197828) {
+      this.cargarCategoria();
+    } else {
+      // Si el rol no es 'ROLE_ADMIN', puedes mostrar un mensaje de error o redirigir
+      Swal.fire({
+        icon: 'error',
+        title: 'Acceso no autorizado',
+        text: 'No tienes permisos de administrador para acceder a esta página',
+        confirmButtonText: 'Entendido',
+      });
+      this.router.navigate(['/articulo']); // Ajusta la ruta según tus necesidades
+    }
   }
 
   public cargarCategoria(): void {
