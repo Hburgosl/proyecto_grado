@@ -56,7 +56,10 @@ export class CategoriaService {
 
   getCategoriaById(id_categoria): Observable<Categoria> {
     return this.http.get<Categoria>(
-      'http://localhost:8080/categoria/list/' + id_categoria
+      'http://localhost:8080/categoria/list/' + id_categoria,
+      {
+        headers: this.agregarAuthorizationHeader(),
+      }
     );
   }
 

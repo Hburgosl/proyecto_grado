@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { ModalService } from '../articulo/detalle/modal.service';
 import { AouhtService } from '../usuarios/aouht.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
@@ -82,10 +83,41 @@ export class UsuarioComponent {
   public cargarUsuario(): void {
     this.route.params.subscribe((params) => {
       const id = +params['documento_usuario'];
-      this.usuarioService.getUsuario(id).subscribe((res) => {
-        this.usuario = res;
-        this.usuarioForm.patchValue(this.usuario); // Llena el formulario con la información del usuario
-      });
+      this.usuarioService
+        .getUsuario(id)
+        .pipe(
+          catchError((error) => {
+            if (error.status === 403 || error.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Unauthorized',
+                text: 'You are not authorized to access this resource.',
+                confirmButtonText: 'OK',
+              }).then(() => {
+                // Redirige al inicio
+                this.router.navigate(['/articulo']);
+              });
+            }
+            // Propaga el error
+            return throwError(error);
+          })
+        )
+        .subscribe((res) => {
+          if (id != this.authService.usuario.documento_usuario) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Unauthorized',
+              text: 'You are not authorized to access this resource.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Redirige al inicio
+              this.router.navigate(['/articulo']);
+            });
+          } else {
+            this.usuario = res;
+            this.usuarioForm.patchValue(this.usuario);
+          } // Llena el formulario con la información del usuario
+        });
     });
   }
 

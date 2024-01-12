@@ -4,6 +4,7 @@ import { CategoriaService } from './categoria.service';
 import { Existe } from '../existe/existe';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-form-cat',
@@ -37,6 +38,23 @@ export class FormCatComponent {
       if (categoryId) {
         this.categoriaService
           .getCategoriaById(categoryId)
+          .pipe(
+            catchError((error) => {
+              if (error.status === 403 || error.status === 401) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Unauthorized',
+                  text: 'You are not authorized to access this resource.',
+                  confirmButtonText: 'OK',
+                }).then(() => {
+                  // Redirige al inicio
+                  this.router.navigate(['/articulo']);
+                });
+              }
+              // Propaga el error
+              return throwError(error);
+            })
+          )
           .subscribe((category) => {
             this.categoria = category;
           });

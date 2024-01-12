@@ -31,6 +31,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/articulo/").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/articulo/list/{id}").access("hasRole('ADMIN') or #documento_usuario == authentication.principal.documento_usuario")
                 .antMatchers(HttpMethod.GET, "/categoria/list").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/categoria/list/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/usuario/list/{id}").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().cors().configurationSource(corsConfigurationSource()); 
     }

@@ -48,7 +48,10 @@ export class UsuarioService {
 
   getUsuario(documento_usuario): Observable<Usuario> {
     return this.http.get<Usuario>(
-      this.urlEndpoint + '/list/' + documento_usuario
+      this.urlEndpoint + '/list/' + documento_usuario,
+      {
+        headers: this.agregarAuthorizationHeader(),
+      }
     );
   }
 
