@@ -12,6 +12,7 @@ import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './detalle/modal.service';
 import { AouhtService } from '../usuarios/aouht.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../usuario/usuario.service';
 
 @Component({
   selector: 'app-form',
@@ -37,6 +38,7 @@ export class FormComponent {
     private activatedRoute: ActivatedRoute,
     public modalService: ModalService,
     private oauthService: AouhtService,
+    private usuarioService: UsuarioService,
     private fb: FormBuilder
   ) {
     this.articulo = {
