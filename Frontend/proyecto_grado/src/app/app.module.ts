@@ -36,6 +36,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
 import { MensajeComponent } from './mensaje/mensaje.component';
 import { ChatsComponent } from './chats/chats.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -96,6 +100,10 @@ const routes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
   ],
   providers: [
     ArticuloService,

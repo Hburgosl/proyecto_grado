@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import Swal from 'sweetalert2';
 import { AouhtService } from './aouht.service';
 import { Router } from '@angular/router';

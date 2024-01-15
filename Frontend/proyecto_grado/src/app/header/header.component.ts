@@ -8,6 +8,7 @@ import { Usuario } from '../usuario/usuario';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
   constructor(public authService: AouhtService, private router: Router) {}

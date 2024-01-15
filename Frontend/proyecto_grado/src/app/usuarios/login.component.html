@@ -1,4 +1,4 @@
-<div class="card border-primary">
+<!-- <div class="card border-primary">
   <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
     <form method="post">
@@ -35,6 +35,57 @@
         (click)="usuarioService.activarModoEdicion()"
         type="button"
         class="btn btn-primary mt-3"
+        routerLink="/usuario/form"
+      >
+        Registrarse
+      </button>
+    </form>
+  </div>
+</div> -->
+<div
+  class="card mx-auto mt-5 border rounded shadow"
+  style="max-width: 400px; height: 400px"
+>
+  <div class="card-header bg-primary text-white h4">{{ titulo }}</div>
+  <div class="card-body d-flex flex-column justify-content-center">
+    <form method="post">
+      <div class="form-group mt-3">
+        <label for="inputEmail">Email address</label>
+        <input
+          [(ngModel)]="usuario.email"
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+          required
+          autofocus
+        />
+      </div>
+      <div class="form-group mt-3">
+        <label for="inputPassword">Password</label>
+        <input
+          [(ngModel)]="usuario.password"
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block mt-3"
+        (click)="login()"
+      >
+        Submit
+      </button>
+      <button
+        (click)="usuarioService.activarModoEdicion()"
+        type="button"
+        class="btn btn-outline-primary btn-block mt-3"
         routerLink="/usuario/form"
       >
         Registrarse
