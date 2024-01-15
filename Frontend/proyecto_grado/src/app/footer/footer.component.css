@@ -4,3 +4,23 @@
     height: 60px;
     width: 100%;
 }
+
+/* body,
+html {
+    height: 20%;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 60%;
+}
+
+.content {
+    flex: 1;
+}
+
+.footer {
+    width: 100%;
+} */

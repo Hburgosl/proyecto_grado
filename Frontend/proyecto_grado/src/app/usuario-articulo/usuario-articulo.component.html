@@ -40,6 +40,10 @@
         </div>
         <div class="article-details">
           <h5 class="card-title">{{ articulo.nombre_articulo }}</h5>
+          <span class="publication-date"
+            >Publicado:
+            {{ articulo.fecha_publicacion | date : "EEEE dd, MMMM yyyy" }}</span
+          >
           <p class="card-text">
             {{ articulo.descripcion }},
             {{ articulo.fecha_publicacion | date : "EEEE dd, MMMM yyyy" }}
