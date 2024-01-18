@@ -42,6 +42,27 @@ public class Notificacion implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_existe")
     private Existe id_existe;
+    @ManyToOne
+    @JoinColumn(name = "id_chat")
+    private Chat id_chat;
+    @Column(name = "leido")
+    private boolean leido;
+
+    public Chat getId_chat() {
+        return id_chat;
+    }
+
+    public void setId_chat(Chat id_chat) {
+        this.id_chat = id_chat;
+    }
+
+    public boolean isLeido() {
+        return leido;
+    }
+
+    public void setLeido(boolean leido) {
+        this.leido = leido;
+    }
 
     public int getId_notificacion() {
         return id_notificacion;

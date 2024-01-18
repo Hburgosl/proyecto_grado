@@ -62,6 +62,8 @@ public class notificacionController {
             obj.setFecha_creacion(notificacion.getFecha_creacion());
             obj.setDocumento_usuario(notificacion.getDocumento_usuario());
             obj.setId_existe(notificacion.getId_existe());
+            obj.setId_chat(notificacion.getId_chat());
+            obj.setLeido(notificacion.isLeido());
             servicenotificacion.save(obj);
         } else {
             return new ResponseEntity<>(obj, HttpStatus.INTERNAL_SERVER_ERROR);
