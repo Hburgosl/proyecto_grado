@@ -40,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { NotificacionComponent } from './notificacion/notificacion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -92,6 +93,7 @@ const routes: Routes = [
     ChatComponent,
     MensajeComponent,
     ChatsComponent,
+    NotificacionComponent,
   ],
   imports: [
     BrowserModule,

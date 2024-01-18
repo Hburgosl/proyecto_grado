@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +33,20 @@ public class notificacionController {
 
     @Autowired
     private serviceNotificacion servicenotificacion;
+    
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @PostMapping(value = "/")
     public ResponseEntity<Notificacion> add(@RequestBody Notificacion notificacion) {
         Notificacion obj = null;
         notificacion.setFecha_creacion(new Date());
         servicenotificacion.save(notificacion);
+        
+        // Enviar la notificación a través de WebSockets
+        String destino = "/chat/notificacion/" + notificacion.getId_chat();
+        messagingTemplate.convertAndSend(destino, notificacion);
+        
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
