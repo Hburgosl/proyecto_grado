@@ -66,6 +66,7 @@ export class ChatComponent {
         this.mensajes.push(mensaje);
         console.log(mensaje);
       });
+
       this.checkIfChatHasMessages().then((hasMessages) => {
         if (!hasMessages) {
           // El chat no tiene mensajes, enviar el mensaje de nuevo usuario
