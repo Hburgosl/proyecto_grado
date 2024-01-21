@@ -125,7 +125,10 @@
         <li
           class="nav-item"
           routerLinkActive="active"
-          *ngIf="authService.usuario.roles == ['ROLE_USER'][0]"
+          *ngIf="
+            authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+            authService.usuario.roles == ['ROLE_USER'][0]
+          "
         >
           <a class="nav-link text-white" routerLink="/usuario/detail"
             >Mi Perfil</a

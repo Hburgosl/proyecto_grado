@@ -3,10 +3,15 @@
   border: none;
 }
 
+.card-header{
+  font-size: 24px;
+}
+
 .containerArticles {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-top: 50px;
 }
 
 .article-card {

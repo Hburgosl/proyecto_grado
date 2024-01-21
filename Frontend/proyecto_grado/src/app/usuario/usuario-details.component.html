@@ -1,39 +1,54 @@
 <actualizar-foto>
   *ngIf="usuarioSeleccionado" [usuario]="usuarioSeleccionado"
 </actualizar-foto>
-<div class="profile-card">
-  <div class="profile-image">
-    <img
-      *ngIf="usuario?.imagen_usuario"
-      src="http://localhost:8080/usuario/uploads/img/{{
-        usuario.imagen_usuario
-      }}"
-      alt="{{ usuario.imagen_usuario }}"
-    />
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-details">
+      <h5 class="profile-name">
+        <strong>{{ usuario.nombre_completo }}</strong>
+      </h5>
+      <ul class="profile-info">
+        <li><strong>Documento:</strong> {{ usuario.documento_usuario }}</li>
+        <li><strong>Email:</strong> {{ usuario.email }}</li>
+        <li><strong>País:</strong> {{ usuario.pais }}</li>
+        <li>
+          <strong>Fecha de Nacimiento:</strong> {{ usuario.fecha_nacimiento }}
+        </li>
+        <li><strong>Ciudad:</strong> {{ usuario.ciudad }}</li>
+        <li>
+          <strong>Fecha de Creación:</strong> {{ usuario.fecha_creacion }}
+        </li>
+        <li>
+          <strong>Ultima modificación:</strong>
+          {{ usuario.ultima_modificacion | date : "yyyy-MM-dd HH:mm:ss" }}
+        </li>
+      </ul>
+    </div>
+    <div class="profile-buttons-desc">
+      <button
+        (click)="usuarioService.desactivarModoEdicion()"
+        class="edit-button"
+        [routerLink]="['/usuario/form', usuario.documento_usuario]"
+      >
+        Editar
+      </button>
+    </div>
   </div>
-  <div class="profile-details">
-    <h5 class="profile-name">{{ usuario.nombre_completo }}</h5>
-    <ul class="profile-info">
-      <li><strong>Documento:</strong> {{ usuario.documento_usuario }}</li>
-      <li><strong>Email:</strong> {{ usuario.email }}</li>
-      <li><strong>País:</strong> {{ usuario.pais }}</li>
-      <li>
-        <strong>Fecha de Nacimiento:</strong> {{ usuario.fecha_nacimiento }}
-      </li>
-      <li><strong>Ciudad:</strong> {{ usuario.ciudad }}</li>
-      <li><strong>Fecha de Creación:</strong> {{ usuario.fecha_creacion }}</li>
-    </ul>
-  </div>
-  <div class="profile-buttons">
-    <button
-      (click)="usuarioService.desactivarModoEdicion()"
-      class="edit-button"
-      [routerLink]="['/usuario/form', usuario.documento_usuario]"
-    >
-      Editar
-    </button>
-    <button class="info-button" (click)="abrirModal(usuario)">
-      Cambiar foto de perfil
-    </button>
+
+  <div class="profile-card">
+    <div class="profile-image">
+      <img
+        *ngIf="usuario?.imagen_usuario"
+        src="http://localhost:8080/usuario/uploads/img/{{
+          usuario.imagen_usuario
+        }}"
+        alt="{{ usuario.imagen_usuario }}"
+      />
+    </div>
+    <div class="profile-buttons">
+      <button class="info-button" (click)="abrirModal(usuario)">
+        Cambiar foto de perfil
+      </button>
+    </div>
   </div>
 </div>

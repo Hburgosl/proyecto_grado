@@ -1,10 +1,19 @@
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    /* Esto distribuirá los elementos alrededor del contenedor */
+    margin-bottom: 20px;
+    margin-top: 50px;
+    /* O cualquier otro margen que desees */
+}
+
 .profile-card {
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
-    max-width: 400px;
+    width: 45%;
     /* Cambiando el ancho a 600px */
     margin: 20px auto 0;
     /* Añadiendo margen superior de 20px */
@@ -25,11 +34,13 @@
 .profile-name {
     font-size: 1.5rem;
     margin: 0;
+    text-align: center;
 }
 
 .profile-info {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .profile-info li {
@@ -56,6 +67,15 @@
     border-top: 1px solid #ccc;
 }
 
+.profile-buttons-desc {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+    margin-top: auto;
+}
+
 .edit-button,
 .info-button {
     padding: 10px 20px;
@@ -70,3 +90,10 @@
 .info-button:hover {
     background-color: #0056b3;
 }
+
+.profile-info li {
+    margin-bottom: 20px;
+    /* O el valor que desees para el espacio entre elementos */
+}
+
+

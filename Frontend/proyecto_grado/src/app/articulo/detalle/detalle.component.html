@@ -42,7 +42,10 @@
                     <p>Disponibilidad: {{ articulo.id_estado.estado }}</p>
                   </li>
                   <li class="list-group-item">
-                    <p>Estado De Entrega: {{ articulo.id_entrega.estado }}</p>
+                    <p>
+                      Publicado por:
+                      {{ articulo.documento_usuario.nombre_completo }}
+                    </p>
                   </li>
                   <li class="list-group-item">
                     <p>
