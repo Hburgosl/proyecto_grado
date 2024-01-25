@@ -1,7 +1,7 @@
 .img-fixed-size {
   width: 200px; /* Ancho deseado */
   height: 200px; /* Alto deseado */
-  object-fit: cover; /* Ajusta la imagen dentro del contenedor sin perder proporciones */
+  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin perder proporciones */
 }
 
 .abrir-modal{

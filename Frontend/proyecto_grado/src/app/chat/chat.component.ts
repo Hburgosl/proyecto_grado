@@ -63,6 +63,15 @@ export class ChatComponent {
       this.conectado = true;
       this.client.subscribe('/chat/mensaje', (e) => {
         let mensaje = JSON.parse(e.body);
+
+        if (
+          !this.mensaje.color &&
+          mensaje.tipo == 'NUEVO_USUARIO' &&
+          this.mensaje.documento_usuario == mensaje.documento_usuario
+        ) {
+          this.mensaje.color = mensaje.color;
+        }
+
         this.mensajes.push(mensaje);
         console.log(mensaje);
       });

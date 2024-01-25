@@ -1,5 +1,8 @@
 <div class="container">
   <h2>Mis Chats</h2>
+  <div class="alert alert-info" *ngIf="mostrarAlerta">
+    No hay chats en la base de datos
+  </div>
   <ul class="custom-list">
     <li
       *ngFor="let chat of chats"

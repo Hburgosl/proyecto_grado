@@ -3,6 +3,7 @@ import { ChatService } from './chat.service';
 import { Chat } from '../chat/chat';
 import { Router } from '@angular/router';
 import { AouhtService } from '../usuarios/aouht.service';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-chats',
@@ -11,6 +12,7 @@ import { AouhtService } from '../usuarios/aouht.service';
 })
 export class ChatsComponent {
   chats: Chat[];
+  mostrarAlerta: boolean = false;
   constructor(
     private chatService: ChatService,
     private router: Router,
@@ -26,6 +28,17 @@ export class ChatsComponent {
   getChats() {
     this.chatService
       .getChatsUsuario(this.oauthService.usuario.documento_usuario)
+      .pipe(
+        catchError((error) => {
+          if (error.status === 404) {
+            // Muestra la alerta si se recibe un error 404
+            this.mostrarAlerta = true;
+            console.log('No hay chats en la base de datos');
+          }
+          // Propaga el error para que sea manejado por el suscriptor final
+          return EMPTY;
+        })
+      )
       .subscribe(
         (data) => {
           this.chats = data;

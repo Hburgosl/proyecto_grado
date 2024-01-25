@@ -65,3 +65,10 @@
 .btn-warning {
     background-color: #ffc107;
 }
+
+.publication-date {
+    font-size: 0.8rem;
+    /* Ajusta el tamaño del texto según sea necesario */
+    color: #555;
+    /* Cambia el color del texto si es necesario */
+}

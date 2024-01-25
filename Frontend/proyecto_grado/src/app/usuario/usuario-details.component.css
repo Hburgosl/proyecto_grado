@@ -1,10 +1,8 @@
 .profile-container {
     display: flex;
     justify-content: space-between;
-    /* Esto distribuirá los elementos alrededor del contenedor */
     margin-bottom: 20px;
     margin-top: 50px;
-    /* O cualquier otro margen que desees */
 }
 
 .profile-card {
@@ -14,15 +12,21 @@
     border-radius: 10px;
     overflow: hidden;
     width: 45%;
-    /* Cambiando el ancho a 600px */
     margin: 20px auto 0;
-    /* Añadiendo margen superior de 20px */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-image {
+    width: 100%;
+    overflow: hidden;
+    height: 400px;
+    /* o el valor que desees para la altura del contenedor de la imagen */
 }
 
 .profile-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -50,14 +54,6 @@
 .profile-info strong {
     font-weight: bold;
 }
-
-@media (max-width: 768px) {
-    .profile-card {
-        max-width: 100%;
-    }
-}
-
-/* ... Estilos para la tarjeta, imagen, nombre y detalles siguen igual */
 
 .profile-buttons {
     display: flex;
@@ -93,7 +89,10 @@
 
 .profile-info li {
     margin-bottom: 20px;
-    /* O el valor que desees para el espacio entre elementos */
 }
 
-
+@media (max-width: 768px) {
+    .profile-card {
+        max-width: 100%;
+    }
+}

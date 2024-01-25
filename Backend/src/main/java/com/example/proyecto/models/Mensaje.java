@@ -38,6 +38,8 @@ public class Mensaje implements Serializable {
     private Date fecha_envio;
     @Column(name = "tipo")
     private String tipo;
+    @Column(name = "color")
+    private String color;
     @ManyToOne
     @JoinColumn(name = "id_chat")
     private Chat id_chat;
@@ -102,6 +104,14 @@ public class Mensaje implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
 }
