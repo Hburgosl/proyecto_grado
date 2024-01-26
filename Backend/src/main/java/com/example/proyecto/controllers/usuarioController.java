@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 /**
  *
@@ -50,6 +52,9 @@ public class usuarioController {
 
     @Autowired
     private IUploadArticuloFileSercive uploadService;
+    
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @PostMapping(value = "/")
     public ResponseEntity<?> add(@RequestBody Usuario usu) {
@@ -175,5 +180,17 @@ public class usuarioController {
         cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 
         return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
+    }
+    
+    @PostMapping("/enviar-correo")
+    public String enviarCorreo(@RequestBody String correoDestino) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(correoDestino);
+        mensaje.setSubject("Asunto del correo");
+        mensaje.setText("Cuerpo del correo");
+
+        javaMailSender.send(mensaje);
+
+        return "Correo enviado con éxito a " + correoDestino;
     }
 }
