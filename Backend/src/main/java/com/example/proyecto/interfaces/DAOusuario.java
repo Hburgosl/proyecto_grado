@@ -5,7 +5,9 @@
 package com.example.proyecto.interfaces;
 
 import com.example.proyecto.models.Usuario;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -13,5 +15,9 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface DAOusuario extends CrudRepository<Usuario, Integer>{
     
-    public Usuario findByEmail(String email);
+    @Query(
+            value = "SELECT * FROM usuario WHERE usuario.email = :email AND id_existe = 4",
+            nativeQuery = true
+    )
+    public Usuario findByEmail(@Param("email") String email);
 }

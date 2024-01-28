@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -52,7 +53,7 @@ public class usuarioController {
 
     @Autowired
     private IUploadArticuloFileSercive uploadService;
-    
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -110,7 +111,9 @@ public class usuarioController {
             obj.setCiudad(usu.getCiudad());
             obj.setDireccion(usu.getDireccion());
             obj.setEmail(usu.getEmail());
-            obj.setPassword(usu.getPassword());
+            String psw = usu.getPassword();
+            String hashedPsw = passwordEncoder.encode(psw);
+            obj.setPassword(hashedPsw);
             obj.setFecha_creacion(usu.getFecha_creacion());
             obj.setId_estado(usu.getId_estado());
             obj.setId_existe(usu.getId_existe());
@@ -181,16 +184,58 @@ public class usuarioController {
 
         return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
     }
+
+    @GetMapping("/list/email/{email}")
+    public Usuario findByEmail(@PathVariable String email) {
+        return serviceUsu.findByEmail(email);
+    }
+
+    @PostMapping("/enviar-correo/{correoDestino}")
+    public ResponseEntity<String> enviarCorreo(@PathVariable String correoDestino) {
+        // Verificar si el usuario con el correo existe en la base de datos
+        Usuario usuario = serviceUsu.findByEmail(correoDestino);
+        if (usuario == null) {
+            // El usuario no existe, retorna un mensaje de error
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró un usuario con el correo: " + correoDestino);
+        } else {
+            String psw = generarContraseña();
+            String hashedPsw = passwordEncoder.encode(psw);
+            usuario.setPassword(hashedPsw);
+            usuario.setUltima_modificacion(new Date());
+            serviceUsu.save(usuario);
+            // El usuario existe, procede a enviar el correo
+            SimpleMailMessage mensaje = new SimpleMailMessage();
+            mensaje.setTo(correoDestino);
+            mensaje.setSubject("Recuperación contraseña");
+            mensaje.setText("Su nueva contraseña es " + psw + " recuerde cambiar nuevamente su contrseña.");
+
+            javaMailSender.send(mensaje);
+
+            return ResponseEntity.ok("Correo enviado con éxito a " + correoDestino);
+        }
+    }
     
-    @PostMapping("/enviar-correo")
-    public String enviarCorreo(@RequestBody String correoDestino) {
-        SimpleMailMessage mensaje = new SimpleMailMessage();
-        mensaje.setTo(correoDestino);
-        mensaje.setSubject("Asunto del correo");
-        mensaje.setText("Cuerpo del correo");
+    public static String generarContraseña() {
+        // Define los caracteres posibles para la contraseña
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        javaMailSender.send(mensaje);
+        // Inicializa el generador de números aleatorios
+        Random random = new Random();
 
-        return "Correo enviado con éxito a " + correoDestino;
+        // Crea una cadena para almacenar la contraseña generada
+        StringBuilder contraseñaGenerada = new StringBuilder();
+
+        // Genera la contraseña de 5 caracteres
+        for (int i = 0; i < 5; i++) {
+            // Obtiene un índice aleatorio dentro del rango de caracteres
+            int indice = random.nextInt(caracteres.length());
+
+            // Agrega el carácter correspondiente al índice a la contraseña
+            contraseñaGenerada.append(caracteres.charAt(indice));
+        }
+
+        // Devuelve la contraseña generada como una cadena
+        return contraseñaGenerada.toString();
     }
 }
