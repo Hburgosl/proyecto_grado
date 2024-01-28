@@ -128,7 +128,7 @@
       />
     </div>
 
-    <div class="form-group" *ngIf="usuarioService.modoEdicion">
+    <div class="form-group">
       <label for="password">Password:</label>
       <div
         *ngIf="formEnviado && usuarioForm.get('password').hasError('required')"

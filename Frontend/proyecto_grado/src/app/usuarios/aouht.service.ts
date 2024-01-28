@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Usuario } from '../usuario/usuario';
 
 @Injectable({
@@ -96,5 +100,24 @@ export class AouhtService {
     this._token = null;
     this._usuario = null;
     sessionStorage.clear();
+  }
+
+  enviarCorreoRecuperacion(correoDestino: string): Observable<string> {
+    const url = `http://localhost:8080/usuario/enviar-correo/${correoDestino}`;
+    return this.httpClient
+      .post(url, {}, { responseType: 'text' })
+      .pipe(catchError(this.handleHttpError));
+  }
+
+  private handleHttpError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Error en la solicitud';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error ${error.status}: ${error.error}`;
+    }
+    // Comentar o eliminar la siguiente línea para evitar que aparezca en la consola
+    // console.error(errorMessage);
+    return throwError(errorMessage);
   }
 }

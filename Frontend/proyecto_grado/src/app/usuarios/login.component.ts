@@ -13,7 +13,7 @@ import { UsuarioService } from '../usuario/usuario.service';
 export class LoginComponent {
   titulo: string = 'Por favor inicie sesión';
   usuario: Usuario;
-
+  mostrarRecuperarContrasena = false;
   constructor(
     private authService: AouhtService,
     private route: Router,
@@ -66,6 +66,28 @@ export class LoginComponent {
             'error'
           );
         }
+      }
+    );
+  }
+
+  enviarCorreo() {
+    this.authService.enviarCorreoRecuperacion(this.usuario.email).subscribe(
+      (respuesta) => {
+        Swal.fire('Recuperación contraseña', respuesta, 'success').then(() => {
+          // Este código se ejecutará después de que el usuario haga clic en "OK"
+          this.mostrarRecuperarContrasena = false;
+        });
+      },
+      (error) => {
+        // Error 404: No se encontró el usuario
+        Swal.fire(
+          'Recuperación contraseña',
+          'No se encontró un usuario con el correo proporcionado.',
+          'error'
+        ).then(() => {
+          // Este código se ejecutará después de que el usuario haga clic en "OK"
+          this.mostrarRecuperarContrasena = false;
+        });
       }
     );
   }
