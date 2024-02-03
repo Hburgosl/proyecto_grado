@@ -9,7 +9,7 @@
     <div class="mb-3">
       <button
         *ngIf="authService.isAuthenticated()"
-        (click)="desactivarEdicion()"
+        (click)="desactivarEdicion(); abrirToast()"
         class="btn btn-primary"
         type="button"
         [routerLink]="['/articulo/form']"

@@ -41,6 +41,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { NotificacionComponent } from './notificacion/notificacion.component';
+import { InformacionComponent } from './informacion/informacion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/articulo', pathMatch: 'full' },
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: 'usuario/articulos/page/:page',
     component: UsuarioArticuloComponent,
+  },
+  {
+    path: 'informacion',
+    component: InformacionComponent,
   },
 ];
 
@@ -94,6 +99,7 @@ const routes: Routes = [
     MensajeComponent,
     ChatsComponent,
     NotificacionComponent,
+    InformacionComponent,
   ],
   imports: [
     BrowserModule,

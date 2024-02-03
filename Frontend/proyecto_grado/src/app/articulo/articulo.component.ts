@@ -111,4 +111,15 @@ export class ArticuloComponent {
   crearChatEntreUsuarios(usuarioArticulo: number): void {
     this.chatService.crearChatEntreUsuarios(usuarioArticulo);
   }
+
+  abrirToast() {
+    Swal.fire({
+      title: 'Mensaje Importante',
+      text: '¡Dale una segunda oportunidad a tus objetos! Publica aquí lo que ya no necesitas. ¡Es sorprendente cómo pequeños gestos pueden tener un gran impacto en el medio ambiente!',
+      icon: 'info',
+      timer: 5000, // Duración en milisegundos (5 segundos en este caso)
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  }
 }

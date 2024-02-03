@@ -1,0 +1,12 @@
+.img-container {
+    max-width: 100%;
+}
+
+.img-container img {
+    max-width: 30%;
+    height: 30%;
+}
+
+.custom-text-justify {
+    text-align: justify;
+}

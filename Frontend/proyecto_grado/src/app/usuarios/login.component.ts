@@ -54,7 +54,9 @@ export class LoginComponent {
         this.route.navigate(['/articulo']);
         Swal.fire(
           'Login',
-          `Hola, has iniciado sesión exitosamente.`,
+          `Hola, ¡Cuidemos nuestro planeta! Antes de desechar, considera donar o
+        reutilizar productos que aún están en buen estado. Tu pequeño gesto
+        puede marcar la diferencia.`,
           'success'
         );
       },

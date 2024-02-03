@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2023 a las 13:32:22
+-- Tiempo de generación: 03-02-2024 a las 04:40:34
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -47,9 +47,13 @@ CREATE TABLE `articulo` (
 --
 
 INSERT INTO `articulo` (`id_articulo`, `nombre_articulo`, `descripcion`, `imagen_articulo`, `fecha_publicacion`, `documento_usuario`, `id_estado`, `id_entrega`, `id_categoria`, `id_existe`, `id_estado_articulo`, `ultima_modificacion`) VALUES
-(9, 'Televisor LG', 'Televisor LG con la pantalla rota', NULL, '2023-10-26 21:36:30', 1234197828, 5, 5, 6, 4, 1, '2023-11-01 19:19:20'),
-(10, 'Plancha de ropa', 'plancha de ropa solo tiene el enchufe malo', NULL, '2023-10-26 22:01:48', 1234197828, 5, 5, 3, 4, 2, '2023-10-26 22:01:58'),
-(11, 'Mesa de noche', 'Mesa de noche, está un poco deteriorada pero aún funciona', NULL, '2023-11-13 16:48:35', 1234197186, 5, 5, 3, 4, 1, '2023-11-13 16:48:35');
+(9, 'Televisor LG', 'Televisor LG con la pantalla rota', '43fa4214-71b8-4358-b956-938ceaea4809_tv.png', '2023-10-26 21:36:30', 1234197828, 5, 5, 6, 4, 1, '2024-01-14 22:49:45'),
+(10, 'Plancha de ropa', 'plancha de ropa solo tiene el enchufe malo', 'c8ead453-1ca3-4d74-8e2d-56594bba7dac_plancha.jfif', '2023-10-26 22:01:48', 1234197828, 5, 5, 3, 5, 2, '2024-02-03 03:25:21'),
+(11, 'Mesa de noche', 'Mesa de noche, está un poco deteriorada pero aún funciona', '1be660f9-5cfc-4a2f-9408-4e1aed07a4e7_mesadenoche.jpg', '2023-11-13 16:48:35', 1234197186, 5, 5, 3, 4, 1, '2024-01-13 21:36:58'),
+(12, 'Comedor', 'Comedor con 4 sillas, está en buen estado solo le falta un poco de pintura.', 'b98073be-0a4a-44e5-830a-fdb846319533_comedor.jfif', '2024-01-14 22:54:18', 1234197828, 5, 5, 3, 4, 1, '2024-01-14 22:54:18'),
+(13, 'Multiusos', 'Multiusos esta un poco deteriorado pero aún sirve', '905a2512-83b4-4027-879d-5ef33141f330_multiusos.jfif', '2024-01-25 23:49:38', 1234197187, 5, 5, 3, 4, 1, '2024-01-25 23:50:02'),
+(14, 'Teclado', 'Teclado funcional, todas las teclas sirven, aún se puede utilizar', '5a8b849b-2477-43d5-b729-78f209fd4631_teclado.jfif', '2024-02-01 01:11:55', 1234567893, 5, 5, 6, 4, 1, '2024-02-01 01:11:55'),
+(16, 'Teclado', 'Teclado en buen uso', 'dcfe18d5-3940-45b3-aa90-2a1569e2b280_teclado.jfif', '2024-02-03 03:21:33', 45454554, 5, 5, 6, 4, 1, '2024-02-03 03:21:33');
 
 -- --------------------------------------------------------
 
@@ -73,7 +77,8 @@ INSERT INTO `categoria` (`id_categoria`, `nombre_cat`, `descripcion_cat`, `id_ex
 (4, 'Articulos para vehiculos', 'Categoría para todo tipo de artículos para vehículos. ', 4),
 (5, 'Herramienta', NULL, 4),
 (6, 'Tecnologia', NULL, 4),
-(7, 'Cocina', 'Articulos para la cocina', 4);
+(7, 'Cocina', 'Articulos para la cocina', 4),
+(8, 'Artículos para mascotas', 'Esta categoría es para los artículos exclusivos de las mascotas.', 4);
 
 -- --------------------------------------------------------
 
@@ -92,10 +97,8 @@ CREATE TABLE `chat` (
 --
 
 INSERT INTO `chat` (`id_chat`, `nombre_chat`, `id_existe`) VALUES
-(1, 'chat11', 4),
-(16, 'Chat_ejemplo', 4),
-(17, 'Chat_ejemplo', 4),
-(41, 'Andres rios & Yesenia B', 4);
+(57, 'Howen Burgos & Yesenia B', 4),
+(59, 'Julio Maquinhos & Howen Burgos', 4);
 
 -- --------------------------------------------------------
 
@@ -184,6 +187,7 @@ CREATE TABLE `mensajes` (
   `texto` text NOT NULL,
   `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `tipo` varchar(100) NOT NULL,
+  `color` varchar(100) NOT NULL,
   `id_chat` int(11) DEFAULT NULL,
   `documento_usuario` int(11) DEFAULT NULL,
   `id_existe` int(11) NOT NULL
@@ -193,11 +197,13 @@ CREATE TABLE `mensajes` (
 -- Volcado de datos para la tabla `mensajes`
 --
 
-INSERT INTO `mensajes` (`id_mensaje`, `texto`, `fecha_envio`, `tipo`, `id_chat`, `documento_usuario`, `id_existe`) VALUES
-(1, 'Mensaje existoso23', '2023-11-06 16:54:23', 'mensaje', 1, 1234197828, 4),
-(145, '¡Hola, estoy interesad@ en uno de tus artículos!', '2023-11-21 03:52:21', 'NUEVO_USUARIO', 41, 1234197186, 4),
-(146, 'Hola+', '2023-11-21 04:07:16', 'MENSAJE', 41, 1234567893, 4),
-(147, '¡Hola, estoy interesad@ en uno de tus artículos!', '2023-11-21 04:09:02', 'NUEVO_USUARIO', 16, 1234567893, 4);
+INSERT INTO `mensajes` (`id_mensaje`, `texto`, `fecha_envio`, `tipo`, `color`, `id_chat`, `documento_usuario`, `id_existe`) VALUES
+(296, '¡Hola, estoy interesad@ en uno de tus artículos!', '2024-01-25 03:57:24', 'NUEVO_USUARIO', 'red', 57, 1234197828, 4),
+(297, 'Hola', '2024-01-25 03:57:28', 'MENSAJE', 'red', 57, 1234197828, 4),
+(298, 'Hola', '2024-01-25 03:57:49', 'MENSAJE', 'red', 57, 1234197186, 4),
+(302, '¡Hola, estoy interesad@ en uno de tus artículos!', '2024-02-03 03:23:12', 'NUEVO_USUARIO', 'red', 59, 45454554, 4),
+(303, 'Hola buenas', '2024-02-03 03:24:42', 'MENSAJE', 'red', 59, 1234197828, 4),
+(304, 'como estas?', '2024-02-03 03:24:48', 'MENSAJE', 'red', 59, 45454554, 4);
 
 -- --------------------------------------------------------
 
@@ -210,15 +216,10 @@ CREATE TABLE `notificaciones` (
   `texto` text NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `documento_usuario` int(11) DEFAULT NULL,
-  `id_existe` int(11) NOT NULL
+  `id_existe` int(11) NOT NULL,
+  `id_chat` int(11) DEFAULT NULL,
+  `leido` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `notificaciones`
---
-
-INSERT INTO `notificaciones` (`id_notificacion`, `texto`, `fecha_creacion`, `documento_usuario`, `id_existe`) VALUES
-(1, 'Hola tienes un mensajeeeee', '2023-10-27 23:50:48', 1234567893, 4);
 
 -- --------------------------------------------------------
 
@@ -278,9 +279,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`documento_usuario`, `nombre_completo`, `fecha_nacimiento`, `pais`, `ciudad`, `direccion`, `email`, `imagen_usuario`, `contrasenha`, `fecha_creacion`, `id_estado`, `id_existe`, `ultima_modificacion`) VALUES
-(1234197186, 'Yesenia B', '2023-11-15', 'Venezuela', 'Caracas', 'Calle 34#15-27', 'yesenia@gmail.com', NULL, '$2a$10$9/rfZKnJtZVfMIPvSTLVXuqAKywai126Z3QrfMy2CEaHuVU4WLoie', '2023-11-13 16:47:25', 5, 4, '2023-11-13 16:47:25'),
-(1234197828, 'Howen Burgos', '1999-10-26', 'Colombia', 'Cali', 'Colombia', 'howenburgos@gmail.com', NULL, '$2a$10$iuhGKUNGhhd0s3oQXXk/2uC/Z7Vmra1ECJmLBWGAQSc.qL4wd3olm', '2023-10-21 22:34:15', 5, 4, '2023-10-21 22:34:15'),
-(1234567893, 'Andres rios', '2023-10-19', 'Colombia', 'Cali', 'Calle 33e#17-28', 'andres@gmail.com', '9e4072c0-0ff8-4f2b-92dc-46b848e16bf6_IMG-20230319-WA0108.jpg', '$2a$10$zDznhppbuv/oif/IRVgKUOji4muor4XKhL6SOCJ8XPMHS3AWzaR9y', '2023-10-24 18:05:41', 5, 4, '2023-10-24 18:05:41');
+(45454554, 'Julio Maquinhos', '2024-01-30', 'Colombia', 'Cali', 'Call39#12-13', 'julio@gmail.com', '35d269e6-2653-4f66-8739-fd18ca41e663_R.png', '$2a$10$prCjeR/Y5VbxE3.6MK9msuw8qPoTqsO7fhK17/f4bOyAEl2OZ97Zq', '2024-02-03 03:20:32', 5, 4, '2024-02-03 03:20:32'),
+(1234197186, 'Yesenia B', '2023-11-15', 'Venezuela', 'Caracas', 'Calle 34#15-27', 'yesenia@gmail.com', '3cad03e7-8e0b-40be-b566-f5125e9f8c51_R.png', '$2a$10$9/rfZKnJtZVfMIPvSTLVXuqAKywai126Z3QrfMy2CEaHuVU4WLoie', '2023-11-13 16:47:25', 5, 4, '2023-11-13 16:47:25'),
+(1234197187, 'Johan Andres Lopez C', '2024-01-10', 'Colombia', 'Cali', 'Calle54a#14-65', 'johan@gmail.com', NULL, '$2a$10$cpQGczyLmhLCiq69Ih68Yu21vJvXxqe8MlyAft8cssQDZtjk2/P2S', '2024-01-25 23:48:02', 5, 4, '2024-01-25 23:50:14'),
+(1234197828, 'Howen Burgos', '1999-10-26', 'Colombia', 'Cali', 'Colombia', 'howenburgos@gmail.com', '103219bd-81bb-4a55-999d-4c1fe5de05e5_R.png', '$2a$10$hP7Z8WJYcbETxBn5D006KuqcpVA5a3v/3I3eQUMTB3M0K4CCNceaS', '2023-10-21 22:34:15', 5, 4, '2024-02-03 03:26:37'),
+(1234567893, 'Andres rios', '2023-10-19', 'Colombia', 'Cali', 'Calle 33e#17-28', 'andres@gmail.com', '3db9a1d3-a06a-4cb0-81b5-3fb03807f985_R.png', '$2a$10$s9t32b7rZ2xCFRzrXT14Pexw1ldnqVCp6tINzYo5QQHV4nV2bOu3S', '2023-10-24 18:05:41', 5, 4, '2024-02-02 18:12:39');
 
 -- --------------------------------------------------------
 
@@ -298,12 +301,10 @@ CREATE TABLE `usuarios_chat` (
 --
 
 INSERT INTO `usuarios_chat` (`documento_usuario`, `id_chat`) VALUES
-(1234567893, 16),
-(1234197828, 16),
-(1234197186, 17),
-(1234197828, 17),
-(1234197186, 41),
-(1234567893, 41);
+(1234197186, 57),
+(1234197828, 57),
+(1234197828, 59),
+(45454554, 59);
 
 -- --------------------------------------------------------
 
@@ -321,9 +322,12 @@ CREATE TABLE `usuario_roles` (
 --
 
 INSERT INTO `usuario_roles` (`documento_usuario`, `id_rol`) VALUES
+(45454554, 2),
 (1234197186, 2),
+(1234197187, 2),
 (1234197828, 1),
-(1234567893, 2);
+(1234567893, 2),
+(1234567894, 2);
 
 --
 -- Índices para tablas volcadas
@@ -394,7 +398,8 @@ ALTER TABLE `mensajes`
 ALTER TABLE `notificaciones`
   ADD PRIMARY KEY (`id_notificacion`),
   ADD KEY `documento_usuario` (`documento_usuario`),
-  ADD KEY `fk_existe2` (`id_existe`);
+  ADD KEY `fk_existe2` (`id_existe`),
+  ADD KEY `fk_notificaciones_chat` (`id_chat`);
 
 --
 -- Indices de la tabla `roles`
@@ -440,19 +445,19 @@ ALTER TABLE `usuario_roles`
 -- AUTO_INCREMENT de la tabla `articulo`
 --
 ALTER TABLE `articulo`
-  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -482,13 +487,13 @@ ALTER TABLE `existe`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id_mensaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id_mensaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -542,6 +547,7 @@ ALTER TABLE `mensajes`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `fk_existe2` FOREIGN KEY (`id_existe`) REFERENCES `existe` (`id_existe`),
+  ADD CONSTRAINT `fk_notificaciones_chat` FOREIGN KEY (`id_chat`) REFERENCES `chat` (`id_chat`) ON DELETE CASCADE,
   ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`documento_usuario`) REFERENCES `usuario` (`documento_usuario`);
 
 --

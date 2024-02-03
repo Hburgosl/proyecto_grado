@@ -146,6 +146,18 @@
             >Mis Artículos</a
           >
         </li>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="
+            authService.usuario.roles == ['ROLE_ADMIN'][0] ||
+            authService.usuario.roles == ['ROLE_USER'][0]
+          "
+        >
+          <a class="nav-link text-white" routerLink="/informacion"
+            >Acerca de Re-use</a
+          >
+        </li>
       </ul>
       <form class="d-flex" role="search">
         <button

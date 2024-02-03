@@ -4,6 +4,7 @@ import { Chat } from '../chat/chat';
 import { Router } from '@angular/router';
 import { AouhtService } from '../usuarios/aouht.service';
 import { EMPTY, catchError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-chats',

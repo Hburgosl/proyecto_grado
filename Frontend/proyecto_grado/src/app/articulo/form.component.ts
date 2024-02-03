@@ -135,7 +135,7 @@ export class FormComponent {
         (res) => {
           Swal.fire({
             title: 'Articulo creado',
-            text: `${res.Articulo.nombre_articulo} creado con éxito`,
+            text: `${res.Articulo.nombre_articulo} creado con éxito. Pequeños cambios, grandes impactos. Tu decisión de reutilizar puede inspirar a otros a hacer lo mismo. ¡Juntos creamos un mundo más sostenible!`,
             icon: 'success',
             confirmButtonText: 'OK',
           }).then((result) => {
